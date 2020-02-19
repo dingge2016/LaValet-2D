@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
-{
-    // Map.
+public class CarControl : MonoBehaviour
+{ // Map.
     private MapCreater myMap;
 
     // Audo.
@@ -12,6 +11,22 @@ public class Player : MonoBehaviour
 
     // Animator.
     private Animator animator;
+
+    private Vector3 screenPoint;
+    private Vector3 offset;
+
+    void OnMouseDown()
+    {
+
+        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+    }
+
+    void OnMouseDrag()
+    {
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        transform.position = curPosition;
+    }
 
     // 用来记录上次摁键后玩家的方向。
     private int x_dir = 0;
@@ -23,6 +38,9 @@ public class Player : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
     }
+
+
+
 
     private void Start()
     {
@@ -97,7 +115,8 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(nx, ny);
 
         // 如果玩家移动，播放音乐。
-        if(dx != 0 || dy != 0) {
+        if (dx != 0 || dy != 0)
+        {
             // Play foot step sound.
             audioSource.Play();
         }
@@ -133,5 +152,5 @@ public class Player : MonoBehaviour
             SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();
             sceneLoader.LoadNextScene();
         }
-    }
+    } 
 }
