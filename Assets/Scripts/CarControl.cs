@@ -15,6 +15,12 @@ public class CarControl : MonoBehaviour
     private Vector3 screenPoint;
     private Vector3 offset;
 
+
+    // 用来记录上次摁键后玩家的方向。
+    private int x_dir = 0;
+    private int y_dir = 0;
+
+
     void OnMouseDown()
     {
 
@@ -25,53 +31,8 @@ public class CarControl : MonoBehaviour
     {
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        transform.position = curPosition;
-    }
-
-    // 用来记录上次摁键后玩家的方向。
-    private int x_dir = 0;
-    private int y_dir = 0;
-
-    private void Awake()
-    {
-        myMap = FindObjectOfType<MapCreater>();
-        audioSource = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();
-    }
-
-
-
-
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-        animator.SetFloat("moveX", x_dir);
-        animator.SetFloat("moveY", y_dir);
-
-        // delta x and delta y.
-        int dx = 0;
-        int dy = 0;
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            dx--;
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            dx++;
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            dy++;
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            dy--;
-        }
+        int dx = (int)curPosition.x - (int)transform.position.x;
+        int dy = (int)curPosition.y - (int)transform.position.y;
 
         // 更新玩家的动画。
         // Update player last movement.
@@ -125,6 +86,22 @@ public class CarControl : MonoBehaviour
         checkIfWin();
     }
 
+ 
+
+    private void Awake()
+    {
+        myMap = FindObjectOfType<MapCreater>();
+    }
+
+
+
+
+    private void Start()
+    {
+
+    }
+
+ 
     bool isWall(int x, int y)
     {
         return myMap.getWallPosSet().Contains(myMap.TwoDToOneD(x, y));
