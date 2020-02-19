@@ -12,15 +12,7 @@ public class CarControl : MonoBehaviour
     public GameObject BackCarPart;
     private Vector3 newPosition;
 
-    void Update()
-    {
-        newPosition.x = BackCarPart.transform.position.x + 1;
-        newPosition.y = BackCarPart.transform.position.y;
 
-        transform.position = newPosition;
-
-        /*   Debug.Log(newPosition);*/
-    }
 
     void OnMouseDown()
     {
@@ -63,6 +55,7 @@ public class CarControl : MonoBehaviour
 
         // Move player to next position.
         transform.position = new Vector3(nx, ny);
+        BackCarPart.transform.position = new Vector3(nx-1, ny);
     }
 
 

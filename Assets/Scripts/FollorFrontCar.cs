@@ -16,16 +16,7 @@ public class FollorFrontCar : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        newPosition.x = FrontCarPart.transform.position.x - 1;
-        newPosition.y = FrontCarPart.transform.position.y;
-
-        transform.position = newPosition;
-
-     /*   Debug.Log(newPosition);*/
-    }
+   
 
     void OnMouseDown()
     {
@@ -64,6 +55,7 @@ public class FollorFrontCar : MonoBehaviour
 
         // Move player to next position.
         transform.position = new Vector3(nx, ny);
+        FrontCarPart.transform.position = new Vector3(nx + 1, ny);
         Debug.Log(nx);
         Debug.Log("carPosition: " + nx.ToString() + "," + ny.ToString());
 
