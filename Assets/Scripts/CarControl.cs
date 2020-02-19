@@ -56,25 +56,35 @@ public class CarControl : MonoBehaviour
         // detect whether there is a wall in the front part of the car or back part of the car.
         if (isWall(nx, ny) || isWall(nx-1, ny)) return;
 
-  
+        // detect Exit
+        if (isExit(nx, ny)){
+          gameObject.SetActive(false);
+        }
+
         // Move player to next position.
         transform.position = new Vector3(nx, ny);
-     /*   Debug.Log(nx);
-        Debug.Log("carPosition: " + nx.ToString() + "," + ny.ToString());*/
-
     }
 
- 
+
 
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
     }
 
- 
+
     bool isWall(int x, int y)
     {
         return myMap.getWallPosSet().Contains(myMap.TwoDToOneD(x, y));
     }
 
+    bool isExit(int x, int y)
+    {
+        Vector3 exitPos = myMap.getExitPos();
+        if (exitPos[0] == x && exitPos[1] == y ){
+          Debug.Log(exitPos);
+          return true;
+        }
+        return false;
+    }
 }
