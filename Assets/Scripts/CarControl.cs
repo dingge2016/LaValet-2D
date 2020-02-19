@@ -9,7 +9,18 @@ public class CarControl : MonoBehaviour
 
     private Vector3 screenPoint;
     private Vector3 offset;
+    public GameObject BackCarPart;
+    private Vector3 newPosition;
 
+    void Update()
+    {
+        newPosition.x = BackCarPart.transform.position.x + 1;
+        newPosition.y = BackCarPart.transform.position.y;
+
+        transform.position = newPosition;
+
+        /*   Debug.Log(newPosition);*/
+    }
 
     void OnMouseDown()
     {
