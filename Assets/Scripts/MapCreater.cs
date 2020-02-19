@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +27,7 @@ public class MapCreater : MonoBehaviour
     // Left top position
     public int left_top_x = -5;
     public int left_top_y = -4;
-
+    
     private void Awake()
     {
         pos_box_map = new Dictionary<int, GameObject>();
