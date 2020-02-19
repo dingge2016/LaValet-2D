@@ -149,12 +149,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758f7f96e12d542deb37d6399d71e4f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: []
-  wall: {fileID: 0}
-  player: {fileID: 0}
-  box: {fileID: 0}
-  target: {fileID: 0}
-  ground: {fileID: 0}
+  map:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
+  Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
+    type: 3}
+  Leftwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
+    type: 3}
+  Rightwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
+    type: 3}
+  Entry: {fileID: 3549098562201855779, guid: 14a1cd22a7bd9474d888a5730f9aa6f5, type: 3}
+  Exit: {fileID: 3549098562201855779, guid: 14a1cd22a7bd9474d888a5730f9aa6f5, type: 3}
+  Ground: {fileID: 8430092765699995052, guid: 7557995c3b5cc419d841c5ac96e105e8, type: 3}
   left_top_x: -5
   left_top_y: -4
 --- !u!4 &669330842
