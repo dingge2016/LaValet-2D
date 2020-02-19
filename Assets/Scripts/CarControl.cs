@@ -42,14 +42,14 @@ public class CarControl : MonoBehaviour
         int nx = (int)transform.position.x + dx;
         int ny = (int)transform.position.y + dy;
 
-        // detect wall
-        if (isWall(nx, ny)) return;
+        // detect whether there is a wall in the front part of the car or back part of the car.
+        if (isWall(nx, ny) || isWall(nx-1, ny)) return;
 
   
         // Move player to next position.
         transform.position = new Vector3(nx, ny);
-        Debug.Log(nx);
-        Debug.Log("carPosition: " + nx.ToString() + "," + ny.ToString());
+     /*   Debug.Log(nx);
+        Debug.Log("carPosition: " + nx.ToString() + "," + ny.ToString());*/
 
     }
 
