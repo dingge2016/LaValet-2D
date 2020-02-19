@@ -1,44 +1,37 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapCreater : MonoBehaviour
 {
-    // 输入的地图。
     public string[] map;
 
-    // 所有的预置体。
-    public GameObject wall;
-    public GameObject player;
-    public GameObject box;
-    public GameObject target;
-    public GameObject ground;
+    public GameObject Upwall;
+    public GameObject Downwall;
+    public GameObject Leftwall;
+    public GameObject Rightwall;
 
-    // 盒子，墙和目标点的位置。
-    private Dictionary<int, GameObject> pos_box_map;
+    public GameObject Entry;
+    public GameObject Exit;
+    public GameObject Ground;
+
     private HashSet<int> wall_pos_set ;
-    private List<int> tar_pos_list;
 
-    // 用于2维转一维。
     // use to convert 2D position to 1D position.
     public const int SIZE = 1000;
 
-    // 左上角地图起始点的位置。
     // Left top position
     public int left_top_x = -5;
     public int left_top_y = -4;
-    
+
     private void Awake()
     {
-        pos_box_map = new Dictionary<int, GameObject>();
         wall_pos_set = new HashSet<int>();
-        tar_pos_list = new List<int>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // 从左到右，从上到下建图。
         int row_pos = left_top_x;
         foreach (var row in map)
         {
@@ -47,44 +40,44 @@ public class MapCreater : MonoBehaviour
             {
                 Vector3 cell_pos = new Vector3(row_pos, col_pos);
 
-                if (row[i] == '#')
+                if (row[i] == 'U') //Upper Wall
                 {
-                    Instantiate(wall, cell_pos, Quaternion.identity);
+                    Instantiate(Upwall, cell_pos, Quaternion.identity);
                     wall_pos_set.Add(TwoDToOneD(row_pos, col_pos));
                 }
-                else if (row[i] == 'A')
+                else if (row[i] == 'D') //Down Wall
                 {
-                    Instantiate(player, cell_pos, Quaternion.identity);
+                    Instantiate(Downwall, cell_pos, Quaternion.identity);
+                    wall_pos_set.Add(TwoDToOneD(row_pos, col_pos));
                 }
-                else if (row[i] == 'B')
+                else if (row[i] == 'L') //Left Wall
                 {
-                    GameObject newbox = Instantiate(box, cell_pos, Quaternion.identity);
-                    pos_box_map.Add(TwoDToOneD(row_pos, col_pos), newbox);
+                    Instantiate(Leftwall, cell_pos, Quaternion.identity);
+                    wall_pos_set.Add(TwoDToOneD(row_pos, col_pos));
                 }
-                else if (row[i] == 'T')
+                else if (row[i] == 'R') //Right Wall
                 {
-                    Instantiate(target, cell_pos, Quaternion.identity);
-                    tar_pos_list.Add(TwoDToOneD(row_pos, col_pos));
+                    Instantiate(Rightwall, cell_pos, Quaternion.identity);
+                    wall_pos_set.Add(TwoDToOneD(row_pos, col_pos));
                 }
-
-                // Ground.
-                Instantiate(ground, cell_pos, Quaternion.identity);
+                else if (row[i] == 'I') //Entry
+                {
+                    GameObject entry = Instantiate(Entry, cell_pos, Quaternion.identity);
+                }
+                else if (row[i] == 'O') //Exit
+                {
+                    GameObject exit = Instantiate(Exit, cell_pos, Quaternion.identity);
+                }
+                // Ground
+                Instantiate(Ground, cell_pos, Quaternion.identity);
                 col_pos++;
             }
             row_pos++;
         }
     }
 
-    public Dictionary<int, GameObject> getPosBoxMap() {
-        return pos_box_map;
-    }
-
     public HashSet<int> getWallPosSet() {
         return wall_pos_set;
-    }
-
-    public List<int> getTargetPosList() {
-        return tar_pos_list;
     }
 
     public int TwoDToOneD(int x, int y) {
