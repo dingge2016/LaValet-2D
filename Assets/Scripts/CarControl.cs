@@ -51,7 +51,7 @@ public class CarControl : MonoBehaviour
         // 判断下个位置是不是墙。
         if (isWall(nx, ny)) return;
 
-        // 判断下个位置是不是盒子。
+      /*  // 判断下个位置是不是盒子。
         if (isBox(nx, ny))
         {
             // 得到玩家的下下个位置。
@@ -69,7 +69,7 @@ public class CarControl : MonoBehaviour
             // 更新盒子在Map里面的结构。
             myMap.getPosBoxMap().Remove(myMap.TwoDToOneD(nx, ny));
             myMap.getPosBoxMap().Add(myMap.TwoDToOneD(nnx, nny), box);
-        }
+        }*/
 
         // 把玩家移动到下个位置。
         // Move player to next position.
@@ -82,8 +82,6 @@ public class CarControl : MonoBehaviour
             audioSource.Play();
         }
 
-        // 判断是不是赢了。
-        checkIfWin();
     }
 
  
@@ -107,27 +105,4 @@ public class CarControl : MonoBehaviour
         return myMap.getWallPosSet().Contains(myMap.TwoDToOneD(x, y));
     }
 
-    bool isBox(int x, int y)
-    {
-        return myMap.getPosBoxMap().ContainsKey(myMap.TwoDToOneD(x, y));
-    }
-
-    GameObject getBox(int x, int y)
-    {
-        return myMap.getPosBoxMap()[myMap.TwoDToOneD(x, y)];
-    }
-
-    void checkIfWin()
-    {
-        int num = 0;
-        foreach (var tar_pos in myMap.getTargetPosList())
-        {
-            if (myMap.getPosBoxMap().ContainsKey(tar_pos)) ++num;
-        }
-        if (num == myMap.getTargetPosList().Count)
-        {
-            SceneLoader sceneLoader = FindObjectOfType<SceneLoader>();
-            sceneLoader.LoadNextScene();
-        }
-    } 
 }
