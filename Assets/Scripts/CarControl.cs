@@ -51,13 +51,19 @@ public class CarControl : MonoBehaviour
         float rightx = transform.position.x + dx + rightOffset;
         float nx = transform.position.x + dx + centerOffset;
         int ny = (int)transform.position.y + dy;
-        Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
+        //Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
         // detect whether there is a wall in the front part of the car or back part of the car.
         if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) return;
 
         // detect Exit
         if (isExit((int)leftx, ny)){
           gameObject.SetActive(false);
+        }
+
+
+        if (isEntranceBarrier((int)rightx, ny) || isEntranceBarrier((int)leftx, ny))
+        {
+            Debug.Log("Too many cars at the entrance.");
         }
 
         transform.position = new Vector3(nx, ny);
@@ -87,6 +93,17 @@ public class CarControl : MonoBehaviour
         if (exitPos[0] == x && exitPos[1] == y ){
           Debug.Log(exitPos);
           return true;
+        }
+        return false;
+    }
+
+    bool isEntranceBarrier(int x, int y)
+    {
+        Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
+        if (entranceBarrierPos[0] == x && entranceBarrierPos[1] == y)
+        {
+            Debug.Log(entranceBarrierPos);
+            return true;
         }
         return false;
     }

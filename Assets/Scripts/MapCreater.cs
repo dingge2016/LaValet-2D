@@ -27,6 +27,7 @@ public class MapCreater : MonoBehaviour
 
     private HashSet<int> wall_pos_set ;
     private Vector3 exitPos;
+    private Vector3 entranceBarrierPos;
 
     // use to convert 2D position to 1D position.
     public const int SIZE = 1000;
@@ -73,6 +74,7 @@ public class MapCreater : MonoBehaviour
                 else if (row[i] == 'I') //Entry
                 {
                     GameObject entry = Instantiate(Entry, cell_pos, Quaternion.identity);
+                    entranceBarrierPos = new Vector3(row_pos, col_pos);
                 }
                 else if (row[i] == 'O') //Exit
                 {
@@ -93,6 +95,11 @@ public class MapCreater : MonoBehaviour
 
     public Vector3 getExitPos() {
         return exitPos;
+    }
+
+    public Vector3 getEntranceBarrierPos()
+    {
+        return entranceBarrierPos;
     }
 
     public int TwoDToOneD(int x, int y) {

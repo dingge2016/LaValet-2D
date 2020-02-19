@@ -151,10 +151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map:
   - '...UID...'
-  - '...UID...'
-  - '...UID...'
-  - '...UID...'
-  - '...UID...'
+  - '...U.D...'
+  - '...U.D...'
+  - '...U.D...'
   - .LLL.LLL.
   - U.......D
   - U.......D
@@ -164,6 +163,8 @@ MonoBehaviour:
   - U.......D
   - .RRR.RRR.
   - '...UOD...'
+  - 
+  - 
   Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
   Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
     type: 3}
@@ -516,7 +517,7 @@ PrefabInstance:
     - target: {fileID: 5936444885982127144, guid: 1685f2504074cd74a8208e0aaa28e232,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5936444885982127144, guid: 1685f2504074cd74a8208e0aaa28e232,
         type: 3}
@@ -571,7 +572,12 @@ PrefabInstance:
     - target: {fileID: 5936444885982127144, guid: 1685f2504074cd74a8208e0aaa28e232,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936444885982127144, guid: 1685f2504074cd74a8208e0aaa28e232,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 6636234712225595183, guid: 1685f2504074cd74a8208e0aaa28e232,
         type: 3}
