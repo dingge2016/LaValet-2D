@@ -22,8 +22,25 @@ public class CarControl : MonoBehaviour
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 
-        int nx = (int)curPosition.x;
-        int ny = (int)curPosition.y;
+
+        int diffx = (int)curPosition.x  - (int)transform.position.x;
+        int diffy = (int)curPosition.y - (int)transform.position.y;
+
+        int dx = 0;
+        int dy = 0;
+
+        if (diffx >= 1)
+            dx = 1;
+        else if (diffx <= -1)
+            dx = -1;
+
+        if (diffy >= 1)
+            dy = 1;
+        else if (diffy <= -1)
+            dy = -1;
+
+        int nx = (int)transform.position.x + dx;
+        int ny = (int)transform.position.y + dy;
 
         // detect wall
         if (isWall(nx, ny)) return;
@@ -31,6 +48,8 @@ public class CarControl : MonoBehaviour
   
         // Move player to next position.
         transform.position = new Vector3(nx, ny);
+        Debug.Log(nx);
+        Debug.Log("carPosition: " + nx.ToString() + "," + ny.ToString());
 
     }
 
