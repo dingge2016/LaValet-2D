@@ -150,14 +150,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - ..UUUUUU..
+  - .L......R.
+  - .L......R.
+  - UL......RU
+  - I........O
+  - DL......RD
+  - .L......R.
+  - .L......R.
+  - ..DDDDDD..
   Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
   Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
     type: 3}
