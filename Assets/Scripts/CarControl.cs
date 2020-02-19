@@ -42,8 +42,8 @@ public class CarControl : MonoBehaviour
         int nx = (int)transform.position.x + dx;
         int ny = (int)transform.position.y + dy;
 
-        // detect wall
-        if (isWall(nx, ny)) return;
+        // detect whether there is a wall in the front part of the car or back part of the car.
+        if (isWall(nx, ny) || isWall(nx-1, ny)) return;
 
         // detect Exit
         if (isExit(nx, ny)){
