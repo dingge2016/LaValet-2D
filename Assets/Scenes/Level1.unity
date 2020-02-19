@@ -150,15 +150,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map:
-  - ..UUUUUU..
-  - .L......R.
-  - .L......R.
-  - UL......RU
-  - I........O
-  - DL......RD
-  - .L......R.
-  - .L......R.
-  - ..DDDDDD..
+  - '...UID...'
+  - .LLL.LLL.
+  - U.......D
+  - U.......D
+  - U.......D
+  - U.......D
+  - U.......D
+  - U.......D
+  - .RRR.RRR.
+  - '...UOD...'
   Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
   Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
     type: 3}
@@ -828,7 +829,7 @@ PrefabInstance:
     - target: {fileID: 5936444885982127144, guid: 1685f2504074cd74a8208e0aaa28e232,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5936444885982127144, guid: 1685f2504074cd74a8208e0aaa28e232,
         type: 3}
@@ -880,6 +881,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5936444885982127144, guid: 1685f2504074cd74a8208e0aaa28e232,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6636234712225595183, guid: 1685f2504074cd74a8208e0aaa28e232,
         type: 3}
       propertyPath: m_Name
@@ -898,6 +904,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BackPart
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358354366336631603, guid: deb7aeeaff941e14596f87d000289d47,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7522411244805167156, guid: deb7aeeaff941e14596f87d000289d47,
         type: 3}
@@ -953,6 +964,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522411244805167156, guid: deb7aeeaff941e14596f87d000289d47,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7861673183109135864, guid: deb7aeeaff941e14596f87d000289d47,
         type: 3}
