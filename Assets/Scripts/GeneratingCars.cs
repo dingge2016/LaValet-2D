@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GeneratingCars: MonoBehaviour
 {
-	public float spawnTime = 4f;
+    public float spawnTime = 4f;
     public GameObject car;
     public GameObject start;
     public GameObject lot;
@@ -51,6 +51,7 @@ public class GeneratingCars: MonoBehaviour
     //create new car objects
     private void createCar(float x){
     	GameObject newCar = Instantiate(car) as GameObject;
+        newCar.SetActive(true);
         theCars.Add(newCar);
         newCar.AddComponent<CarControl>();
         newCar.name = "longCar" + nextNameNumber;
