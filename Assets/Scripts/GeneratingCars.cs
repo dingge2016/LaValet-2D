@@ -69,7 +69,7 @@ public class GeneratingCars: MonoBehaviour
             createCar(carLocation);
             carCreated = true;
             nextNameNumber++;
-            carLocation-=2.5f;
+            carLocation-=2.0f;
             //if car touches entrance boundary, stop generating cars
             if(carLocation<end){
             	EndGameText.text = "Too many cars at the entrance. Game is over!";
@@ -105,7 +105,7 @@ public class GeneratingCars: MonoBehaviour
                         count++;
                     }
                     //make sure the newly generated car shifts as well
-                    carLocation = positions[count-1].x-2.5f;
+                    carLocation = positions[count-1].x-2.0f;
                 } 
             }
         }
