@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine.UI;
-
 public class CarControl : MonoBehaviour
 { // Map.
-
-    public Text tipstext;
     private MapCreater myMap;
-    public static float tips = 0;
+
 
     private Vector3 screenPoint;
     private Vector3 offset; 
@@ -19,61 +15,8 @@ public class CarControl : MonoBehaviour
     private float rightOffset = 0.5f;
     private float centerOffset = 0;
     //private float speed = 20.0f;
-
-
-
-    public float timeToRemoveTheCar;
-    public float timeToGivePenalty;
     
 
-    /* car timer */
-    float currentTime = 0f;
-    float startTime = 0f;
-    public Text countdownText;
-   
-
-    void Start()
-    {
-        startTime = Random.Range(5.0f, 15.0f);
-        currentTime = startTime;
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        currentTime -= 1 * Time.deltaTime;     // Time.deltaTime to make time be updated by second not by frame
-
-        int seconds = (int)(currentTime % 60);
-        int minutes = (int)(currentTime / 60);
-
-        string timerString = string.Format("{0:0}:{1:00}", minutes, seconds);
-
-        if (currentTime <= 6)
-        {
-            countdownText.color = Color.red;
-        }
-        else
-        {
-            countdownText.color = Color.white;
-        }
-
-        if (currentTime <= 0)
-        {
-            currentTime = 0;
-        }
-
-        if (currentTime > timeToRemoveTheCar)
-        {
-            countdownText.text = "";
-        }
-        else { countdownText.text = timerString};
-
-
-        tipstext.text = "Tips: " + tips.ToString();
-        Debug.Log(tips.ToString());
-    }
-    /* car timer */
 
     void OnMouseDown()
     {
@@ -136,7 +79,6 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        
     }
 
 
@@ -149,17 +91,8 @@ public class CarControl : MonoBehaviour
     {
         Vector3 exitPos = myMap.getExitPos();
         if (exitPos[0] == x && exitPos[1] == y ){
-            if (currentTime <= timeToRemoveTheCar && currentTime >= timeToGivePenalty)
-            {
-                tips += 10;
-
-            } else
-            {
-                tips -= 5;
-            }
-
-            Debug.Log(exitPos); 
-           return true;
+          Debug.Log(exitPos);
+          return true;
         }
         return false;
     }
