@@ -67,7 +67,7 @@ public class CarControl : MonoBehaviour
         {
             countdownText.text = "";
         }
-        else { countdownText.text = timerString};
+        else { countdownText.text = timerString; }
 
 
         tipstext.text = "Tips: " + tips.ToString();
