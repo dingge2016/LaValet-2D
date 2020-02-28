@@ -32,5 +32,11 @@ public class GameTimer : MonoBehaviour
         {
             currentTime = 0;
         }
+
+        if (currentTime == 0)
+        {
+            SceneManager.LoadScene(4);
+        }
+
     }
 }
