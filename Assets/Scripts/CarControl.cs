@@ -25,12 +25,13 @@ public class CarControl : MonoBehaviour
     public float timeToRemoveTheCar;
     public float timeToGivePenalty;
     
+    private Vector3 oldLocation;
 
     /* car timer */
     float currentTime = 0f;
     float startTime = 0f;
     public Text countdownText;
-   
+    private GeneratingCars mySet;
 
     void Start()
     {
@@ -112,16 +113,43 @@ public class CarControl : MonoBehaviour
         // detect whether there is a wall in the front part of the car or back part of the car.
         if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) return;
 
-        // detect Exit
-        if (isExit((int)leftx, ny)){
-          gameObject.SetActive(false);
-        }
-
 
         if (isEntranceBarrier((int)rightx, ny) || isEntranceBarrier((int)leftx, ny))
         {
             Debug.Log("Too many cars at the entrance.");
         }
+
+        //if either the left side position or right side position is already a car, return
+        if(isCar((int)leftx,ny) && isCar((int)rightx,ny)){
+            return;
+        }
+        //if not move car
+        else{
+            oldLocation = transform.position;
+            //remove old loc
+            int newLeftX = (int)(oldLocation.x+leftOffset);
+            int newRightX = (int)(oldLocation.x+rightOffset);
+            mySet.set.Remove(mySet.TwoDToOneD(newLeftX,(int)oldLocation.y));
+            mySet.set.Remove(mySet.TwoDToOneD(newRightX,(int)oldLocation.y));
+            //add new loc
+            mySet.set.Add(mySet.TwoDToOneD((int)leftx,ny));
+            mySet.set.Add(mySet.TwoDToOneD((int)rightx,ny));
+            transform.position = new Vector3(nx, ny);
+        }
+        
+        // detect Exit
+        if (isExit((int)leftx, ny)){         
+          gameObject.SetActive(false);
+          mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
+          mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
+        }
+
+/*
+        // detect Exit
+        if (isExit((int)leftx, ny)){
+          gameObject.SetActive(false);
+        }
+        */
 
         transform.position = new Vector3(nx, ny);
         /*// Move our position a step closer to the target.
@@ -136,7 +164,11 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        
+        mySet = FindObjectOfType<GeneratingCars>();
+    }
+
+    bool isCar(int x, int y){
+        return mySet.set.Contains(myMap.TwoDToOneD(x,y));
     }
 
 

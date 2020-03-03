@@ -9,6 +9,7 @@ public class GeneratingCars: MonoBehaviour
     public GameObject car;
     public GameObject start;
     public GameObject lot;
+    public GameObject initial;
     private float end;
     private int nextNameNumber=0;
     private int objNameNumber;
@@ -25,11 +26,22 @@ public class GeneratingCars: MonoBehaviour
     private bool breakFlag;
     private int currentNumCars;
     private Vector3 temp;
+    private Vector3 temp2;
+    private Vector3 temp3;
     public Text EndGameText;
+    public HashSet<int> set = new HashSet<int>();
+    private float leftOffSet = -0.5f;
+    private float rightOffSet = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
+        //add initial location of car to the set and dictionary
+        initial = GameObject.Find("ACarObject");
+        //use to detect overlap 
+        set.Add(TwoDToOneD((int)(initial.transform.position.x+leftOffSet),(int)initial.transform.position.y));
+        set.Add(TwoDToOneD((int)(initial.transform.position.x+rightOffSet),(int)initial.transform.position.y));
+
         //finds location of the entrance
     	start = GameObject.Find("Start");
     	entrance = new Vector3(start.transform.position.x, start.transform.position.y, start.transform.position.z);
@@ -56,6 +68,14 @@ public class GeneratingCars: MonoBehaviour
         newCar.AddComponent<CarControl>();
         newCar.name = "longCar" + nextNameNumber;
     	newCar.transform.position = new Vector3(x, entrance.y, entrance.z);
+
+        //store initial left side and right side locatioins of cars into hash set 
+        float startLeft = newCar.transform.position.x + leftOffSet;
+        float startRight = newCar.transform.position.x + rightOffSet;
+        float startY = newCar.transform.position.y;
+        set.Add(TwoDToOneD((int)startLeft,(int)startY));
+        set.Add(TwoDToOneD((int)startRight,(int)startY));
+
         //keeps track of car locations
         positions.Add(newCar.transform.position);
     }
@@ -78,6 +98,10 @@ public class GeneratingCars: MonoBehaviour
     	}
     }
 
+    public int TwoDToOneD(int x, int y) {
+        return 1000 * x + y;
+    }
+
     //check on every frame if a car has moved, if so shift cars
     void Update(){
         //after the first car object is created, check for its movement
@@ -92,6 +116,13 @@ public class GeneratingCars: MonoBehaviour
                 //if there is only one car, no other cars to shift, make sure the next newly generated car shifts up
                 if(objNameNumber+1==currentNumCars){
                     carLocation=positions[objNameNumber].x;
+
+                    //add location of newly generated car to set 
+                    float startLeft2 = positions[objNameNumber].x+leftOffSet;
+                    float startRight2 = positions[objNameNumber].x+rightOffSet;
+                    float startY2 = positions[objNameNumber].y;
+                    set.Add(TwoDToOneD((int)startLeft2,(int)startY2));
+                    set.Add(TwoDToOneD((int)startRight2,(int)startY2));
                 }
                 //if there are more than one car, shift current cars up
                 else if(objNameNumber+1<currentNumCars){
@@ -99,9 +130,25 @@ public class GeneratingCars: MonoBehaviour
                     count = objNameNumber;
                     temp = positions[count-1];
                     while(count<currentNumCars){
+                        //temp3 used to store old location
+                        temp3 = theCars[count].transform.position;
                         theCars[count].transform.position = temp;
+
+                        //used to store new location
+                        temp2 = temp;
                         temp = positions[count];
+
+                        //new position of each car
                         positions[count] = theCars[count].transform.position;
+
+                        //remove old locations of cars
+                        set.Remove(TwoDToOneD((int)(temp3.x+leftOffSet),(int)temp3.y));
+                        set.Remove(TwoDToOneD ((int)(temp3.x+rightOffSet),(int)temp3.y));
+
+                        //add new locations after car shift
+                        set.Add(TwoDToOneD((int)(temp2.x+leftOffSet),(int)temp2.y));
+                        set.Add(TwoDToOneD((int)(temp2.x+rightOffSet),(int)temp2.y));
+
                         count++;
                     }
                     //make sure the newly generated car shifts as well
