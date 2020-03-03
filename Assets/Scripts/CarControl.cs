@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CarControl : MonoBehaviour
 { // Map.
 
-    public Text tipstext;
+    [SerializeField] Text tipstext;
     private MapCreater myMap;
     public static float tips = 0;
 
@@ -22,56 +22,26 @@ public class CarControl : MonoBehaviour
 
 
 
-    public float timeToRemoveTheCar;
-    public float timeToGivePenalty;
-    
+
 
     /* car timer */
     float currentTime = 0f;
-    float startTime = 0f;
-    public Text countdownText;
-   
+    float timeToGivePenalty;
+    float timeToRemoveTheCar;
 
     void Start()
     {
-        startTime = Random.Range(5.0f, 15.0f);
-        currentTime = startTime;
+        timeToGivePenalty = gameObject.GetComponent<CarTimer>().timeToGivePenalty;
+        timeToRemoveTheCar = gameObject.GetComponent<CarTimer>().timeToRemoveTheCar;
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        currentTime -= 1 * Time.deltaTime;     // Time.deltaTime to make time be updated by second not by frame
-
-        int seconds = (int)(currentTime % 60);
-        int minutes = (int)(currentTime / 60);
-
-        string timerString = string.Format("{0:0}:{1:00}", minutes, seconds);
-
-        if (currentTime <= 6)
-        {
-            countdownText.color = Color.red;
-        }
-        else
-        {
-            countdownText.color = Color.white;
-        }
-
-        if (currentTime <= 0)
-        {
-            currentTime = 0;
-        }
-
-        if (currentTime > timeToRemoveTheCar)
-        {
-            countdownText.text = "";
-        }
-        else { countdownText.text = timerString; }
-
-
-        tipstext.text = "Tips: " + tips.ToString();
-        Debug.Log(tips.ToString());
+        currentTime = gameObject.GetComponent<CarTimer>().currentTime;
+        tipstext.text = "Tips: " + tips.ToString(); 
     }
     /* car timer */
 
