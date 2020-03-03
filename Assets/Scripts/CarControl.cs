@@ -98,7 +98,7 @@ public class CarControl : MonoBehaviour
             return;
         }
         //if not move car
-        else{
+        else if(isCar((int)leftx,ny) || isCar((int)rightx,ny)){
             //can move if moving to left or right 
             if(dx>=1 || dx<=-1){
                 oldLocation = transform.position;
