@@ -99,16 +99,23 @@ public class CarControl : MonoBehaviour
         }
         //if not move car
         else{
-            oldLocation = transform.position;
-            //remove old loc
-            int newLeftX = (int)(oldLocation.x+leftOffset);
-            int newRightX = (int)(oldLocation.x+rightOffset);
-            mySet.set.Remove(mySet.TwoDToOneD(newLeftX,(int)oldLocation.y));
-            mySet.set.Remove(mySet.TwoDToOneD(newRightX,(int)oldLocation.y));
-            //add new loc
-            mySet.set.Add(mySet.TwoDToOneD((int)leftx,ny));
-            mySet.set.Add(mySet.TwoDToOneD((int)rightx,ny));
-            transform.position = new Vector3(nx, ny);
+            //can move if moving to left or right 
+            if(dx>=1 || dx<=-1){
+                oldLocation = transform.position;
+                //remove old loc
+                int newLeftX = (int)(oldLocation.x+leftOffset);
+                int newRightX = (int)(oldLocation.x+rightOffset);
+                mySet.set.Remove(mySet.TwoDToOneD(newLeftX,(int)oldLocation.y));
+                mySet.set.Remove(mySet.TwoDToOneD(newRightX,(int)oldLocation.y));
+                //add new loc
+                mySet.set.Add(mySet.TwoDToOneD((int)leftx,ny));
+                mySet.set.Add(mySet.TwoDToOneD((int)rightx,ny));
+                transform.position = new Vector3(nx, ny);
+            }
+            else{
+                return;
+            }
+            
         }
         
         // detect Exit
@@ -117,13 +124,6 @@ public class CarControl : MonoBehaviour
           mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
           mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
         }
-
-/*
-        // detect Exit
-        if (isExit((int)leftx, ny)){
-          gameObject.SetActive(false);
-        }
-        */
 
         transform.position = new Vector3(nx, ny);
         /*// Move our position a step closer to the target.
