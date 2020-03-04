@@ -926,8 +926,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0faf22622849643bdd7b9decea8833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTime: 5
+  currentTime: 0
+  startTime: 20
   countdownText: {fileID: 992494088}
+  gameOverUI: {fileID: 1590163885}
 --- !u!114 &1068887819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,6 +943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverUI: {fileID: 1590163885}
+  gameovertext: {fileID: 1068887813}
 --- !u!1 &1228789354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1590163886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,7 +1244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37db559164df5d142b41104b10bf0f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTime: 0
   countdownText: {fileID: 478162608}
+  timeToGivePenalty: 0
+  timeToRemoveTheCar: 0
 --- !u!1001 &1736506332
 PrefabInstance:
   m_ObjectHideFlags: 0

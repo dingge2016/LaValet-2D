@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameOver : MonoBehaviour
 {
     public GameObject gameOverUI;
+    public GameObject gameovertext;
 
     private void Start()
     {
@@ -13,12 +14,10 @@ public class GameOver : MonoBehaviour
     }
     void Update()
     {
-        Text carText = GameObject.Find("Canvas/EndGameText").GetComponent<Text>();
-        string tooManyCars = "Too many cars at the entrance. Game is over!";
-        if (string.Equals(carText.text, tooManyCars))
+        GameTimer timeLeft = gameovertext.GetComponent<GameTimer>();
+        if (timeLeft != null && timeLeft.currentTime <= 10f)
         {
             gameOverUI.SetActive(true);
-            Time.timeScale = 0f;
         }
     }
 }
