@@ -927,7 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTime: 0
-  startTime: 20
+  startTime: 60
   countdownText: {fileID: 992494088}
   gameOverUI: {fileID: 1590163885}
 --- !u!114 &1068887819

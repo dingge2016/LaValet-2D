@@ -40,6 +40,10 @@ public class GameTimer : MonoBehaviour
 
         if (currentTime == 0)
         {
+            var cur = PlayerPrefs.GetFloat("totalTips", 0);
+            Debug.Log(CarControl.tips);
+            Debug.Log(cur);
+            PlayerPrefs.SetFloat("totalTips", cur + CarControl.tips);
             SceneManager.LoadScene(4);
         }
 

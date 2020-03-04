@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class SceneLoader : MonoBehaviour
 {
     public static int levelNumber = 0;
-
     public void LoadNextScene()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;   // GetActiveScene() get the scene we are currently on
@@ -17,7 +18,6 @@ public class SceneLoader : MonoBehaviour
     public void LoadCurrentScene()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        // Debug.Log(currentSceneIndex);
         SceneManager.LoadScene(currentSceneIndex);
     }
 
@@ -66,7 +66,7 @@ public class SceneLoader : MonoBehaviour
         Application.Quit();
     }
 
-    public int getLevelIndex() { 
+    public int getLevelIndex() {
         return SceneManager.GetActiveScene().buildIndex; ;
     }
 }
