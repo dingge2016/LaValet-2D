@@ -17,6 +17,8 @@ public class GameOver : MonoBehaviour
         string tooManyCars = "Too many cars at the entrance. Game is over!";
         if (string.Equals(carText.text, tooManyCars))
         {
+            float cur = PlayerPrefs.GetFloat("totalTips", 0);
+            PlayerPrefs.SetFloat("totalTips", cur + CarControl.tips);
             gameOverUI.SetActive(true);
             Time.timeScale = 0f;
         }

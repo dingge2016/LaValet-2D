@@ -7,12 +7,12 @@ using UnityEngine.UI;
 public class CarControl : MonoBehaviour
 { // Map.
 
-    [SerializeField] Text tipstext;
+    public Text tipstext;
     private MapCreater myMap;
     public static float tips = 0;
 
     private Vector3 screenPoint;
-    private Vector3 offset; 
+    private Vector3 offset;
     private Vector3 newPosition;
 
     private float leftOffset = -0.5f;
@@ -24,7 +24,6 @@ public class CarControl : MonoBehaviour
 
     public float timeToRemoveTheCar;
     public float timeToGivePenalty;
-    
     private Vector3 oldLocation;
 
     /* car timer */
@@ -36,17 +35,17 @@ public class CarControl : MonoBehaviour
 
     void Start()
     {
-        timeToGivePenalty = gameObject.GetComponent<CarTimer>().timeToGivePenalty;
-        timeToRemoveTheCar = gameObject.GetComponent<CarTimer>().timeToRemoveTheCar;
-
+        startTime = Random.Range(5.0f, 15.0f);
+        currentTime = startTime;
     }
 
 
     // Update is called once per frame
     void Update()
     {
+
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
-       // tipstext.text = "Tips: " + tips.ToString(); 
+        tipstext.text = "Tips: " + tips.ToString();
     }
     /* car timer */
 
@@ -92,20 +91,7 @@ public class CarControl : MonoBehaviour
             Debug.Log("Too many cars at the entrance.");
         }
         
-        
-        //if either the left side position or right side position is already a car, return
-        /*
-        if(isCar((int)leftx,ny) && isCar((int)rightx,ny)){
-            return;
-        }
-        else {
-                moveCar(transform.position, nx, ny, leftx, rightx);
-        }
-        */
 
-
-        
-        
         if (dx == 1 && isCar((int)rightx, ny)) {
             //Debug.Log("dx == 1 :" , rightx, ny);
             return;
@@ -120,52 +106,9 @@ public class CarControl : MonoBehaviour
         
         Debug.Log("Ok to remove");
 
-        // //
-        // if(isCar((int)leftx,ny) && isCar((int)rightx,ny)){
-        //     return;
-        // }
-        // else if(isCar((int)leftx,ny) && !isCar((int)rightx,ny)){
-        //         if(dx<=-1 && dy==0){
-        //             moveCar(transform.position, nx, ny, leftx, rightx);
-        //         }
-        //         else if(dx>=-1 && dy==0){
-        //             moveCar(transform.position, nx, ny, leftx, rightx);
-        //         }
-        //         else if(dy>=1 && dx==0){
-        //             return;
-        //         }
-        //         else if(dy<=-1 && dx==0){
-        //             return;
-        //         }
-
-        // }
-        // else if(!isCar((int)leftx,ny) && isCar((int)rightx,ny)){
-        //         if(dx<=-1 && dy==0){
-        //             moveCar(transform.position, nx, ny, leftx, rightx);
-        //         }
-        //         else if(dx>=-1 && dy==0){
-        //             moveCar(transform.position, nx, ny, leftx, rightx);
-        //         }
-        //         else if(dy>=1 && dx==0){
-        //             return;
-        //         }
-        //         else if(dy<=-1 && dx==0){
-        //             return;
-        //         }
-
-        // }
-    
-               
-        
-
         //transform.position = new Vector3(nx, ny);
         moveCar(nx, ny, (int)rightx, (int)leftx);
         if (isExit((int)leftx, ny)){  
-            Debug.Log("show");
-            Debug.Log(leftx);
-            // Debug.Log(rightx);
-            // Debug.Log(newLeftX);
-            // Debug.Log(newRightX);
             mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
             mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
             gameObject.SetActive(false);
@@ -222,7 +165,7 @@ public class CarControl : MonoBehaviour
                 tips -= 5;
             }
 
-            Debug.Log(exitPos); 
+            Debug.Log(exitPos);
            return true;
         }
         return false;

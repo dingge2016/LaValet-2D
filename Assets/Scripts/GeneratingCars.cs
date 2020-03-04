@@ -23,7 +23,7 @@ public class GeneratingCars: MonoBehaviour
     private int count;
     public List<GameObject> theCars;
     public List<Vector3> positions;
-    private bool breakFlag;
+    public bool breakFlag;
     private int currentNumCars;
     private Vector3 temp;
     private Vector3 temp2;
@@ -47,7 +47,7 @@ public class GeneratingCars: MonoBehaviour
     	entrance = new Vector3(start.transform.position.x, start.transform.position.y, start.transform.position.z);
         carLocation = entrance.x;
 
-        //finds location of the boundary of the parking lot 
+        //finds location of the boundary of the parking lot
         lot = GameObject.Find("EndOfEntrance");
         boundary = new Vector3(lot.transform.position.x, lot.transform.position.y, lot.transform.position.z);
         end = boundary.x;
@@ -153,9 +153,8 @@ public class GeneratingCars: MonoBehaviour
                     }
                     //make sure the newly generated car shifts as well
                     carLocation = positions[count-1].x-2.0f;
-                } 
+                }
             }
         }
     }
 }
-
