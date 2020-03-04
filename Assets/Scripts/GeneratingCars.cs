@@ -41,7 +41,7 @@ public class GeneratingCars: MonoBehaviour
         //use to detect overlap 
         set.Add(TwoDToOneD((int)(initial.transform.position.x+leftOffSet),(int)initial.transform.position.y));
         set.Add(TwoDToOneD((int)(initial.transform.position.x+rightOffSet),(int)initial.transform.position.y));
-
+  
         //finds location of the entrance
     	start = GameObject.Find("Start");
     	entrance = new Vector3(start.transform.position.x, start.transform.position.y, start.transform.position.z);

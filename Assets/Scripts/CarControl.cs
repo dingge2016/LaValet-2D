@@ -46,7 +46,7 @@ public class CarControl : MonoBehaviour
     void Update()
     {
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
-        tipstext.text = "Tips: " + tips.ToString(); 
+       // tipstext.text = "Tips: " + tips.ToString(); 
     }
     /* car timer */
 
@@ -73,7 +73,7 @@ public class CarControl : MonoBehaviour
         else if (diffx <= -1)
             dx = -1;
 
-        if (diffy >= 1)
+        else if (diffy >= 1)
             dy = 1;
         else if (diffy <= -1)
             dy = -1;
@@ -87,50 +87,108 @@ public class CarControl : MonoBehaviour
         // detect whether there is a wall in the front part of the car or back part of the car.
         if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) return;
 
-
         if (isEntranceBarrier((int)rightx, ny) || isEntranceBarrier((int)leftx, ny))
         {
             Debug.Log("Too many cars at the entrance.");
         }
-
+        
+        
         //if either the left side position or right side position is already a car, return
+        /*
         if(isCar((int)leftx,ny) && isCar((int)rightx,ny)){
             return;
         }
-        //if not move car
-        else if(isCar((int)leftx,ny) || isCar((int)rightx,ny)){
-            //can move if moving to left or right 
-            if(dx>=1 || dx<=-1){
-                oldLocation = transform.position;
-                //remove old loc
-                int newLeftX = (int)(oldLocation.x+leftOffset);
-                int newRightX = (int)(oldLocation.x+rightOffset);
-                mySet.set.Remove(mySet.TwoDToOneD(newLeftX,(int)oldLocation.y));
-                mySet.set.Remove(mySet.TwoDToOneD(newRightX,(int)oldLocation.y));
-                //add new loc
-                mySet.set.Add(mySet.TwoDToOneD((int)leftx,ny));
-                mySet.set.Add(mySet.TwoDToOneD((int)rightx,ny));
-                transform.position = new Vector3(nx, ny);
-            }
-            else{
-                return;
-            }
-            
+        else {
+                moveCar(transform.position, nx, ny, leftx, rightx);
+        }
+        */
+
+
+        
+        
+        if (dx == 1 && isCar((int)rightx, ny)) {
+            //Debug.Log("dx == 1 :" , rightx, ny);
+            return;
+        } else if (dx == -1 && isCar((int)leftx, ny)) {
+            //Debug.Log("dx == -1", leftx, ny);
+            return;
+
+        } else if (dx == 0 && (isCar((int)leftx,ny) || isCar((int)rightx,ny))){ // when car move up or move down
+           // Debug.Log('dx')
+            return;
         }
         
-        // detect Exit
-        if (isExit((int)leftx, ny)){         
-          gameObject.SetActive(false);
-          mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
-          mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
-        }
+        Debug.Log("Ok to remove");
 
-        transform.position = new Vector3(nx, ny);
+        // //
+        // if(isCar((int)leftx,ny) && isCar((int)rightx,ny)){
+        //     return;
+        // }
+        // else if(isCar((int)leftx,ny) && !isCar((int)rightx,ny)){
+        //         if(dx<=-1 && dy==0){
+        //             moveCar(transform.position, nx, ny, leftx, rightx);
+        //         }
+        //         else if(dx>=-1 && dy==0){
+        //             moveCar(transform.position, nx, ny, leftx, rightx);
+        //         }
+        //         else if(dy>=1 && dx==0){
+        //             return;
+        //         }
+        //         else if(dy<=-1 && dx==0){
+        //             return;
+        //         }
+
+        // }
+        // else if(!isCar((int)leftx,ny) && isCar((int)rightx,ny)){
+        //         if(dx<=-1 && dy==0){
+        //             moveCar(transform.position, nx, ny, leftx, rightx);
+        //         }
+        //         else if(dx>=-1 && dy==0){
+        //             moveCar(transform.position, nx, ny, leftx, rightx);
+        //         }
+        //         else if(dy>=1 && dx==0){
+        //             return;
+        //         }
+        //         else if(dy<=-1 && dx==0){
+        //             return;
+        //         }
+
+        // }
+    
+               
+        
+
+        //transform.position = new Vector3(nx, ny);
+        moveCar(nx, ny, (int)rightx, (int)leftx);
+        if (isExit((int)leftx, ny)){  
+            Debug.Log("show");
+            Debug.Log(leftx);
+            // Debug.Log(rightx);
+            // Debug.Log(newLeftX);
+            // Debug.Log(newRightX);
+            mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
+            mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
+            gameObject.SetActive(false);
+        }
         /*// Move our position a step closer to the target.
         float step = speed * Time.deltaTime; // calculate distance to move
         // Move player to next position.
         transform.position = transform.position = Vector3.MoveTowards(transform.position, new Vector3(nx, ny), step);
         Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
+    }
+
+    
+    void moveCar(float nx, int ny, int rightx, int leftx){
+        oldLocation = transform.position;
+        //remove old loc
+        int newLeftX = (int)(oldLocation.x+leftOffset);
+        int newRightX = (int)(oldLocation.x+rightOffset);
+        mySet.set.Remove(mySet.TwoDToOneD(newLeftX,(int)oldLocation.y));
+        mySet.set.Remove(mySet.TwoDToOneD(newRightX,(int)oldLocation.y));
+        //add new loc
+        mySet.set.Add(mySet.TwoDToOneD((int)leftx,ny));
+        mySet.set.Add(mySet.TwoDToOneD((int)rightx,ny));
+        transform.position = new Vector3(nx, ny);
     }
 
 
