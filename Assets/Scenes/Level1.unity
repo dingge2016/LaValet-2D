@@ -925,7 +925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0faf22622849643bdd7b9decea8833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTime: 5
+  startTime: 10
   countdownText: {fileID: 992494088}
 --- !u!114 &1068887819
 MonoBehaviour:
@@ -1240,7 +1240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37db559164df5d142b41104b10bf0f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTime: 0
   countdownText: {fileID: 478162608}
+  timeToGivePenalty: 0
+  timeToRemoveTheCar: 0
 --- !u!1001 &1736506332
 PrefabInstance:
   m_ObjectHideFlags: 0
