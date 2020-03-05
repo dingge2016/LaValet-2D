@@ -10,10 +10,8 @@ public class CarTimer : MonoBehaviour
     float startTime = 0f;
     [SerializeField] Text countdownText;
 
-    public Renderer rend;            // color
-
-    public float timeToGivePenalty;
-    public float timeToRemoveTheCar;
+    public Renderer rend;
+    public float removeCarTime = 0f;
 
 
     void Start()
@@ -39,15 +37,29 @@ public class CarTimer : MonoBehaviour
 
         string timerString = string.Format("{0:0}:{1:00}", minutes, seconds);
 
+        // Car color change
+        removeCarTime = gameObject.GetComponent<CarControl>().timeToRemoveTheCar;
+        if (currentTime > removeCarTime)
+        {
+            rend.material.color = Color.blue;
+        }
+        else if (currentTime <= 6)
+        {
+            rend.material.color = Color.red;
+        }
+        else
+        {
+            rend.material.color = Color.green;
+        }
+
+        // Car timer color change
         if (currentTime <= 6)
         {
             countdownText.color = Color.white;
-            rend.material.color = Color.red;   // color
         }
         else
         {
             countdownText.color = Color.white;
-            rend.material.color = Color.green;   // color
         }
 
         if (currentTime <= 0)
@@ -57,10 +69,6 @@ public class CarTimer : MonoBehaviour
 
         Vector3 carTimerPos = Camera.main.WorldToScreenPoint(this.transform.position);
         countdownText.transform.position = carTimerPos;
-
-        //if (currentTime > timeToRemoveTheCar)
-        //    countdownText.text = "";
-        //else
         countdownText.text = timerString;
     }
 }

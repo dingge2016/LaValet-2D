@@ -1325,8 +1325,7 @@ MonoBehaviour:
   currentTime: 0
   countdownText: {fileID: 478162608}
   rend: {fileID: 0}
-  timeToGivePenalty: 0
-  timeToRemoveTheCar: 0
+  removeCarTime: 0
 --- !u!1001 &1736506332
 PrefabInstance:
   m_ObjectHideFlags: 0
