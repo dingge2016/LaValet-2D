@@ -10,6 +10,8 @@ public class CarTimer : MonoBehaviour
     float startTime = 0f;
     [SerializeField] Text countdownText;
 
+    public Renderer rend;            // color
+
     public float timeToGivePenalty;
     public float timeToRemoveTheCar;
 
@@ -18,6 +20,10 @@ public class CarTimer : MonoBehaviour
     {
         startTime = Random.Range(5.0f, 15.0f);
         currentTime = startTime;
+
+        //Get the renderer of the object so we can access the color
+        rend = GetComponent<Renderer>();   // color
+        rend.material.color = Color.green;
     }
 
 
@@ -26,6 +32,7 @@ public class CarTimer : MonoBehaviour
     void Update()
     {
         currentTime -= 1 * Time.deltaTime;     // Time.deltaTime to make time be updated by second not by frame
+        Debug.Log(currentTime);
 
         int seconds = (int)(currentTime % 60);
         int minutes = (int)(currentTime / 60);
@@ -34,11 +41,13 @@ public class CarTimer : MonoBehaviour
 
         if (currentTime <= 6)
         {
-            countdownText.color = Color.red;
+            countdownText.color = Color.white;
+            rend.material.color = Color.red;   // color
         }
         else
         {
             countdownText.color = Color.white;
+            rend.material.color = Color.green;   // color
         }
 
         if (currentTime <= 0)
@@ -48,9 +57,10 @@ public class CarTimer : MonoBehaviour
 
         Vector3 carTimerPos = Camera.main.WorldToScreenPoint(this.transform.position);
         countdownText.transform.position = carTimerPos;
-        if (currentTime > timeToRemoveTheCar)
-            countdownText.text = "";
-        else
-            countdownText.text = timerString;
+
+        //if (currentTime > timeToRemoveTheCar)
+        //    countdownText.text = "";
+        //else
+        countdownText.text = timerString;
     }
 }
