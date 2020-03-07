@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CarTimer : MonoBehaviour
-{ 
+{
 
     public float currentTime = 0f;
     float startTime = 0f;
@@ -30,7 +30,6 @@ public class CarTimer : MonoBehaviour
     void Update()
     {
         currentTime -= 1 * Time.deltaTime;     // Time.deltaTime to make time be updated by second not by frame
-        Debug.Log(currentTime);
 
         int seconds = (int)(currentTime % 60);
         int minutes = (int)(currentTime / 60);

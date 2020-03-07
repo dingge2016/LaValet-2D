@@ -24,6 +24,7 @@ public class MapCreater : MonoBehaviour
     public GameObject Entry;
     public GameObject Exit;
     public GameObject Ground;
+    public GameObject Grass;
 
     private HashSet<int> wall_pos_set ;
     private Vector3 exitPos;
@@ -81,8 +82,14 @@ public class MapCreater : MonoBehaviour
                     GameObject exit = Instantiate(Exit, cell_pos, Quaternion.identity);
                     exitPos = new Vector3(row_pos, col_pos);
                 }
-                // Ground
-                Instantiate(Ground, cell_pos, Quaternion.identity);
+                else if (row[i] == '#')
+                {
+                    Instantiate(Grass, cell_pos, Quaternion.identity);
+                }
+                else if (row[i] == '.')
+                {
+                    Instantiate(Ground, cell_pos, Quaternion.identity);
+                }
                 col_pos++;
             }
             row_pos++;

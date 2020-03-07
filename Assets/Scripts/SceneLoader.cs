@@ -46,13 +46,12 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadGameScreen()
     {
-        Debug.Log(levelNumber);
         if (levelNumber == 1)
         {
             SceneManager.LoadScene(3);
         }
         else if (levelNumber == 2) {
-            SceneManager.LoadScene(5);
+            SceneManager.LoadScene(4);
         }
     }
 
@@ -67,6 +66,6 @@ public class SceneLoader : MonoBehaviour
     }
 
     public int getLevelIndex() {
-        return SceneManager.GetActiveScene().buildIndex; ;
+        return SceneManager.GetActiveScene().buildIndex-2;
     }
 }

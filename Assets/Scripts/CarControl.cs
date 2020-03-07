@@ -6,11 +6,7 @@ using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 { // Map.
-
-    public Text tipstext;
     private MapCreater myMap;
-    public static float tips = 0;
-
     private Vector3 screenPoint;
     private Vector3 offset;
     private Vector3 newPosition;
@@ -43,9 +39,7 @@ public class CarControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
-        tipstext.text = "Tips: " + tips.ToString();
     }
     /* car timer */
 
@@ -88,9 +82,9 @@ public class CarControl : MonoBehaviour
 
         if (isEntranceBarrier((int)rightx, ny) || isEntranceBarrier((int)leftx, ny))
         {
-            Debug.Log("Too many cars at the entrance.");
+            //Debug.Log("Too many cars at the entrance.");
         }
-        
+
 
         if (dx == 1 && isCar((int)rightx, ny)) {
             //Debug.Log("dx == 1 :" , rightx, ny);
@@ -103,12 +97,12 @@ public class CarControl : MonoBehaviour
            // Debug.Log('dx')
             return;
         }
-        
-        Debug.Log("Ok to remove");
+
+        //Debug.Log("Ok to remove");
 
         //transform.position = new Vector3(nx, ny);
         moveCar(nx, ny, (int)rightx, (int)leftx);
-        if (isExit((int)leftx, ny)){  
+        if (isExit((int)leftx, ny)){
             mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
             mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
             gameObject.SetActive(false);
@@ -120,7 +114,7 @@ public class CarControl : MonoBehaviour
         Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
     }
 
-    
+
     void moveCar(float nx, int ny, int rightx, int leftx){
         oldLocation = transform.position;
         //remove old loc
@@ -158,14 +152,13 @@ public class CarControl : MonoBehaviour
         if (exitPos[0] == x && exitPos[1] == y ){
             if (currentTime <= timeToRemoveTheCar && currentTime >= timeToGivePenalty)
             {
-                tips += 10;
+                GameManager.totalTips += 10;
 
             } else
             {
-                tips -= 5;
+                GameManager.totalTips -= 5;
             }
 
-            Debug.Log(exitPos);
            return true;
         }
         return false;
@@ -176,7 +169,6 @@ public class CarControl : MonoBehaviour
         Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
         if (entranceBarrierPos[0] == x && entranceBarrierPos[1] == y)
         {
-            Debug.Log(entranceBarrierPos);
             return true;
         }
         return false;
