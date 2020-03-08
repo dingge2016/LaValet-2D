@@ -12,7 +12,6 @@ public class GeneratingCars: MonoBehaviour
     private GameObject myCar;
     private int nextNameNumber=0;
     private int objNameNumber=0;
-    private string name;
     public List<GameObject> theCars;
     public bool breakFlag = true;
     public HashSet<int> set = new HashSet<int>();

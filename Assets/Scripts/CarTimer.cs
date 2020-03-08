@@ -8,10 +8,10 @@ public class CarTimer : MonoBehaviour
 
     public float currentTime = 0f;
     float startTime = 0f;
-    [SerializeField] Text countdownText;
+    public Text countdownText;
 
-    public Renderer rend;
-    public float removeCarTime = 0f;
+    private Renderer rend;
+    private float removeCarTime;
 
 
     void Start()
@@ -20,6 +20,8 @@ public class CarTimer : MonoBehaviour
         currentTime = startTime;
 
         //Get the renderer of the object so we can access the color
+
+        removeCarTime = gameObject.GetComponent<CarControl>().timeToRemoveTheCar;
         rend = GetComponent<Renderer>();   // color
         rend.material.color = Color.green;
     }
@@ -37,7 +39,7 @@ public class CarTimer : MonoBehaviour
         string timerString = string.Format("{0:0}:{1:00}", minutes, seconds);
 
         // Car color change
-        removeCarTime = gameObject.GetComponent<CarControl>().timeToRemoveTheCar;
+       
         if (currentTime > removeCarTime)
         {
             rend.material.color = Color.blue;

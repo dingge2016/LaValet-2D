@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 { // Map.
-    private MapCreater myMap;
-    private Vector3 screenPoint;
+    private MapCreater myMap; 
     private Vector3 offset;
     private Vector3 newPosition;
 
@@ -24,16 +23,9 @@ public class CarControl : MonoBehaviour
 
     /* car timer */
     float currentTime = 0f;
-    float startTime = 0f;
     public Text countdownText;
     private GeneratingCars mySet;
 
-
-    void Start()
-    {
-        startTime = Random.Range(5.0f, 15.0f);
-        currentTime = startTime;
-    }
 
 
     // Update is called once per frame
@@ -46,12 +38,12 @@ public class CarControl : MonoBehaviour
     void OnMouseDown()
     {
 
-        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
     }
 
     void OnMouseDrag()
     {
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 
 
@@ -70,6 +62,10 @@ public class CarControl : MonoBehaviour
             dy = 1;
         else if (diffy <= -1)
             dy = -1;
+
+        if (dx == 0 && dy == 0)
+            return;
+
         // the position of left side of the car
         float leftx = transform.position.x + dx + leftOffset;
         // the position of right side of the car
@@ -100,9 +96,16 @@ public class CarControl : MonoBehaviour
 
         //Debug.Log("Ok to remove");
 
+        if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar ) {
+            return;
+        }
+
         //transform.position = new Vector3(nx, ny);
         moveCar(nx, ny, (int)rightx, (int)leftx);
+
+
         if (isExit((int)leftx, ny)){
+            updateTips();
             mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
             mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
             Destroy(gameObject); 
@@ -146,19 +149,24 @@ public class CarControl : MonoBehaviour
         return myMap.getWallPosSet().Contains(myMap.TwoDToOneD(x, y));
     }
 
+    void updateTips()
+    {
+        if (currentTime > timeToGivePenalty)
+        {
+            GameManager.totalTips += 10;
+
+        }
+        else if (currentTime <= timeToGivePenalty)
+        {
+            GameManager.totalTips -= 5;
+        }
+
+    }
     bool isExit(int x, int y)
     {
         Vector3 exitPos = myMap.getExitPos();
         if (exitPos[0] == x && exitPos[1] == y ){
-            if (currentTime <= timeToRemoveTheCar && currentTime >= timeToGivePenalty)
-            {
-                GameManager.totalTips += 10;
-
-            } else
-            {
-                GameManager.totalTips -= 5;
-            }
-
+            
            return true;
         }
         return false;

@@ -20,9 +20,10 @@ public class GameManager : MonoBehaviour
     private bool[] propsStatus;
     // judge whether the scence is initialized to avoid unnecessary computation.
     private bool enterStore;
+    private bool finishGame;
     void Start()
     {
-        
+        finishGame = false;
         enterStore = false;
         propsPrice = new int[] {1};
         propsName = new string[] { "Increasing game time" };
@@ -50,18 +51,21 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-         
+
+        if (finishGame)
+            return;
+
 
         //Time Display
         if (storeUI != null && !enterStore)
         {
             enterStore = true;
             int curCoin = PlayerPrefs.GetInt("coins", 0);
-            
-
-            GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();
+            Debug.Log("curCoin:"+curCoin.ToString());
             storeUI.SetActive(true);
+            GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();          
             setCarObjectStatus(false);
+
         }
         currentTime -= 1 * Time.deltaTime;     // Time.deltaTime to make time be updated by second not by frame
         int seconds = (int)(currentTime % 60);
@@ -71,8 +75,9 @@ public class GameManager : MonoBehaviour
         {
             currentTime = 0;
         }
-        if (currentTime == 0)
+        if (currentTime == 0 && !finishGame)
         {
+            finishGame = true;
             EndGame();
             enabled = false;
         }
@@ -98,7 +103,8 @@ public class GameManager : MonoBehaviour
         else
         {
             loseUI.SetActive(true);
-            GameObject.Find("Canvas/loseUI/tipsAmount").GetComponent<Text>().text = (requireTip - totalTips).ToString();
+            GameObject.Find("Canvas/loseUI/tipsAmount").GetComponent<Text>().text = (
+                - totalTips).ToString();
         }
     }
 
