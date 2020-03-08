@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
             int curCoin = PlayerPrefs.GetInt("coins", 0);
             Debug.Log("curCoin:"+curCoin.ToString());
             storeUI.SetActive(true);
-            GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();          
+            GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();
             setCarObjectStatus(false);
 
         }
@@ -103,14 +103,13 @@ public class GameManager : MonoBehaviour
         else
         {
             loseUI.SetActive(true);
-            GameObject.Find("Canvas/loseUI/tipsAmount").GetComponent<Text>().text = (
-                - totalTips).ToString();
+            GameObject.Find("Canvas/loseUI/tipsAmount").GetComponent<Text>().text = (requireTip  - totalTips).ToString();
         }
     }
 
 
-    
-    //  player requests to buy a prop with propId, 
+
+    //  player requests to buy a prop with propId,
     public void PropRequest(int propId)
     {
         int curCoin = PlayerPrefs.GetInt("coins", 0);
@@ -121,7 +120,7 @@ public class GameManager : MonoBehaviour
             GameObject.Find("Canvas/storeUI/message").GetComponent<Text>().text = "Already have the prop <" + propsName[propId] + ">";
             return;
         }
-        
+
         // check whether the player has enough coins to buy the product.
         if (propsPrice[propId] > curCoin)
         {
@@ -129,18 +128,18 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // update coins and status of props 
+        // update coins and status of props
         PlayerPrefs.SetInt("coins", curCoin  - propsPrice[propId]);
         GameObject.Find("Canvas/storeUI/message").GetComponent<Text>().text = "buy the prop <" + propsName[propId] + "> Successfully.";
         GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin - propsPrice[propId]).ToString();
         propsStatus[propId] = true;
-        
+
         // the props: increasing 15s game time
         if (propId == 0)
         {
             currentTime += 15;
         }
-       
+
 
     }
     public void Restart()
