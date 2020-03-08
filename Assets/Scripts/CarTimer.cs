@@ -16,7 +16,7 @@ public class CarTimer : MonoBehaviour
 
     void Start()
     {
-        startTime = Random.Range(5.0f, 15.0f);
+        startTime = Random.Range(15.0f, 20.0f);
         currentTime = startTime;
 
         //Get the renderer of the object so we can access the color

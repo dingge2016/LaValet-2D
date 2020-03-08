@@ -105,7 +105,7 @@ public class CarControl : MonoBehaviour
         if (isExit((int)leftx, ny)){
             mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
             mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
-            gameObject.SetActive(false);
+            Destroy(gameObject); 
         }
         /*// Move our position a step closer to the target.
         float step = speed * Time.deltaTime; // calculate distance to move

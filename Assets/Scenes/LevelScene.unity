@@ -352,7 +352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc854e6767f4431d8a3d9e7e4ee43e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTipstext: {fileID: 0}
 --- !u!1 &463261809
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +430,7 @@ PrefabInstance:
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadStoreScreen
+      value: LoadGameScreen
       objectReference: {fileID: 0}
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
@@ -621,7 +620,7 @@ PrefabInstance:
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadStoreScreen
+      value: LoadGameScreen
       objectReference: {fileID: 0}
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
@@ -786,7 +785,7 @@ PrefabInstance:
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadStoreScreen
+      value: LoadGameScreen
       objectReference: {fileID: 0}
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
@@ -976,7 +975,7 @@ PrefabInstance:
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadStoreScreen
+      value: LoadGameScreen
       objectReference: {fileID: 0}
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
@@ -1448,7 +1447,7 @@ PrefabInstance:
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadStoreScreen
+      value: LoadGameScreen
       objectReference: {fileID: 0}
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
@@ -1638,7 +1637,7 @@ PrefabInstance:
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadStoreScreen
+      value: LoadGameScreen
       objectReference: {fileID: 0}
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}

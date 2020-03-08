@@ -26,10 +26,12 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void LoadStoreScreen()
+    
+
+    public void LoadGameScreen()
     {
         string levelName = EventSystem.current.currentSelectedGameObject.name;
-
+        Debug.Log(levelName);
         string levelOne = "Level 1 Button";
         string levelTwo = "Level 2 Button";
 
@@ -40,18 +42,15 @@ public class SceneLoader : MonoBehaviour
         else if (string.Equals(levelName, levelTwo))
         {
             levelNumber = 2;
-        }
-        SceneManager.LoadScene(2);
-    }
+        } 
 
-    public void LoadGameScreen()
-    {
+
         if (levelNumber == 1)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
         else if (levelNumber == 2) {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(3);
         }
     }
 
