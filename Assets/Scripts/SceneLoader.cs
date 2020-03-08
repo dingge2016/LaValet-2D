@@ -65,6 +65,6 @@ public class SceneLoader : MonoBehaviour
     }
 
     public int getLevelIndex() {
-        return SceneManager.GetActiveScene().buildIndex-2;
+        return SceneManager.GetActiveScene().buildIndex-1;
     }
 }
