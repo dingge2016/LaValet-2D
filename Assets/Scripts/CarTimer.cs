@@ -22,7 +22,7 @@ public class CarTimer : MonoBehaviour
         //Get the renderer of the object so we can access the color
 
         removeCarTime = gameObject.GetComponent<CarControl>().timeToRemoveTheCar;
-        rend = GetComponent<Renderer>();   // color
+        rend = gameObject.GetComponent<Renderer>();   // color
         rend.material.color = Color.green;
     }
 
