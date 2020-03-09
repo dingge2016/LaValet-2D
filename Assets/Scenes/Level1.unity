@@ -1602,15 +1602,15 @@ MonoBehaviour:
   map:
   - '###UID###'
   - '#LLL.LLL#'
-  - U.......D
-  - U.......D
-  - U.U...D.D
-  - U.......D
-  - U.......D
+  - UP.....PD
   - U.......D
   - U.U...D.D
   - U.......D
+  - U...P...D
   - U.......D
+  - U.U...D.D
+  - U.......D
+  - UP.....PD
   - '#RRR.RRR#'
   - '###UOD###'
   - '#########'
@@ -1622,10 +1622,11 @@ MonoBehaviour:
     type: 3}
   Rightwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
     type: 3}
-  Entry: {fileID: 3549098562201855779, guid: 14a1cd22a7bd9474d888a5730f9aa6f5, type: 3}
-  Exit: {fileID: 3549098562201855779, guid: 14a1cd22a7bd9474d888a5730f9aa6f5, type: 3}
-  Ground: {fileID: 8430092765699995052, guid: 7557995c3b5cc419d841c5ac96e105e8, type: 3}
-  Grass: {fileID: 7203684194567276272, guid: ce81e9a51223248beb42cf9227ca70e4, type: 3}
+  Entry: {fileID: 7677649244360660840, guid: a28d85575cdd242b7a15ff109cce866e, type: 3}
+  Exit: {fileID: 7677649244360660840, guid: a28d85575cdd242b7a15ff109cce866e, type: 3}
+  Ground: {fileID: 3917328006554239597, guid: 55bfa756f70a040e7a6855da89c67696, type: 3}
+  Grass: {fileID: 8430092765699995052, guid: 7557995c3b5cc419d841c5ac96e105e8, type: 3}
+  Parking: {fileID: 4733257238282353764, guid: 1b26d3c3add244f74922f3c992892f2d, type: 3}
   left_top_x: -5
   left_top_y: -4
 --- !u!4 &669330842
@@ -1890,7 +1891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &822122255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1981,7 +1982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5ccdb4ff3114dd3b629a88ab315e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 10
+  totalTime: 30
   winUI: {fileID: 584372334}
   loseUI: {fileID: 1590163885}
   storeUI: {fileID: 351873630}
