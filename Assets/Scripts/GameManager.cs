@@ -22,8 +22,12 @@ public class GameManager : MonoBehaviour
     // judge whether the scence is initialized to avoid unnecessary computation.
     private bool enterStore;
     private bool finishGame;
+    private bool destroyInstruction;
+    private bool destroyStore;
     void Start()
     {
+        destroyInstruction = false;
+        destroyStore = false;
         finishGame = false;
         enterStore = false;
         propsPrice = new int[] {1};
@@ -35,14 +39,18 @@ public class GameManager : MonoBehaviour
     }
 
     public void EnterStoreButton(){
-      Destroy(instructionUI);
-      storeUI.SetActive(true);
+        Destroy(instructionUI); 
+        destroyInstruction = true;
+        storeUI.SetActive(true);
+        int curCoin = PlayerPrefs.GetInt("coins", 0);
+        GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();
     }
 
     public void ClickEnterGameButton()
     {
         setCarObjectStatus(true);
         Destroy(storeUI);
+        destroyStore = true;
     }
 
     // disable store before entering game
@@ -54,22 +62,24 @@ public class GameManager : MonoBehaviour
         (GameObject.Find("ACarObject0").GetComponent("CarControl") as MonoBehaviour).enabled = status;
     }
     void Update()
-    {
-
+    { 
         if (finishGame)
             return;
-
-        if (instructionUI != null)
+        
+        if (!destroyInstruction)
         {
             storeUI.SetActive(false);
             setCarObjectStatus(false);
             return;
 
-        } else if (storeUI != null && !enterStore)
+        }
+         
+
+
+        if (!destroyStore && !enterStore)
         {
             enterStore = true;
-            int curCoin = PlayerPrefs.GetInt("coins", 0);
-            GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();
+            
             setCarObjectStatus(false);
         }
 
