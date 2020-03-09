@@ -39,7 +39,7 @@ public class CarTimer : MonoBehaviour
         string timerString = string.Format("{0:0}:{1:00}", minutes, seconds);
 
         // Car color change
-       
+
         if (currentTime > removeCarTime)
         {
             rend.material.color = Color.blue;
@@ -65,6 +65,7 @@ public class CarTimer : MonoBehaviour
 
         if (currentTime <= 0)
         {
+            rend.material.color = Color.black;
             currentTime = 0;
         }
 
