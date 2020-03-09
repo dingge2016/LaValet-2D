@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject winUI;
     public GameObject loseUI;
     public GameObject storeUI;
+    public GameObject instructionUI;
     public int requireTip = 5;
     private float currentTime = 0f;
     // props related variable
@@ -33,12 +34,15 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void EnterStoreButton(){
+      Destroy(instructionUI);
+      storeUI.SetActive(true);
+    }
+
     public void ClickEnterGameButton()
     {
-        Debug.Log("here");
         setCarObjectStatus(true);
         Destroy(storeUI);
-
     }
 
     // disable store before entering game
@@ -55,18 +59,21 @@ public class GameManager : MonoBehaviour
         if (finishGame)
             return;
 
+        if (instructionUI != null)
+        {
+            storeUI.SetActive(false);
+            setCarObjectStatus(false);
+            return;
 
-        //Time Display
-        if (storeUI != null && !enterStore)
+        } else if (storeUI != null && !enterStore)
         {
             enterStore = true;
             int curCoin = PlayerPrefs.GetInt("coins", 0);
-            Debug.Log("curCoin:"+curCoin.ToString());
-            storeUI.SetActive(true);
             GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();
             setCarObjectStatus(false);
-
         }
+
+        //Time Display
         currentTime -= 1 * Time.deltaTime;     // Time.deltaTime to make time be updated by second not by frame
         int seconds = (int)(currentTime % 60);
         int minutes = (int)(currentTime / 60);
@@ -164,4 +171,6 @@ public class GameManager : MonoBehaviour
         // Reset the Amount of Coins;
         PlayerPrefs.SetInt("coins", 0);
     }
+
+
 }
