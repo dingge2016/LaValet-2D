@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3803922, g: 0.3803922, b: 0.3803922, a: 1}
+  m_Color: {r: 0.990566, g: 0.98612714, b: 0.9017889, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1624,7 +1624,7 @@ MonoBehaviour:
     type: 3}
   Entry: {fileID: 7677649244360660840, guid: a28d85575cdd242b7a15ff109cce866e, type: 3}
   Exit: {fileID: 7677649244360660840, guid: a28d85575cdd242b7a15ff109cce866e, type: 3}
-  Ground: {fileID: 3917328006554239597, guid: 55bfa756f70a040e7a6855da89c67696, type: 3}
+  Ground: {fileID: 5451811137068167756, guid: 4f818d6c261df438a9c1bd8cab6099ee, type: 3}
   Grass: {fileID: 8430092765699995052, guid: 7557995c3b5cc419d841c5ac96e105e8, type: 3}
   Parking: {fileID: 4733257238282353764, guid: 1b26d3c3add244f74922f3c992892f2d, type: 3}
   left_top_x: -5
@@ -1770,7 +1770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2053,7 +2053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2834,7 +2834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.33962262, g: 0.28355286, b: 0.28355286, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2911,7 +2911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.990566, g: 0.82898027, b: 0.046724804, a: 1}
+  m_Color: {r: 0.990566, g: 0.5176471, b: 0.046724804, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3471,7 +3471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3648,6 +3648,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: timerText
       objectReference: {fileID: 0}
+    - target: {fileID: 1073901486482741984, guid: ca9c17e74f197fa40977f2f27689c533,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1073901486482741985, guid: ca9c17e74f197fa40977f2f27689c533,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3692,6 +3697,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FontData.m_Alignment
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1073901486482741998, guid: ca9c17e74f197fa40977f2f27689c533,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1073901486482741998, guid: ca9c17e74f197fa40977f2f27689c533,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1073901486482741998, guid: ca9c17e74f197fa40977f2f27689c533,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1073901486541174755, guid: ca9c17e74f197fa40977f2f27689c533,
         type: 3}
@@ -3820,3 +3840,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca9c17e74f197fa40977f2f27689c533, type: 3}
+--- !u!1001 &2388249305496073956
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303401775799700856, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5451811137068167756, guid: 4f818d6c261df438a9c1bd8cab6099ee,
+        type: 3}
+      propertyPath: m_Name
+      value: ParkingGround
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4f818d6c261df438a9c1bd8cab6099ee, type: 3}
