@@ -104,7 +104,8 @@ public class GameManager : MonoBehaviour
             GameObject.Find("Canvas/winUI/coinAmount").GetComponent<Text>().text = (curCoin + 1).ToString();
             // Reach new level
             int reachLevel = PlayerPrefs.GetInt("curLevel", 1);
-            int curLevel = SceneManager.GetActiveScene().buildIndex - 2; ;
+            int curLevel = SceneManager.GetActiveScene().buildIndex - 1;
+            Debug.Log(curLevel);
             PlayerPrefs.SetInt("curLevel", Mathf.Min(curLevel, reachLevel) + 1);
         }
         else
