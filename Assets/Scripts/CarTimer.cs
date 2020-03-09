@@ -12,11 +12,12 @@ public class CarTimer : MonoBehaviour
 
     private Renderer rend;
     private float removeCarTime;
+    public float minTime, maxTime;
 
 
     void Start()
     {
-        startTime = Random.Range(15.0f, 20.0f);
+        startTime = Random.Range(minTime, maxTime);
         currentTime = startTime;
 
         //Get the renderer of the object so we can access the color

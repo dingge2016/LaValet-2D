@@ -489,3 +489,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTime: 0
   countdownText: {fileID: 8552094409273464223}
+  minTime: 10
+  maxTime: 25

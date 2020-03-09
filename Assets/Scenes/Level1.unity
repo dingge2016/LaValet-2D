@@ -1982,10 +1982,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5ccdb4ff3114dd3b629a88ab315e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 60
+  totalTime: 31
   winUI: {fileID: 584372334}
   loseUI: {fileID: 1590163885}
   storeUI: {fileID: 351873630}
+  requireTip: 80
 --- !u!4 &885356568
 Transform:
   m_ObjectHideFlags: 0

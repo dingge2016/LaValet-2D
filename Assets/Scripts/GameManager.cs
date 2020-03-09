@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject winUI;
     public GameObject loseUI;
     public GameObject storeUI;
-    private int requireTip = 5;
+    public int requireTip = 5;
     private float currentTime = 0f;
     // props related variable
     private int[] propsPrice;
