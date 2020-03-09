@@ -25,13 +25,18 @@ public class CarControl : MonoBehaviour
     float currentTime = 0f;
     public Text countdownText;
     private GeneratingCars mySet;
-
+    bool minusTip;
 
 
     // Update is called once per frame
     void Update()
     {
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
+        if (currentTime <= timeToGivePenalty && !minusTip)
+        {
+            GameManager.totalTips -= 5;
+            minusTip = true;
+        }
     }
     /* car timer */
 
@@ -155,11 +160,7 @@ public class CarControl : MonoBehaviour
         {
             GameManager.totalTips += 10;
 
-        }
-        else if (currentTime <= timeToGivePenalty)
-        {
-            GameManager.totalTips -= 5;
-        }
+        } 
 
     }
     bool isExit(int x, int y)
