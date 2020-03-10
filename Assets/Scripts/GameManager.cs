@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private bool destroyStore;
     void Start()
     {
+        totalTips = 0;
         destroyInstruction = false;
         destroyStore = false;
         finishGame = false;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void EnterStoreButton(){
-        Destroy(instructionUI); 
+        Destroy(instructionUI);
         destroyInstruction = true;
         storeUI.SetActive(true);
         int curCoin = PlayerPrefs.GetInt("coins", 0);
@@ -62,10 +63,10 @@ public class GameManager : MonoBehaviour
         (GameObject.Find("ACarObject0").GetComponent("CarControl") as MonoBehaviour).enabled = status;
     }
     void Update()
-    { 
+    {
         if (finishGame)
             return;
-        
+
         if (!destroyInstruction)
         {
             storeUI.SetActive(false);
@@ -73,13 +74,13 @@ public class GameManager : MonoBehaviour
             return;
 
         }
-         
+
 
 
         if (!destroyStore && !enterStore)
         {
             enterStore = true;
-            
+
             setCarObjectStatus(false);
         }
 
@@ -174,6 +175,7 @@ public class GameManager : MonoBehaviour
 
     public void Menu()
     {
+        totalTips = 0;
         SceneManager.LoadScene(0);
     }
 
