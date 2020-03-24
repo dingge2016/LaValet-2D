@@ -62,6 +62,7 @@ public class MapCreater : MonoBehaviour
     private int objNameNumber=0;
     private float leftOffSet = -0.5f;
     private float rightOffSet = 0.5f;
+    private Vector3 startPos;
 
     private void Awake()
     {
@@ -148,8 +149,8 @@ public class MapCreater : MonoBehaviour
         }
 
         //check if later created cars have moved
-        if(cars[objNameNumber].transform.position != entranceBarrierPos &&
-        cars[objNameNumber].transform.position.x != entranceBarrierPos[0]+1)
+        if(cars[objNameNumber].transform.position != startPos &&
+        cars[objNameNumber].transform.position.x != startPos[0]+1)
         {
             StartCoroutine(WaitForASecond());
             Debug.Log(nextNameNumber.ToString());
@@ -161,7 +162,8 @@ public class MapCreater : MonoBehaviour
     private GameObject createCar(){
         GameObject newCar = Instantiate(car) as GameObject;
         //store initial left side and right side locatioins of cars into hash set
-        newCar.transform.position = entranceBarrierPos;
+        startPos = new Vector3(entranceBarrierPos[0]+rightOffSet, entranceBarrierPos[1]);
+        newCar.transform.position = startPos;
         float startLeft = newCar.transform.position.x + leftOffSet;
         float startRight = newCar.transform.position.x + rightOffSet;
         float startY = newCar.transform.position.y;
@@ -183,14 +185,13 @@ public class MapCreater : MonoBehaviour
     }
 
     public void removeCars(int x, int y){
-      Debug.Log(TwoDToOneD(x,y));
       car_pos_set.Remove(TwoDToOneD(x,y));
     }
 
     public void addCars(int x, int y){
-      Debug.Log(TwoDToOneD(x,y));
       car_pos_set.Add(TwoDToOneD(x,y));
     }
+
 
     public Vector3 getExitPos() {
         return exitPos;
@@ -201,7 +202,20 @@ public class MapCreater : MonoBehaviour
         return entranceBarrierPos;
     }
 
+    //Utilitys: ========================
+    public void printCarPos(){
+      string tmp = "";
+      foreach( int pos in getCarsPosSet()){
+        tmp += oneDToTwoD(pos);
+      }
+      Debug.Log(tmp);
+    }
+
     public int TwoDToOneD(int x, int y) {
         return SIZE * x + y;
+    }
+
+    public string oneDToTwoD(int X) {
+        return "(" + ((int)X/SIZE).ToString() + "," + (X%SIZE).ToString()+ ")";
     }
 }

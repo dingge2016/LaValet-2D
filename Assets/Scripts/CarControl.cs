@@ -21,7 +21,6 @@ public class CarControl : MonoBehaviour
     /* car timer */
     float currentTime = 0f;
     public Text countdownText;
-    protected GeneratingCars mySet;
     bool minusTip;
 
     // Update is called once per frame
@@ -108,7 +107,6 @@ public class CarControl : MonoBehaviour
         //transform.position = new Vector3(nx, ny);
         moveCar(nx, ny, (int)rightx, (int)leftx);
 
-
         if (isExit((int)leftx, ny))
         {
             updateTips();
@@ -154,12 +152,7 @@ public class CarControl : MonoBehaviour
 
     bool isCar(int x, int y){
         if (myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y))){
-          Debug.Log(myMap.TwoDToOneD(x,y));
-          Debug.Log("++++++++++++++");
-          foreach(int pos in myMap.getCarsPosSet()){
-            Debug.Log(pos);
-          }
-          Debug.Log("++++++++++++++");
+          myMap.printCarPos();
         }
         return myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y));
     }
