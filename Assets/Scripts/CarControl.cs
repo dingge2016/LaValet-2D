@@ -80,7 +80,7 @@ public class CarControl : MonoBehaviour
         //Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
         // in Enter, Can't Go Back
         Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
-        Vector3 startPos = new Vector3(entranceBarrierPos[0]+rightOffset, entranceBarrierPos[1]);
+        Vector3 startPos = new Vector3(entranceBarrierPos[0]+ leftOffset, entranceBarrierPos[1]);
         if (new Vector3(transform.position.x, transform.position.y) == startPos && dx == -1){
           return;
         }

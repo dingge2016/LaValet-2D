@@ -173,7 +173,7 @@ public class MapCreater : MonoBehaviour
     private GameObject createCar(){
         GameObject newCar = Instantiate(car) as GameObject;
         //store initial left side and right side locatioins of cars into hash set
-        startPos = new Vector3(entranceBarrierPos[0]+rightOffSet, entranceBarrierPos[1]);
+        startPos = new Vector3(entranceBarrierPos[0]+ leftOffSet, entranceBarrierPos[1]);
         newCar.transform.position = startPos;
         float startLeft = newCar.transform.position.x + leftOffSet;
         float startRight = newCar.transform.position.x + rightOffSet;

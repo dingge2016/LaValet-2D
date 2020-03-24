@@ -66,12 +66,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -9084141975011552019, guid: 0e397ca94bb414d758f99872d4eead42,
+      objectReference: {fileID: 7927945113677416777, guid: 0e397ca94bb414d758f99872d4eead42,
         type: 3}
     - target: {fileID: 4733257238282353764, guid: 1b26d3c3add244f74922f3c992892f2d,
         type: 3}
       propertyPath: m_Name
-      value: HorizontalTrack
+      value: HorizontalTrack Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b26d3c3add244f74922f3c992892f2d, type: 3}
