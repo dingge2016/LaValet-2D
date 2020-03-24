@@ -41,10 +41,8 @@ public class trainController : CarControl {
     }
     public override void movetheSelectedCar(Vector3 curPosition)
     {
-        Debug.Log(gameObject.transform.rotation.x);
 
-        Debug.Log(gameObject.transform.rotation.x == 0);
-        Debug.Log(horizonalDirection);
+
       //  horizonalDirection = gameObject.transform.rotation.x == 0;
         float diff_x = 0, diff_y = 0;
         if (horizonalDirection) // the train can be moved horizonally
@@ -65,15 +63,32 @@ public class trainController : CarControl {
 
         
         int next_x, next_y;
+
+        TopLeft_x = (int)(gameObject.transform.position.x - (float)width / 2 + gridLength / 2);
+        TopLeft_y = (int)(gameObject.transform.position.y - (float)height / 2 + gridLength / 2);
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 next_x = TopLeft_x + i + dx;
                 next_y = TopLeft_y + j + dy;
-                if (isWall(next_x, next_y) || isExit(next_x, next_y))
+               
+                
+                if ((dx == 1 && i == width -1) || (dx == -1 && i == 0) || (dy == 1 && j == height-1) || (dy == -1 && j == 0))
                 {
-                    return;
+
+                    Debug.Log("dx: " + dx + " dy: " + dy + " next: " + next_x.ToString() + " " + next_y.ToString());
+                    Debug.Log(isWall(next_x, next_y));
+                    Debug.Log(isCar(next_x, next_y));
+                    Debug.Log(isExit(next_x, next_y));
+
+
+                    if (isWall(next_x, next_y) || isCar(next_x, next_y) || isExit(next_x, next_y))
+                    {
+                        return;
+                    }
+
                 }
             }
         }

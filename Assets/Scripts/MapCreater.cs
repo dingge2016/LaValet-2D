@@ -103,7 +103,7 @@ public class MapCreater : MonoBehaviour
                 {
                     GameObject entry = Instantiate(Entry, cell_pos, Quaternion.identity);
                     entranceBarrierPos = new Vector3(row_pos, col_pos);
-                    Debug.Log(entranceBarrierPos);
+          //          Debug.Log(entranceBarrierPos);
                 }
                 else if (row[i] == 'O') //Exit
                 {
@@ -153,7 +153,7 @@ public class MapCreater : MonoBehaviour
         cars[objNameNumber].transform.position.x != startPos[0]+1)
         {
             StartCoroutine(WaitForASecond());
-            Debug.Log(nextNameNumber.ToString());
+           // Debug.Log(nextNameNumber.ToString());
             objNameNumber++;
         }
     }
@@ -208,7 +208,7 @@ public class MapCreater : MonoBehaviour
       foreach( int pos in getCarsPosSet()){
         tmp += oneDToTwoD(pos);
       }
-      Debug.Log(tmp);
+    //  Debug.Log(tmp);
     }
 
     public int TwoDToOneD(int x, int y) {
