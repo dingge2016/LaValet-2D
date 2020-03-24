@@ -13,12 +13,21 @@ public class trainController : CarControl {
     private List<int> carPositions;
     void Start()
     {
-        horizonalDirection = gameObject.transform.rotation.x == 0;
-        width = Mathf.Ceil(gameObject.transform.localScale.x);
-        height =Mathf.Ceil(gameObject.transform.localScale.y);
+        horizonalDirection = gameObject.transform.rotation.z == 0;
+        if (horizonalDirection)
+        {
+            width = Mathf.Ceil(gameObject.transform.localScale.x);
+            height = Mathf.Ceil(gameObject.transform.localScale.y);
+        }
+        else
+        {
+            width = Mathf.Ceil(gameObject.transform.localScale.y);
+            height = Mathf.Ceil(gameObject.transform.localScale.x);
+
+        }
 
 
-        TopLeft_x = (int)(gameObject.transform.position.x - (float)width / 2 + gridLength/2);
+            TopLeft_x = (int)(gameObject.transform.position.x - (float)width / 2 + gridLength / 2);
         TopLeft_y = (int)(gameObject.transform.position.y - (float)height / 2 + gridLength/2);
         for (int i = 0; i < (int)width; i++)
         {
