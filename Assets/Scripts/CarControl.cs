@@ -42,7 +42,6 @@ public class CarControl : MonoBehaviour
     }
 
 
-
     protected KeyValuePair<int, int> flattenDiff(float diffx, float diffy)
     {
         int dx = 0;
@@ -59,6 +58,7 @@ public class CarControl : MonoBehaviour
             dy = -1;
         return new KeyValuePair<int, int>(dx, dy);
     }
+
     public virtual void movetheSelectedCar(Vector3 curPosition)
     {
         float diffx = curPosition.x - transform.position.x;
@@ -78,6 +78,13 @@ public class CarControl : MonoBehaviour
         float nx = transform.position.x + dx + centerOffset;
         int ny = (int)transform.position.y + dy;
         //Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
+        // in Enter, Can't Go Back
+        Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
+        Vector3 startPos = new Vector3(entranceBarrierPos[0]+rightOffset, entranceBarrierPos[1]);
+        if (new Vector3(transform.position.x, transform.position.y) == startPos && dx == -1){
+          return;
+        }
+
         // detect whether there is a wall in the front part of the car or back part of the car.
         if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) {
           return;
@@ -120,6 +127,7 @@ public class CarControl : MonoBehaviour
         transform.position = transform.position = Vector3.MoveTowards(transform.position, new Vector3(nx, ny), step);
         Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
     }
+
     void OnMouseDrag()
     {
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
@@ -182,5 +190,5 @@ public class CarControl : MonoBehaviour
         return false;
     }
 
-  
+
 }
