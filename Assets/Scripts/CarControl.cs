@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
@@ -12,7 +11,7 @@ public class CarControl : MonoBehaviour
 
     private float leftOffset = -0.5f;
     private float rightOffset = 0.5f;
-    private float centerOffset = 0;
+    protected float centerOffset = 0;
     //private float speed = 20.0f;
 
 
@@ -24,10 +23,9 @@ public class CarControl : MonoBehaviour
     /* car timer */
     float currentTime = 0f;
     public Text countdownText;
-    private GeneratingCars mySet;
+    protected GeneratingCars mySet;
     bool minusTip;
-
-
+     
     // Update is called once per frame
     void Update()
     {
@@ -46,15 +44,10 @@ public class CarControl : MonoBehaviour
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
     }
 
-    void OnMouseDrag()
+
+
+    protected KeyValuePair<int, int> flattenDiff(float diffx, float diffy)
     {
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-
-
-        float diffx = curPosition.x  - transform.position.x;
-        float diffy = curPosition.y - transform.position.y;
-
         int dx = 0;
         int dy = 0;
 
@@ -67,7 +60,17 @@ public class CarControl : MonoBehaviour
             dy = 1;
         else if (diffy <= -1)
             dy = -1;
+        return new KeyValuePair<int, int>(dx, dy);
+    }
+    public virtual void movetheSelectedCar(Vector3 curPosition)
+    {
+        float diffx = curPosition.x - transform.position.x;
+        float diffy = curPosition.y - transform.position.y;
 
+        var dxAndDy = flattenDiff(diffx, diffy);
+
+        int dx = dxAndDy.Key;
+        int dy = dxAndDy.Value;
         if (dx == 0 && dy == 0)
             return;
 
@@ -87,21 +90,27 @@ public class CarControl : MonoBehaviour
         }
 
 
-        if (dx == 1 && isCar((int)rightx, ny)) {
+        if (dx == 1 && isCar((int)rightx, ny))
+        {
             //Debug.Log("dx == 1 :" , rightx, ny);
             return;
-        } else if (dx == -1 && isCar((int)leftx, ny)) {
+        }
+        else if (dx == -1 && isCar((int)leftx, ny))
+        {
             //Debug.Log("dx == -1", leftx, ny);
             return;
 
-        } else if (dx == 0 && (isCar((int)leftx,ny) || isCar((int)rightx,ny))){ // when car move up or move down
-           // Debug.Log('dx')
+        }
+        else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
+        { // when car move up or move down
+          // Debug.Log('dx')
             return;
         }
 
         //Debug.Log("Ok to remove");
 
-        if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar ) {
+        if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar)
+        {
             return;
         }
 
@@ -109,17 +118,25 @@ public class CarControl : MonoBehaviour
         moveCar(nx, ny, (int)rightx, (int)leftx);
 
 
-        if (isExit((int)leftx, ny)){
+        if (isExit((int)leftx, ny))
+        {
             updateTips();
-            mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
-            mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
-            Destroy(gameObject); 
+            mySet.set.Remove(mySet.TwoDToOneD((int)leftx, ny));
+            mySet.set.Remove(mySet.TwoDToOneD((int)rightx, ny));
+            Destroy(gameObject);
         }
         /*// Move our position a step closer to the target.
         float step = speed * Time.deltaTime; // calculate distance to move
         // Move player to next position.
         transform.position = transform.position = Vector3.MoveTowards(transform.position, new Vector3(nx, ny), step);
         Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
+    }
+    void OnMouseDrag()
+    {
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        movetheSelectedCar(curPosition);
+
     }
 
 
