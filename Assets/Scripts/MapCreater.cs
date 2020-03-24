@@ -43,6 +43,9 @@ public class MapCreater : MonoBehaviour
     public GameObject Ground;
     public GameObject Grass;
     public GameObject Parking;
+    public GameObject VerticalTrack;
+    public GameObject IntersectionTrack;
+    public GameObject HorizontalTrack;
 
     private HashSet<int> wall_pos_set;
     private HashSet<int> car_pos_set = new HashSet<int>();
@@ -118,9 +121,17 @@ public class MapCreater : MonoBehaviour
                 {
                     Instantiate(Ground, cell_pos, Quaternion.identity);
                 }
-                else if (row[i] == 'P')
+                else if (row[i] == 'V')
                 {
-                    Instantiate(Parking, cell_pos, Quaternion.identity);
+                    Instantiate(VerticalTrack, cell_pos, Quaternion.identity);
+                }
+                else if (row[i] == 'S')
+                {
+                    Instantiate(IntersectionTrack, cell_pos, Quaternion.identity);
+                }
+                else if (row[i] == 'H')
+                {
+                    Instantiate(HorizontalTrack, cell_pos, Quaternion.identity);
                 }
                 col_pos++;
             }
