@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 { // Map.
-    private MapCreater myMap; 
+    private MapCreater myMap;
     private Vector3 offset;
     private Vector3 newPosition;
 
@@ -15,8 +15,6 @@ public class CarControl : MonoBehaviour
     private float centerOffset = 0;
     //private float speed = 20.0f;
 
-
-
     public float timeToRemoveTheCar;
     public float timeToGivePenalty;
     private Vector3 oldLocation;
@@ -24,7 +22,6 @@ public class CarControl : MonoBehaviour
     /* car timer */
     float currentTime = 0f;
     public Text countdownText;
-    private GeneratingCars mySet;
     bool minusTip;
 
 
@@ -79,19 +76,15 @@ public class CarControl : MonoBehaviour
         int ny = (int)transform.position.y + dy;
         //Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
         // detect whether there is a wall in the front part of the car or back part of the car.
-        if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) return;
-
-        if (isEntranceBarrier((int)rightx, ny) || isEntranceBarrier((int)leftx, ny))
-        {
-            //Debug.Log("Too many cars at the entrance.");
+        if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) {
+          return;
         }
 
-
         if (dx == 1 && isCar((int)rightx, ny)) {
-            //Debug.Log("dx == 1 :" , rightx, ny);
+            // Debug.Log("dx == 1 :" , rightx, ny);
             return;
         } else if (dx == -1 && isCar((int)leftx, ny)) {
-            //Debug.Log("dx == -1", leftx, ny);
+            // Debug.Log("dx == -1", leftx, ny);
             return;
 
         } else if (dx == 0 && (isCar((int)leftx,ny) || isCar((int)rightx,ny))){ // when car move up or move down
@@ -111,9 +104,9 @@ public class CarControl : MonoBehaviour
 
         if (isExit((int)leftx, ny)){
             updateTips();
-            mySet.set.Remove(mySet.TwoDToOneD((int)leftx,ny));
-            mySet.set.Remove(mySet.TwoDToOneD((int)rightx,ny));
-            Destroy(gameObject); 
+            myMap.removeCars((int)leftx,ny);
+            myMap.removeCars((int)rightx,ny);
+            Destroy(gameObject);
         }
         /*// Move our position a step closer to the target.
         float step = speed * Time.deltaTime; // calculate distance to move
@@ -128,11 +121,12 @@ public class CarControl : MonoBehaviour
         //remove old loc
         int newLeftX = (int)(oldLocation.x+leftOffset);
         int newRightX = (int)(oldLocation.x+rightOffset);
-        mySet.set.Remove(mySet.TwoDToOneD(newLeftX,(int)oldLocation.y));
-        mySet.set.Remove(mySet.TwoDToOneD(newRightX,(int)oldLocation.y));
+        myMap.removeCars(newLeftX,(int)oldLocation.y);
+        myMap.removeCars(newRightX,(int)oldLocation.y);
+
         //add new loc
-        mySet.set.Add(mySet.TwoDToOneD((int)leftx,ny));
-        mySet.set.Add(mySet.TwoDToOneD((int)rightx,ny));
+        myMap.addCars((int)leftx,ny);
+        myMap.addCars((int)rightx,ny);
         transform.position = new Vector3(nx, ny);
     }
 
@@ -141,11 +135,18 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        mySet = FindObjectOfType<GeneratingCars>();
     }
 
     bool isCar(int x, int y){
-        return mySet.set.Contains(myMap.TwoDToOneD(x,y));
+        if (myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y))){
+          Debug.Log(myMap.TwoDToOneD(x,y));
+          Debug.Log("++++++++++++++");
+          foreach(int pos in myMap.getCarsPosSet()){
+            Debug.Log(pos);
+          }
+          Debug.Log("++++++++++++++");
+        }
+        return myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y));
     }
 
 
@@ -160,14 +161,14 @@ public class CarControl : MonoBehaviour
         {
             GameManager.totalTips += 10;
 
-        } 
+        }
 
     }
     bool isExit(int x, int y)
     {
         Vector3 exitPos = myMap.getExitPos();
         if (exitPos[0] == x && exitPos[1] == y ){
-            
+
            return true;
         }
         return false;

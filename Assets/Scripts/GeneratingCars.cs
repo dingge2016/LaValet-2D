@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GeneratingCars: MonoBehaviour
-{ 
+{
+    private MapCreater myMap;
     public GameObject car;
-    public GameObject start;
     private GameObject initial;
     //use for naming the car
     private GameObject myCar;
@@ -17,20 +17,25 @@ public class GeneratingCars: MonoBehaviour
     public HashSet<int> set = new HashSet<int>();
     private float leftOffSet = -0.5f;
     private float rightOffSet = 0.5f;
-
+    private Vector3 startPos;
     // Start is called before the first frame update
     void Start()
     {
+        myMap = FindObjectOfType<MapCreater>();
+        startPos = myMap.getEntranceBarrierPos();
+        Debug.Log(startPos);
         initial = createCar();
     }
 
     //create new car objects
     private GameObject createCar(){
-        
+
 
         GameObject newCar = Instantiate(car) as GameObject;
 
         //store initial left side and right side locatioins of cars into hash set
+        newCar.transform.position = startPos;
+        Debug.Log(newCar.transform.position);
         float startLeft = newCar.transform.position.x + leftOffSet;
         float startRight = newCar.transform.position.x + rightOffSet;
         float startY = newCar.transform.position.y;
@@ -40,9 +45,8 @@ public class GeneratingCars: MonoBehaviour
         newCar.SetActive(true);
         theCars.Add(newCar);
         newCar.name = "ACarObject"+nextNameNumber;
-    	newCar.transform.position = new Vector3(start.transform.position.x, start.transform.position.y);
         nextNameNumber++;
-        
+
         return newCar;
 
     }
@@ -72,12 +76,12 @@ public class GeneratingCars: MonoBehaviour
             }
 
             //check if later created cars have moved
-            if(theCars[objNameNumber].transform.position!=start.transform.position &&
-            theCars[objNameNumber].transform.position.x != start.transform.position.x+1)
+            if(theCars[objNameNumber].transform.position != startPos &&
+            theCars[objNameNumber].transform.position.x != startPos[0]+1)
         {
                 StartCoroutine(WaitForASecond());
                 Debug.Log(nextNameNumber.ToString());
-                objNameNumber++; 
+                objNameNumber++;
             }
     }
 }

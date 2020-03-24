@@ -942,7 +942,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   car: {fileID: 9055404979718151418, guid: ccfa2924a1328164ca52b25330e22078, type: 3}
-  start: {fileID: 1623390674}
   theCars: []
   breakFlag: 0
 --- !u!1 &388507035
@@ -1539,21 +1538,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map:
-  - '###UID###'
-  - '#LLL.LLL#'
-  - UP.....PD
-  - U.......D
-  - U.U..DD.D
-  - U.U...D.D
-  - U.U.P...D
-  - U.U.D...D
-  - U...DDD.D
-  - U.......D
-  - U.U.....D
-  - UPU....PD
-  - '#RRR.RRR#'
-  - '###UOD###'
-  - '#########'
+  - .LLLIU
+  - D....U
+  - D....U
+  - D....U
+  - D....U
+  - D....U
+  - D....U
+  - .RORR.
   Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
   Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
     type: 3}
@@ -1561,11 +1553,13 @@ MonoBehaviour:
     type: 3}
   Rightwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
     type: 3}
+  car: {fileID: 9055404979718151418, guid: ccfa2924a1328164ca52b25330e22078, type: 3}
   Entry: {fileID: 7677649244360660840, guid: a28d85575cdd242b7a15ff109cce866e, type: 3}
   Exit: {fileID: 7677649244360660840, guid: a28d85575cdd242b7a15ff109cce866e, type: 3}
   Ground: {fileID: 5451811137068167756, guid: 4f818d6c261df438a9c1bd8cab6099ee, type: 3}
   Grass: {fileID: 8430092765699995052, guid: 7557995c3b5cc419d841c5ac96e105e8, type: 3}
   Parking: {fileID: 4733257238282353764, guid: 1b26d3c3add244f74922f3c992892f2d, type: 3}
+  cars: []
   left_top_x: -5
   left_top_y: -4
 --- !u!4 &669330842

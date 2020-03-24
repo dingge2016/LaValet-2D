@@ -6,20 +6,37 @@ public class MapCreater : MonoBehaviour
 {
     public string[] map;
   //  {
-  //  "..UUUUUU..",
-  //  ".L......R.",
-  //  ".L......R.",
-  //  "UL......RU",
-  //  "I........O",
-  //  "DL......RD",
-  //  ".L......R.",
-  //  ".L......R.",
-  //  "..DDDDDD.."
+  //  "###UID###",
+  //  "#LLL.LLL#",
+  //  "UP.....PD",
+  //  "U.......D",
+  //  "U.U..DD.D",
+  //  "U.U...D.D",
+  //  "U.U.P...D",
+  //  "U.U.D...D",
+  //  "U...DDD.D",
+  //  "U.......D",
+  //  "U.U.....D",
+  //  "UPU....PD",
+  //  "#RRR.RRR#",
+  //  "###UOD###",
+  //  "#########"
+
+
+  //  ".LLLIU",
+  //  "D....U",
+  //  "D....U",
+  //  "D....U",
+  //  "D....U",
+  //  "D....U",
+  //  "D....U",
+  //  ".RORR."
   //  };
     public GameObject Upwall;
     public GameObject Downwall;
     public GameObject Leftwall;
     public GameObject Rightwall;
+    public GameObject car;
 
     public GameObject Entry;
     public GameObject Exit;
@@ -27,7 +44,9 @@ public class MapCreater : MonoBehaviour
     public GameObject Grass;
     public GameObject Parking;
 
-    private HashSet<int> wall_pos_set ;
+    private HashSet<int> wall_pos_set;
+    private HashSet<int> car_pos_set = new HashSet<int>();
+    public List<GameObject> cars;
     private Vector3 exitPos;
     private Vector3 entranceBarrierPos;
 
@@ -37,6 +56,12 @@ public class MapCreater : MonoBehaviour
     // Left top position
     public int left_top_x = -5;
     public int left_top_y = 4;
+
+    // Var for generating car
+    private int nextNameNumber=0;
+    private int objNameNumber=0;
+    private float leftOffSet = -0.5f;
+    private float rightOffSet = 0.5f;
 
     private void Awake()
     {
@@ -77,6 +102,7 @@ public class MapCreater : MonoBehaviour
                 {
                     GameObject entry = Instantiate(Entry, cell_pos, Quaternion.identity);
                     entranceBarrierPos = new Vector3(row_pos, col_pos);
+                    Debug.Log(entranceBarrierPos);
                 }
                 else if (row[i] == 'O') //Exit
                 {
@@ -99,10 +125,71 @@ public class MapCreater : MonoBehaviour
             }
             row_pos++;
         }
+
+        createCar();
+    }
+
+    //wait one second to generated new car
+    private IEnumerator WaitForASecond(){
+            yield return new WaitForSeconds(1f);
+            createCar();
+    }
+
+    private IEnumerator WaitForAnotherSecond(){
+            yield return new WaitForSeconds(1f);
+            createCar();
+    }
+
+    //create new car if car at initial position has moved
+    void Update(){
+        // Wait for Creating Car
+        if(cars.Count==0 || objNameNumber + 1 > cars.Count){
+            return;
+        }
+
+        //check if later created cars have moved
+        if(cars[objNameNumber].transform.position != entranceBarrierPos &&
+        cars[objNameNumber].transform.position.x != entranceBarrierPos[0]+1)
+        {
+            StartCoroutine(WaitForASecond());
+            Debug.Log(nextNameNumber.ToString());
+            objNameNumber++;
+        }
+    }
+
+    //create new car objects
+    private GameObject createCar(){
+        GameObject newCar = Instantiate(car) as GameObject;
+        //store initial left side and right side locatioins of cars into hash set
+        newCar.transform.position = entranceBarrierPos;
+        float startLeft = newCar.transform.position.x + leftOffSet;
+        float startRight = newCar.transform.position.x + rightOffSet;
+        float startY = newCar.transform.position.y;
+        car_pos_set.Add(TwoDToOneD((int)startLeft, (int)startY));
+        car_pos_set.Add(TwoDToOneD((int)startRight, (int)startY));
+        newCar.SetActive(true);
+        cars.Add(newCar);
+        newCar.name = "ACarObject"+nextNameNumber;
+        nextNameNumber++;
+        return newCar;
     }
 
     public HashSet<int> getWallPosSet() {
         return wall_pos_set;
+    }
+
+    public HashSet<int> getCarsPosSet() {
+        return car_pos_set;
+    }
+
+    public void removeCars(int x, int y){
+      Debug.Log(TwoDToOneD(x,y));
+      car_pos_set.Remove(TwoDToOneD(x,y));
+    }
+
+    public void addCars(int x, int y){
+      Debug.Log(TwoDToOneD(x,y));
+      car_pos_set.Add(TwoDToOneD(x,y));
     }
 
     public Vector3 getExitPos() {
