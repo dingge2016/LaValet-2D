@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CarControl : MonoBehaviour
 { // Map.
-    private MapCreater myMap;
+    protected MapCreater myMap;
     private Vector3 offset;
     private Vector3 newPosition;
 
@@ -150,7 +150,7 @@ public class CarControl : MonoBehaviour
         myMap = FindObjectOfType<MapCreater>();
     }
 
-    bool isCar(int x, int y){
+    protected bool isCar(int x, int y){
         if (myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y))){
           myMap.printCarPos();
         }
@@ -158,7 +158,7 @@ public class CarControl : MonoBehaviour
     }
 
 
-    bool isWall(int x, int y)
+    protected bool isWall(int x, int y)
     {
         return myMap.getWallPosSet().Contains(myMap.TwoDToOneD(x, y));
     }
@@ -172,7 +172,7 @@ public class CarControl : MonoBehaviour
         }
 
     }
-    bool isExit(int x, int y)
+    protected bool isExit(int x, int y)
     {
         Vector3 exitPos = myMap.getExitPos();
         if (exitPos[0] == x && exitPos[1] == y ){
@@ -182,13 +182,5 @@ public class CarControl : MonoBehaviour
         return false;
     }
 
-    bool isEntranceBarrier(int x, int y)
-    {
-        Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
-        if (entranceBarrierPos[0] == x && entranceBarrierPos[1] == y)
-        {
-            return true;
-        }
-        return false;
-    }
+  
 }
