@@ -8,7 +8,9 @@ public class trainController : CarControl {
     private float width;
     private float height;
     private float gridLength = 1;
-    List<int> carPositions;
+    private int TopLeft_x;
+    private int TopLeft_y;
+    private List<int> carPositions;
     void Start()
     {
         horizonalDirection = gameObject.transform.rotation.x == 0;
@@ -16,18 +18,19 @@ public class trainController : CarControl {
         height =Mathf.Ceil(gameObject.transform.localScale.y);
 
 
-        float TopLeft_x = gameObject.transform.position.x - (float)width / 2 + gridLength/2;
-        float TopLeft_y = gameObject.transform.position.y - (float)height / 2 + gridLength/2;
+        TopLeft_x = (int)(gameObject.transform.position.x - (float)width / 2 + gridLength/2);
+        TopLeft_y = (int)(gameObject.transform.position.y - (float)height / 2 + gridLength/2);
         for (int i = 0; i < (int)width; i++)
         {
             for (int j = 0; j < (int)height; j++)
             {
              //   carPositions.Add(mySet.TwoDToOneD((int)TopLeft_x+i, (int)TopLeft_y+j));
+             //myMap(
+                myMap.addCars(TopLeft_x + i, TopLeft_y + j);
                 Debug.Log(TopLeft_x + i);
                 Debug.Log(TopLeft_y + j);
             }
         }
-
 
     }
 
@@ -60,10 +63,41 @@ public class trainController : CarControl {
         if (dx == 0 && dy == 0)
             return;
 
-        float nx = gameObject.transform.position.x + dx + centerOffset;
-        int ny = (int)gameObject.transform.position.y + dy;
+        
+        int next_x, next_y;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                next_x = TopLeft_x + i + dx;
+                next_y = TopLeft_y + j + dy;
+                if (isWall(next_x, next_y) || isExit(next_x, next_y))
+                {
+                    return;
+                }
+            }
+        }
 
+        float nx = gameObject.transform.position.x + dx + centerOffset;
+        float ny = gameObject.transform.position.y + dy;
         transform.position = new Vector3(nx, ny);
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                myMap.removeCars(TopLeft_x + i, TopLeft_y + j);
+            }
+        }
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                myMap.addCars(TopLeft_x + i + dx, TopLeft_y + j + dy);
+            }
+        }
+
+
 
 
     }
