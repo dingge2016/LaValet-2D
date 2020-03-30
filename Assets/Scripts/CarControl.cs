@@ -23,15 +23,7 @@ public class CarControl : MonoBehaviour
     public Text countdownText;
     bool minusTip;
 
-    public bool touchStart = false;
-    public Vector3 pointA;
-    public Vector3 pointB;
-    public string name;
-
-    public Control control;
-    public Vector3 originalPos;
     // Update is called once per frame
-
     void Update()
     {
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
@@ -40,76 +32,14 @@ public class CarControl : MonoBehaviour
             GameManager.totalTips -= 5;
             minusTip = true;
         }
-
-
-         //use raycast to select car
-        if (Input.GetMouseButtonDown(0)){
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = 10;
-
-            Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-            RaycastHit2D hit = Physics2D.Raycast(screenPos,Vector2.zero);
-
-            //click on the car that needs to moved
-            //when raycast hits cars
-            if(hit)
-            {
-                //save the name of the clicked car
-                name = hit.collider.name;
-            }
-        }
-
-            //if name of the clicked car is same as the gameobject that this script is attached to, move the car
-            if(name==this.gameObject.name){
-                //returns true during the frame the mouse is pressed down
-                if(Input.GetMouseButtonDown(0)){
-                    //obtain original position
-                    pointA = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                    control.circle.transform.position = originalPos;
-                }
-                //mouse is held down
-                if(Input.GetMouseButton(0)){
-                    touchStart = true;
-                    //obtain final position
-                    pointB = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                }
-                else{
-                    touchStart = false;
-                }
-            }
-
-    }
-
-    //updated edit->projectsettings->fixed timestep to 0.1 (originally 0.02), changed sensitivity so car doesn't move too fast
-    private void FixedUpdate(){
-        if(touchStart){
-            //calculate how much car has moved
-            Vector3 offset = pointB-pointA;
-            movetheSelectedCar(offset);
-            //limit movement to 1.0f so that button doesn't go out of joystick
-            Vector3 direction = Vector3.ClampMagnitude(offset,1.0f);
-            control.circle.transform.position = new Vector3(originalPos.x + direction.x, originalPos.y + direction.y, 0);
-        }
-        /*
-        else{
-            control.circle.transform.position = originalPos;
-        }
-        */
     }
     /* car timer */
 
-    /*
     void OnMouseDown()
     {
 
-        //obtain world position of game object
-        //subtract mouse position from game object position
-        //offset is how much mouse's position differs from object's position
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-
     }
-    */
 
 
     protected KeyValuePair<int, int> flattenDiff(float diffx, float diffy)
@@ -131,14 +61,8 @@ public class CarControl : MonoBehaviour
 
     public virtual void movetheSelectedCar(Vector3 curPosition)
     {
-        //float diffx = curPosition.x - transform.position.x;
-        //float diffy = curPosition.y - transform.position.y;
-
-        //changed diffx and diffy
-        float diffx = curPosition.x;
-        //Debug.Log("diffx" + diffx);
-        float diffy = curPosition.y;
-        //Debug.Log("diffy" + diffy);
+        float diffx = curPosition.x - transform.position.x;
+        float diffy = curPosition.y - transform.position.y;
 
         var dxAndDy = flattenDiff(diffx, diffy);
 
@@ -149,7 +73,6 @@ public class CarControl : MonoBehaviour
 
         // the position of left side of the car
         float leftx = transform.position.x + dx + leftOffset;
-        //Debug.Log("transform.position.x" + transform.position.x);
         // the position of right side of the car
         float rightx = transform.position.x + dx + rightOffset;
         float nx = transform.position.x + dx + centerOffset;
@@ -169,16 +92,15 @@ public class CarControl : MonoBehaviour
 
         if (dx == 1 && isCar((int)rightx, ny)) {
             // Debug.Log("dx == 1 :" , rightx, ny);
-            //Debug.Log("there is a car1");
             return;
         } else if (dx == -1 && isCar((int)leftx, ny)) {
             // Debug.Log("dx == -1", leftx, ny);
-            //Debug.Log("there is a car2");
             return;
 
         }
         else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
         { // when car move up or move down
+          // Debug.Log('dx')
             return;
         }
 
@@ -206,16 +128,13 @@ public class CarControl : MonoBehaviour
         Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
     }
 
-    /*
     void OnMouseDrag()
     {
-        //new position
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        //move the car to mouse's new position
         movetheSelectedCar(curPosition);
+
     }
-    */
 
 
     void moveCar(float nx, int ny, int rightx, int leftx){
@@ -225,6 +144,7 @@ public class CarControl : MonoBehaviour
         int newRightX = (int)(oldLocation.x+rightOffset);
         myMap.removeCars(newLeftX,(int)oldLocation.y);
         myMap.removeCars(newRightX,(int)oldLocation.y);
+
         //add new loc
         myMap.addCars((int)leftx,ny);
         myMap.addCars((int)rightx,ny);
@@ -236,13 +156,12 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        control = FindObjectOfType<Control>();
-        //original pos of joystick button
-        originalPos = new Vector3(-7.0f,0.5f,0f);
-        //Debug.Log("pos of circle when awake " + originalPos);
     }
 
     protected bool isCar(int x, int y){
+        if (myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y))){
+          myMap.printCarPos();
+        }
         return myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y));
     }
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CarTimer : MonoBehaviour
 {
 
-    public float currentTime;
+    public float currentTime = 0f;
     float startTime = 0f;
     public Text countdownText;
 
@@ -14,14 +14,14 @@ public class CarTimer : MonoBehaviour
     private float removeCarTime;
     public float minTime, maxTime;
 
+
     void Start()
     {
-        if (currentTime == 0f){
-          startTime = Random.Range(minTime, maxTime);
-          currentTime = startTime;
-        }
+        startTime = Random.Range(minTime, maxTime);
+        currentTime = startTime;
 
         //Get the renderer of the object so we can access the color
+
         removeCarTime = gameObject.GetComponent<CarControl>().timeToRemoveTheCar;
         rend = gameObject.GetComponent<Renderer>();   // color
         rend.material.color = Color.green;
