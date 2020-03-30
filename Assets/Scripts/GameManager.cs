@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
     private string[] propsName;
     private bool[] propsStatus;
     // judge whether the scence is initialized to avoid unnecessary computation.
-    private bool enterStore;
-    private bool startGame;
     private bool finishGame;
     private bool finishDialogues;
     private bool destroyStore;
@@ -31,9 +29,7 @@ public class GameManager : MonoBehaviour
         totalTips = 0;
         destroyStore = false;
         finishDialogues = false;
-        startGame = false;
         finishGame = false;
-        enterStore = false;
         propsPrice = new int[] {1};
         propsName = new string[] { "Increasing game time" };
         propsStatus = new bool[] { false };
@@ -84,9 +80,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Waiting for Instruction Dialogue Finish
-        if (myDia.getFinishFlag()){
-          setCarObjectStatus(true);
-        } else {
+        if (!myDia.getFinishFlag()){
           return;
         }
 
