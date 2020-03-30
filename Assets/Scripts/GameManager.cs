@@ -24,24 +24,15 @@ public class GameManager : MonoBehaviour
     private bool finishGame;
     private bool finishDialogues;
     private bool destroyStore;
-
-    // for prop2 : double Tips for 5 second
-    public GameObject doubleTipsPropButtion;
-    private float doubleTipsEndTime;
-    public bool duringDoubleTipsTime;
     void Start()
     {
-        duringDoubleTipsTime = false;
-        PlayerPrefs.SetInt("coins", 5);
         totalTips = 0;
         destroyStore = false;
         finishDialogues = false;
         finishGame = false;
-        enterStore = false;
-        propsPrice = new int[] {1,1,1};
-        propsName = new string[] { "Increasing game time", "Car Bomb", "Double Tips for 5 second" };
-        propsStatus = new bool[] { false, false, false };
-
+        propsPrice = new int[] {1};
+        propsName = new string[] { "Increasing game time" };
+        propsStatus = new bool[] { false };
         GameObject.Find("Canvas/tipsGoal").GetComponent<Text>().text = "Tips Goal: " + requireTip.ToString();
         currentTime = totalTime;
         myDia = FindObjectOfType<DialogueManager>();
@@ -110,15 +101,6 @@ public class GameManager : MonoBehaviour
         }
         //Tips Display
         GameObject.Find("Canvas/tipsText").GetComponent<Text>().text = "Tips:" + totalTips.ToString();
-
-
-        if (currentTime < doubleTipsEndTime)
-        {
-            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = new Color(70f/255f, 70f / 255f, 70f / 255f);
-            duringDoubleTipsTime = false;
-            doubleTipsPropButtion.SetActive(false);
-        }
-
     }
 
     public void EndGame()
@@ -176,24 +158,6 @@ public class GameManager : MonoBehaviour
             currentTime += 15;
         }
 
-        if (propId == 2)
-        {
-            doubleTipsPropButtion.SetActive(true);
-        }
-
-
-    }
-
-    // onclick function for the prop2 : double tips for 5s
-    public void doubleTipsfor5s()
-    {
-        if (propsStatus[2])
-        {
-            duringDoubleTipsTime = true;
-            doubleTipsEndTime = currentTime - 5;
-            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =  new Color(100f / 255f, 0f / 255f, 0f / 255f);
-            propsStatus[2] = false;
-        }
 
     }
     public void Restart()
