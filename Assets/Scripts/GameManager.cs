@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         destroyStore = false;
         finishDialogues = false;
         finishGame = false;
+        enterStore = false;
         propsPrice = new int[] {1,1,1};
         propsName = new string[] { "Increasing game time", "Car Bomb", "Double Tips for 5 second" };
         propsStatus = new bool[] { false, false, false };
