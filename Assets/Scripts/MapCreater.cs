@@ -32,6 +32,7 @@ public class MapCreater : MonoBehaviour
   //  "D....U",
   //  ".RORR."
   //  };
+    protected DialogueManager myDia;
     public GameObject Upwall;
     public GameObject Downwall;
     public GameObject Leftwall;
@@ -49,6 +50,7 @@ public class MapCreater : MonoBehaviour
 
     private HashSet<int> wall_pos_set;
     private HashSet<int> car_pos_set = new HashSet<int>();
+    private HashSet<int> train_pos_set = new HashSet<int>();
     public List<GameObject> cars;
     private Vector3 exitPos;
     private Vector3 entranceBarrierPos;
@@ -137,8 +139,9 @@ public class MapCreater : MonoBehaviour
             }
             row_pos++;
         }
-
+        myDia = FindObjectOfType<DialogueManager>();
         createCar();
+
     }
 
     //wait one second to generated new car
@@ -154,19 +157,23 @@ public class MapCreater : MonoBehaviour
 
     //create new car if car at initial position has moved
     void Update(){
-        // Wait for Creating Car
-        if(cars.Count==0 || objNameNumber + 1 > cars.Count){
-            return;
-        }
+      // Wait for dialogue finish
+      if(!myDia.getFinishFlag()){
+          return;
+      }
 
-        //check if later created cars have moved
-        if(cars[objNameNumber].transform.position != startPos &&
-        cars[objNameNumber].transform.position.x != startPos[0]+1)
-        {
-            StartCoroutine(WaitForASecond());
-           // Debug.Log(nextNameNumber.ToString());
-            objNameNumber++;
-        }
+      // Wait for Creating Car
+      if(cars.Count==0 || objNameNumber + 1 > cars.Count){
+          return;
+      }
+
+      //check if later created cars have moved
+      if(!cars[objNameNumber] || (cars[objNameNumber].transform.position != startPos &&
+      cars[objNameNumber].transform.position.x != startPos[0]+1))
+      {
+          StartCoroutine(WaitForASecond());
+          objNameNumber++;
+      }
     }
 
     //create new car objects
@@ -183,6 +190,9 @@ public class MapCreater : MonoBehaviour
         newCar.SetActive(true);
         cars.Add(newCar);
         newCar.name = "ACarObject"+nextNameNumber;
+        if (nextNameNumber == 0){
+          FindObjectOfType<CarTimer>().currentTime = 15.0f;
+        }
         nextNameNumber++;
         return newCar;
     }
@@ -195,6 +205,10 @@ public class MapCreater : MonoBehaviour
         return car_pos_set;
     }
 
+    public HashSet<int> getTrainsPosSet() {
+        return train_pos_set;
+    }
+
     public void removeCars(int x, int y){
       car_pos_set.Remove(TwoDToOneD(x,y));
     }
@@ -203,6 +217,13 @@ public class MapCreater : MonoBehaviour
       car_pos_set.Add(TwoDToOneD(x,y));
     }
 
+    public void removeTrains(int x, int y){
+      train_pos_set.Remove(TwoDToOneD(x,y));
+    }
+
+    public void addTrains(int x, int y){
+      train_pos_set.Add(TwoDToOneD(x,y));
+    }
 
     public Vector3 getExitPos() {
         return exitPos;
@@ -219,14 +240,24 @@ public class MapCreater : MonoBehaviour
       foreach( int pos in getCarsPosSet()){
         tmp += oneDToTwoD(pos);
       }
-    //  Debug.Log(tmp);
+      Debug.Log(tmp);
     }
 
+    public void printTrainsPos(){
+      string tmp = "";
+      foreach( int pos in getTrainsPosSet()){
+        tmp += oneDToTwoD(pos);
+      }
+      Debug.Log(tmp);
+    }
+
+
     public int TwoDToOneD(int x, int y) {
-        return SIZE * x + y;
+        return SIZE * (x + 100) + (y + 100);
     }
 
     public string oneDToTwoD(int X) {
-        return "(" + ((int)X/SIZE).ToString() + "," + (X%SIZE).ToString()+ ")";
+
+        return "(" + ((int)X/SIZE - 100).ToString() + "," + (X%SIZE - 100).ToString()+ ")";
     }
 }

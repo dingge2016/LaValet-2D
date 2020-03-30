@@ -100,7 +100,6 @@ public class CarControl : MonoBehaviour
         }
         else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
         { // when car move up or move down
-          // Debug.Log('dx')
             return;
         }
 
@@ -159,9 +158,6 @@ public class CarControl : MonoBehaviour
     }
 
     protected bool isCar(int x, int y){
-        if (myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y))){
-          myMap.printCarPos();
-        }
         return myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y));
     }
 

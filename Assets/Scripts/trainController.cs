@@ -23,21 +23,17 @@ public class trainController : CarControl {
         {
             width = Mathf.Ceil(gameObject.transform.localScale.y);
             height = Mathf.Ceil(gameObject.transform.localScale.x);
-
         }
 
+        TopLeft_x = (int)(gameObject.transform.position.x - (float)width / 2 + gridLength / 2);
+        TopLeft_y = (int)(gameObject.transform.position.y - (float)height / 2 + gridLength / 2);
 
-            TopLeft_x = (int)(gameObject.transform.position.x - (float)width / 2 + gridLength / 2);
-        TopLeft_y = (int)(gameObject.transform.position.y - (float)height / 2 + gridLength/2);
         for (int i = 0; i < (int)width; i++)
         {
             for (int j = 0; j < (int)height; j++)
             {
-             //   carPositions.Add(mySet.TwoDToOneD((int)TopLeft_x+i, (int)TopLeft_y+j));
-             //myMap(
+                myMap.addTrains(TopLeft_x + i, TopLeft_y + j);
                 myMap.addCars(TopLeft_x + i, TopLeft_y + j);
-                Debug.Log(TopLeft_x + i);
-                Debug.Log(TopLeft_y + j);
             }
         }
 
@@ -48,6 +44,7 @@ public class trainController : CarControl {
     {
 
     }
+
     public override void movetheSelectedCar(Vector3 curPosition)
     {
 
@@ -70,7 +67,7 @@ public class trainController : CarControl {
         if (dx == 0 && dy == 0)
             return;
 
-        
+
         int next_x, next_y;
 
         TopLeft_x = (int)(gameObject.transform.position.x - (float)width / 2 + gridLength / 2);
@@ -82,17 +79,10 @@ public class trainController : CarControl {
             {
                 next_x = TopLeft_x + i + dx;
                 next_y = TopLeft_y + j + dy;
-               
-                
+
+
                 if ((dx == 1 && i == width -1) || (dx == -1 && i == 0) || (dy == 1 && j == height-1) || (dy == -1 && j == 0))
                 {
-
-                    Debug.Log("dx: " + dx + " dy: " + dy + " next: " + next_x.ToString() + " " + next_y.ToString());
-                    Debug.Log(isWall(next_x, next_y));
-                    Debug.Log(isCar(next_x, next_y));
-                    Debug.Log(isExit(next_x, next_y));
-
-
                     if (isWall(next_x, next_y) || isCar(next_x, next_y) || isExit(next_x, next_y))
                     {
                         return;
@@ -110,6 +100,7 @@ public class trainController : CarControl {
         {
             for (int j = 0; j < height; j++)
             {
+                myMap.removeTrains(TopLeft_x + i, TopLeft_y + j);
                 myMap.removeCars(TopLeft_x + i, TopLeft_y + j);
             }
         }
@@ -117,6 +108,7 @@ public class trainController : CarControl {
         {
             for (int j = 0; j < height; j++)
             {
+                myMap.addTrains(TopLeft_x + i + dx, TopLeft_y + j + dy);
                 myMap.addCars(TopLeft_x + i + dx, TopLeft_y + j + dy);
             }
         }
