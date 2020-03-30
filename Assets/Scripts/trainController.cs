@@ -99,11 +99,14 @@ public class trainController : CarControl {
         float diff_x = 0, diff_y = 0;
         if (horizonalDirection) // the train can be moved horizonally
         {
-            diff_x = curPosition.x - gameObject.transform.position.x;
+            //changed diff_x and diff_y to work with joystick control
+            diff_x = curPosition.x;
+           //diff_x = curPosition.x - gameObject.transform.position.x;
         }
         else  // the train can be moved vertically
         {
-           diff_y = curPosition.y - gameObject.transform.position.y;
+            diff_y = curPosition.y;
+           //diff_y = curPosition.y - gameObject.transform.position.y;
         }
 
         var dxAndDy = flattenDiff(diff_x, diff_y);
