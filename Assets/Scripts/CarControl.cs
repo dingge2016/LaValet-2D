@@ -228,7 +228,7 @@ public class CarControl : MonoBehaviour
         //add new loc
         myMap.addCars((int)leftx,ny);
         myMap.addCars((int)rightx,ny);
-        transform.position = new Vector3(nx, ny,-2);
+        transform.position = new Vector3(nx, ny);
     }
 
 
@@ -256,9 +256,7 @@ public class CarControl : MonoBehaviour
     {
         if (currentTime > timeToGivePenalty)
         {
-            if (GameObject.Find("GameManager").GetComponent<GameManager>().duringDoubleTipsTime)
-                GameManager.totalTips += 20;
-            else GameManager.totalTips += 10; 
+            GameManager.totalTips += 10;
 
         }
 
