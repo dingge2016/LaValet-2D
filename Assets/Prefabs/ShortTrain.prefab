@@ -121,3 +121,5 @@ MonoBehaviour:
   timeToRemoveTheCar: 0
   timeToGivePenalty: 0
   countdownText: {fileID: 0}
+  touch: {fileID: 0}
+  threshold: {fileID: 0}
