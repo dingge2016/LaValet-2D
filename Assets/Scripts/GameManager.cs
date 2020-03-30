@@ -184,9 +184,9 @@ public class GameManager : MonoBehaviour
 
     // onclick function for the prop2 : double tips for 5s
     public void doubleTipsfor5s()
-    {
+    { 
         if (propsStatus[2])
-        {
+        {  
             duringDoubleTipsTime = true;
             doubleTipsEndTime = currentTime - 5;
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = new Color(100f / 255f, 0f / 255f, 0f / 255f);
