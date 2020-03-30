@@ -74,6 +74,9 @@ public class DialogueManager : MonoBehaviour
     }
 
     public bool getFinishFlag(){
+      if (finishDialogues){
+        enabled = false;
+      }
       return finishDialogues;
     }
 
