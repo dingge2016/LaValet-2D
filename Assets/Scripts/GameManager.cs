@@ -7,13 +7,12 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    protected DialogueManager myDia;
     public static float totalTips = 0;
     public int totalTime;
     public GameObject winUI;
     public GameObject loseUI;
     public GameObject storeUI;
-    public GameObject dialogueUI;
+    public GameObject instructionUI;
     public int requireTip = 5;
     private float currentTime = 0f;
     // props related variable
@@ -21,8 +20,9 @@ public class GameManager : MonoBehaviour
     private string[] propsName;
     private bool[] propsStatus;
     // judge whether the scence is initialized to avoid unnecessary computation.
+    private bool enterStore;
     private bool finishGame;
-    private bool finishDialogues;
+    private bool destroyInstruction;
     private bool destroyStore;
 
 
@@ -37,61 +37,60 @@ public class GameManager : MonoBehaviour
         duringDoubleTipsTime = false;
         PlayerPrefs.SetInt("coins", 5);
         totalTips = 0;
+        destroyInstruction = false;
         destroyStore = false;
-        finishDialogues = false;
         finishGame = false;
         propsPrice = new int[] { 1, 1, 1 };
         propsName = new string[] { "Increasing game time", "Car Bomb", "Double Tips for 5 second" };
         propsStatus = new bool[] { false, false, false };
         GameObject.Find("Canvas/tipsGoal").GetComponent<Text>().text = "Tips Goal: " + requireTip.ToString();
         currentTime = totalTime;
-        myDia = FindObjectOfType<DialogueManager>();
 
+    }
+
+    public void EnterStoreButton(){
+        Destroy(instructionUI);
+        destroyInstruction = true;
         storeUI.SetActive(true);
         int curCoin = PlayerPrefs.GetInt("coins", 0);
         GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();
-
-        //Disable Car & Dialogue
-        (GameObject.Find("DialogueManager").GetComponent("DialogueManager") as MonoBehaviour).enabled = false;
-        setCarObjectStatus(false);
     }
 
     public void ClickEnterGameButton()
     {
-        //Enter Game From Store
-        dialogueUI.SetActive(true);
+        setCarObjectStatus(true);
         Destroy(storeUI);
         destroyStore = true;
     }
 
+    // disable store before entering game
+    // !!!error: cannot enabled carcontrol
     void setCarObjectStatus(bool status)
     {
-        if (GameObject.Find("ACarObject0")){
-          (GameObject.Find("ACarObject0").GetComponent("CarTimer") as MonoBehaviour).enabled = status;
-          (GameObject.Find("ACarObject0").GetComponent("CarControl") as MonoBehaviour).enabled = status;
-        }
+        enabled = status;
+        (GameObject.Find("ACarObject0").GetComponent("CarTimer") as MonoBehaviour).enabled = status;
+        (GameObject.Find("ACarObject0").GetComponent("CarControl") as MonoBehaviour).enabled = status;
     }
-
     void Update()
     {
-        // Waiting for Game Finish
-        if (finishGame){
-          setCarObjectStatus(false);
-          return;
-        }
-
-        // Waiting for Store Finish
-        if (!destroyStore)//Inside Store
-        {
+        if (finishGame)
             return;
-        } else {
-          (GameObject.Find("DialogueManager").GetComponent("DialogueManager") as MonoBehaviour).enabled = true;
-          setCarObjectStatus(true);
+
+        if (!destroyInstruction)
+        {
+            storeUI.SetActive(false);
+            setCarObjectStatus(false);
+            return;
+
         }
 
-        // Waiting for Instruction Dialogue Finish
-        if (!myDia.getFinishFlag()){
-          return;
+
+
+        if (!destroyStore && !enterStore)
+        {
+            enterStore = true;
+
+            setCarObjectStatus(false);
         }
 
         //Time Display
@@ -133,6 +132,7 @@ public class GameManager : MonoBehaviour
             // Reach new level
             int reachLevel = PlayerPrefs.GetInt("curLevel", 1);
             int curLevel = SceneManager.GetActiveScene().buildIndex - 1;
+            Debug.Log(curLevel);
             PlayerPrefs.SetInt("curLevel", Mathf.Min(curLevel, reachLevel) + 1);
         }
         else
