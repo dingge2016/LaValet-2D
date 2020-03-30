@@ -121,6 +121,7 @@ public class MapCreater : MonoBehaviour
                 {
                     Instantiate(Ground, cell_pos, Quaternion.identity);
                 }
+                
                 else if (row[i] == 'V')
                 {
                     Instantiate(VerticalTrack, cell_pos, Quaternion.identity);
