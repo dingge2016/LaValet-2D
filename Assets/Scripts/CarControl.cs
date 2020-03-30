@@ -28,7 +28,7 @@ public class CarControl : MonoBehaviour
     public Vector3 pointB;
     public string name;
 
-    public JoyStick control;
+    public Control control;
     public Vector3 originalPos;
     // Update is called once per frame
 
@@ -236,7 +236,7 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        control = FindObjectOfType<JoyStick>();
+        control = FindObjectOfType<Control>();
         //original pos of joystick button
         originalPos = new Vector3(-7.0f,0.5f,0f);
         //Debug.Log("pos of circle when awake " + originalPos);

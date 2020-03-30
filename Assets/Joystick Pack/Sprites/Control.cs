@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //used to connect joystick sprites
-public class JoyStick : MonoBehaviour
+public class Control : MonoBehaviour
 {
 
     public Transform circle;
