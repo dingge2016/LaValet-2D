@@ -5,33 +5,6 @@ using UnityEngine;
 public class MapCreater : MonoBehaviour
 {
     public string[] map;
-  //  {
-  //  "###UID###",
-  //  "#LLL.LLL#",
-  //  "UP.....PD",
-  //  "U.......D",
-  //  "U.U..DD.D",
-  //  "U.U...D.D",
-  //  "U.U.P...D",
-  //  "U.U.D...D",
-  //  "U...DDD.D",
-  //  "U.......D",
-  //  "U.U.....D",
-  //  "UPU....PD",
-  //  "#RRR.RRR#",
-  //  "###UOD###",
-  //  "#########"
-
-
-  //  ".LLLIU",
-  //  "D....U",
-  //  "D....U",
-  //  "D....U",
-  //  "D....U",
-  //  "D....U",
-  //  "D....U",
-  //  ".RORR."
-  //  };
     protected DialogueManager myDia;
     public GameObject Upwall;
     public GameObject Downwall;
@@ -51,6 +24,7 @@ public class MapCreater : MonoBehaviour
     private HashSet<int> wall_pos_set;
     private HashSet<int> car_pos_set = new HashSet<int>();
     private HashSet<int> train_pos_set = new HashSet<int>();
+    public List<KeyValuePair<int, int>> gate_lot_pos = new List<KeyValuePair<int, int>>();
     public List<GameObject> cars;
     private Vector3 exitPos;
     private Vector3 entranceBarrierPos;
@@ -108,7 +82,7 @@ public class MapCreater : MonoBehaviour
                 {
                     GameObject entry = Instantiate(Entry, cell_pos, Quaternion.identity);
                     entranceBarrierPos = new Vector3(row_pos, col_pos);
-          //          Debug.Log(entranceBarrierPos);
+                    //          Debug.Log(entranceBarrierPos);
                 }
                 else if (row[i] == 'O') //Exit
                 {
@@ -123,7 +97,13 @@ public class MapCreater : MonoBehaviour
                 {
                     Instantiate(Ground, cell_pos, Quaternion.identity);
                 }
-                
+
+                else if (row[i] == 'P') //Special Lot
+                {
+                    Instantiate(Parking, cell_pos, Quaternion.identity);
+                    gate_lot_pos.Add(new KeyValuePair<int, int>(row_pos, col_pos));
+                }
+
                 else if (row[i] == 'V')
                 {
                     Instantiate(VerticalTrack, cell_pos, Quaternion.identity);
@@ -143,6 +123,13 @@ public class MapCreater : MonoBehaviour
         myDia = FindObjectOfType<DialogueManager>();
         createCar();
 
+        ////check gate lots position
+        //foreach (var item in gate_lot_pos)
+        //{
+        //    Debug.Log(item);
+        //    Debug.Log(item.Key);
+        //    Debug.Log(item.Value);
+        //}
     }
 
     //wait one second to generated new car

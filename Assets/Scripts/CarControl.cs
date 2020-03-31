@@ -8,6 +8,7 @@ public class CarControl : MonoBehaviour
     protected MapCreater myMap;
     private Vector3 offset;
     private Vector3 newPosition;
+    GameObject gate;
 
     private float leftOffset = -0.5f;
     private float rightOffset = 0.5f;
@@ -229,9 +230,43 @@ public class CarControl : MonoBehaviour
         myMap.addCars((int)leftx,ny);
         myMap.addCars((int)rightx,ny);
         transform.position = new Vector3(nx, ny, -2);
+        carInLot((int)leftx, (int)rightx, ny);
     }
 
+    // determine if the car park in the special gate lot
+    public void carInLot(int carLeftX, int carRightX, int carY)
+    {
+        // check == 1, half car in gate lot; check == 2, full car in gate lot
+        int check = 0;
+        string tagText = "";
+        foreach (var lot in myMap.gate_lot_pos)
+        {
+            if (lot.Key == carLeftX && lot.Value == carY)
+            {
+                check++;
+            }
+            if (lot.Key == carRightX && lot.Value == carY)
+            {
+                check++;
+            }
+            if (check == 2)
+            {
+                tagText = posToTag(carLeftX) + posToTag(carRightX) + posToTag(carY);
+                gate = GameObject.FindWithTag(tagText);
+                gate.SetActive(false);
+            }
+        }
+    }
 
+    // conversion for matching gate tag
+    public string posToTag(int pos)
+    {
+        if (pos >= 0)
+        {
+            return "+" + pos;
+        }
+        return "" + pos;
+    }
 
     private void Awake()
     {
