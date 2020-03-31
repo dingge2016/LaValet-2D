@@ -8,7 +8,9 @@ public class CarControl : MonoBehaviour
     protected MapCreater myMap;
     private Vector3 offset;
     private Vector3 newPosition;
-    GameObject gate;
+    public List<string> allGates = new List<string>();
+    public GameObject gateOne;
+    public GameObject gateTwo;
 
     private float leftOffset = -0.5f;
     private float rightOffset = 0.5f;
@@ -32,6 +34,12 @@ public class CarControl : MonoBehaviour
     public Control control;
     public Vector3 originalPos;
     // Update is called once per frame
+
+    void Start()
+    {
+        allGates.Add("+0+1+3");
+        allGates.Add("+0+1-3");
+    }
 
     void Update()
     {
@@ -255,22 +263,18 @@ public class CarControl : MonoBehaviour
             if (check == 2)
             {
                 tagText = posToTag(carLeftX) + posToTag(carRightX) + posToTag(carY);
-                gate = GameObject.FindWithTag(tagText);
-                gate.SetActive(false);
-                break;
+                closeGate(tagText);
             }
         }
         if (check == 1 && string.Equals(halfCar, "leftcar"))
         {
             tagText = posToTag(carLeftX - 1) + posToTag(carRightX - 1) + posToTag(carY);
-            gate = GameObject.FindWithTag(tagText);
-            gate.SetActive(true);
+            openGate(tagText);
         }
         else if (check == 1 && string.Equals(halfCar, "rightcar"))
         {
             tagText = posToTag(carLeftX + 1) + posToTag(carRightX + 1) + posToTag(carY);
-            gate = GameObject.FindWithTag(tagText);
-            gate.SetActive(true);
+            openGate(tagText);
         }
     }
 
@@ -282,6 +286,32 @@ public class CarControl : MonoBehaviour
             return "+" + pos;
         }
         return "" + pos;
+    }
+
+    // close a gate
+    public void closeGate(string tagText)
+    {
+        for (int i = 0; i < allGates.Count; i++)
+        {
+            if (string.Equals(tagText, allGates[i]))
+            {
+                if (i == 0) gateOne.SetActive(false);
+                if (i == 1) gateTwo.SetActive(false);
+            }
+        }
+    }
+
+    // open a gate
+    public void openGate(string tagText)
+    {
+        for (int i = 0; i < allGates.Count; i++)
+        {
+            if (string.Equals(tagText, allGates[i]))
+            {
+                if (i == 0) gateOne.SetActive(true);
+                if (i == 1) gateTwo.SetActive(true);
+            }
+        }
     }
 
     private void Awake()
