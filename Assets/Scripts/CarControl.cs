@@ -239,22 +239,38 @@ public class CarControl : MonoBehaviour
         // check == 1, half car in gate lot; check == 2, full car in gate lot
         int check = 0;
         string tagText = "";
+        string halfCar = "";
         foreach (var lot in myMap.gate_lot_pos)
         {
             if (lot.Key == carLeftX && lot.Value == carY)
             {
                 check++;
+                halfCar = "leftcar";
             }
             if (lot.Key == carRightX && lot.Value == carY)
             {
                 check++;
+                halfCar = "rightcar";
             }
             if (check == 2)
             {
                 tagText = posToTag(carLeftX) + posToTag(carRightX) + posToTag(carY);
                 gate = GameObject.FindWithTag(tagText);
                 gate.SetActive(false);
+                break;
             }
+        }
+        if (check == 1 && string.Equals(halfCar, "leftcar"))
+        {
+            tagText = posToTag(carLeftX - 1) + posToTag(carRightX - 1) + posToTag(carY);
+            gate = GameObject.FindWithTag(tagText);
+            gate.SetActive(true);
+        }
+        else if (check == 1 && string.Equals(halfCar, "rightcar"))
+        {
+            tagText = posToTag(carLeftX + 1) + posToTag(carRightX + 1) + posToTag(carY);
+            gate = GameObject.FindWithTag(tagText);
+            gate.SetActive(true);
         }
     }
 
