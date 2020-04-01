@@ -37,6 +37,8 @@ public class CarControl : MonoBehaviour
 
     void Start()
     {
+        allGates.Add("+0+1+3");
+        allGates.Add("+0+1-3");
         gateOne = GameObject.Find("GateOne");
         gateTwo = GameObject.Find("GateTwo");
     }
