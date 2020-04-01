@@ -40,16 +40,12 @@ public class GameManager : MonoBehaviour
     // for selected car;
     private GameObject selectedCar;
     public GameObject driver;
-
-    // jude the mouse
-    private bool IsMouseDown;
+     
 
 
 
     void Start()
-    {
-
-        IsMouseDown = false;
+    { 
         selectedCar = null;
         duringDoubleTipsTime = false; 
         totalTips = 0;
