@@ -35,7 +35,7 @@ public class CarControl : MonoBehaviour
       public Control control;
       public Vector3 originalPos;
       // Update is called once per frame*/
-       
+
 
     void Start()
     {
@@ -48,7 +48,7 @@ public class CarControl : MonoBehaviour
 
     protected int flattenDiff(float diff)
     {
-        int flattenedDiff = 0; 
+        int flattenedDiff = 0;
 
         if (diff >= 0.7)
             flattenedDiff = 1;
@@ -61,24 +61,21 @@ public class CarControl : MonoBehaviour
 
     public void detectedMouseandMovetheSeletctedCar()
     {
-         
-
-        if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
-        {
-            Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-            //move the car to mouse's new position
-            movetheSelectedCarOrTrain(curPosition);
-
-
-        }
+      //continuly move if in belt
+      if ( myMap.isbeltOn() && isBelt() ){
+        determineMove(+1,0);
+      }// Otherwise use mouse to drag
+      else if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
+      {
+          Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+          Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
+          //move the car to mouse's new position
+          movetheSelectedCarOrTrain(curPosition);
+      }
     }
 
     void Update()
     {
-/*        Debug.Log("------------------");
-        Debug.Log(gameObject);
-        Debug.Log(gameObject.GetComponent<CarTimer>().currentTime);*/
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
         if (currentTime <= timeToGivePenalty && !minusTip)
         {
@@ -88,67 +85,7 @@ public class CarControl : MonoBehaviour
 
         detectedMouseandMovetheSeletctedCar();
 
-        
-
-
-
-        /*       //use raycast to select car
-              if (Input.GetMouseButtonDown(0)){
-                  Vector3 mousePos = Input.mousePosition;
-                  mousePos.z = 10;
-
-                  Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-                  RaycastHit2D hit = Physics2D.Raycast(screenPos,Vector2.zero);
-
-                  //click on the car that needs to moved
-                  //when raycast hits cars
-                  if(hit)
-                  {
-                      //save the name of the clicked car
-                      name = hit.collider.name;
-                  }
-              }
-
-                  //if name of the clicked car is same as the gameobject that this script is attached to, move the car
-                  if(name==this.gameObject.name){
-                      //returns true during the frame the mouse is pressed down
-                      if(Input.GetMouseButtonDown(0)){
-                          //obtain original position
-                          pointA = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                          control.circle.transform.position = originalPos;
-                      }
-                      //mouse is held down
-                      if(Input.GetMouseButton(0)){
-                          touchStart = true;
-                          //obtain final position
-                          pointB = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                      }
-                      else{
-                          touchStart = false;
-                      }
-                  }*/
-
     }
-
-    /*    //updated edit->projectsettings->fixed timestep to 0.1 (originally 0.02), changed sensitivity so car doesn't move too fast
-        private void FixedUpdate(){
-            if(touchStart){
-                //calculate how much car has moved
-                Vector3 offset = pointB-pointA;
-                movetheSelectedCar(offset);
-                //limit movement to 1.0f so that button doesn't go out of joystick
-                Vector3 direction = Vector3.ClampMagnitude(offset,1.0f);
-                control.circle.transform.position = new Vector3(originalPos.x + direction.x, originalPos.y + direction.y, 0);
-            }
-            *//*
-            else{
-                control.circle.transform.position = originalPos;
-            }
-            *//*
-        }
-        *//* car timer */
-
 
     void OnMouseDown()
     {
@@ -157,7 +94,6 @@ public class CarControl : MonoBehaviour
         //subtract mouse position from game object position
         //offset is how much mouse's position differs from object's position
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-
         myGameManager.setSelectedCar(gameObject);
 
     }
@@ -166,17 +102,7 @@ public class CarControl : MonoBehaviour
     {
         float diffx = curPosition.x - transform.position.x;
         float diffy = curPosition.y - transform.position.y;
-        /*
-                //changed diffx and diffy
-                float diffx = curPosition.x;
-                //Debug.Log("diffx" + diffx);
-                float diffy = curPosition.y;
-                //Debug.Log("diffy" + diffy);*/
 
-        /*var dxAndDy = flattenDiff(diffx, diffy);
-
-        int dx = dxAndDy.Key;
-        int dy = dxAndDy.Value;*/
         int dx = flattenDiff(diffx);
         int dy = flattenDiff(diffy);
 
@@ -185,96 +111,87 @@ public class CarControl : MonoBehaviour
 
         if (Mathf.Abs(diffx) >= Mathf.Abs(diffy))
         {
-            if (movetheSelectedCar(curPosition, dx, 0))
+            if (!determineMove(dx, 0))
             {
-                movetheSelectedCar(curPosition, 0, dy);
+                determineMove(0, dy);
             }
         }
         else
         {
-            if (movetheSelectedCar(curPosition, 0, dy))
+            if (!determineMove(0, dy))
             {
-                movetheSelectedCar(curPosition, dx, 0);
+                determineMove(dx, 0);
             }
         }
 
     }
 
-    private bool movetheSelectedCar(Vector3 curPosition, int dx, int dy)
-    {
-
-        if (dx == 0 && dy == 0)
-            return false;
-
-        // the position of left side of the car
-        float leftx = transform.position.x + dx + leftOffset;
-        //Debug.Log("transform.position.x" + transform.position.x);
-        // the position of right side of the car
-        float rightx = transform.position.x + dx + rightOffset;
-        float nx = transform.position.x + dx + centerOffset;
-        int ny = (int)transform.position.y + dy;
-        //Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
-        // in Enter, Can't Go Back
-        Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
-        Vector3 startPos = new Vector3(entranceBarrierPos[0]+ leftOffset, entranceBarrierPos[1]);
-        if (new Vector3(transform.position.x, transform.position.y) == startPos && dx == -1){
+    private bool determineMove(int dx, int dy){
+      if (dx == 0 && dy == 0)
           return false;
-        }
 
-        // detect whether there is a wall in the front part of the car or back part of the car.
-        if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) {
+      // the position of left side of the car
+      float leftx = transform.position.x + dx + leftOffset;
+      float rightx = transform.position.x + dx + rightOffset;
+
+      float nx = transform.position.x + dx + centerOffset;
+      int ny = (int)transform.position.y + dy;
+      if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar)
+      {
           return false;
-        }
+      }
+      // in Enter, Can't Go Back
+      if (isEntry((int)(transform.position.x+leftOffset), (int)(transform.position.x+rightOffset), (int)transform.position.y) && dx == -1){
+        return false;
+      }
 
-        if (dx == 1 && isCar((int)rightx, ny)) {
-            // Debug.Log("dx == 1 :" , rightx, ny);
-            //Debug.Log("there is a car1");
-            return false; 
-        } else if (dx == -1 && isCar((int)leftx, ny)) {
-            // Debug.Log("dx == -1", leftx, ny);
-            //Debug.Log("there is a car2");
-            return false;
+      // detect whether there is a wall in the front part of the car or back part of the car.
+      if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) {
+        return false;
+      }
 
-        }
-        else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
-        { // when car move up or move down
-            return false;
-        }
+      if (dx == 1 && isCar((int)rightx, ny)) {
+          return false;
+      } else if (dx == -1 && isCar((int)leftx, ny)) {
+          return false;
 
-        //Debug.Log("Ok to remove");
-
-        if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar)
-        {
-            return false;
-        }
-
-        //transform.position = new Vector3(nx, ny);
+      } else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
+      { // when car move up or move down
+          return false;
+      }
+      if (isBelt()){
+        moveCarOnBelt(nx, ny, (int)rightx, (int)leftx);
+      } else {
         moveCar(nx, ny, (int)rightx, (int)leftx);
+      }
 
-        if (isExit((int)leftx, ny))
-        {
-            updateTips();
-            myMap.removeCars((int)leftx,ny);
-            myMap.removeCars((int)rightx,ny);
-            myGameManager.setSelectedCar(null);
-            Destroy(gameObject);
-            
+      if (isExit((int)leftx, ny))
+      {
+          updateTips();
+          myMap.removeCars((int)leftx,ny);
+          myMap.removeCars((int)rightx,ny);
+          myGameManager.setSelectedCar(null);
+          Destroy(gameObject);
+
+      }
+
+      return true;
+    }
+
+    void moveCarOnBelt(float nx, int ny, int rightx, int leftx){
+        oldLocation = transform.position;
+        if (! (oldLocation.y == ny) ){
+          //Vertical Move => Could be done]
+          moveCar(nx, ny, rightx, leftx);
+        } else {
+          //Horizontal Move => Couldn't be done
+          if ( myMap.isbeltOn() ){
+            moveCar(nx, ny, rightx, leftx);
+          } else {
+            return;
+          }
         }
-
-        return true;
-        /*// Move our position a step closer to the target.
-        float step = speed * Time.deltaTime; // calculate distance to move
-        // Move player to next position.
-        transform.position = transform.position = Vector3.MoveTowards(transform.position, new Vector3(nx, ny), step);
-        Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
     }
-
-
-    void OnMouseDrag()
-    {
-
-    }
-
 
 
     void moveCar(float nx, int ny, int rightx, int leftx){
@@ -369,7 +286,7 @@ public class CarControl : MonoBehaviour
         myMap = FindObjectOfType<MapCreater>();
         myGameManager = FindObjectOfType<GameManager>();
         //   myGameManager = GameObject.Find("GameManager");
-        //control = FindObjectOfType<Control>(); 
+        //control = FindObjectOfType<Control>();
         //original pos of joystick button
         //originalPos = new Vector3(-7.0f,0.5f,0f);
         //Debug.Log("pos of circle when awake " + originalPos);
@@ -396,6 +313,7 @@ public class CarControl : MonoBehaviour
         }
 
     }
+
     protected bool isExit(int x, int y)
     {
         Vector3 exitPos = myMap.getExitPos();
@@ -406,5 +324,21 @@ public class CarControl : MonoBehaviour
         return false;
     }
 
+    protected bool isEntry(int leftx, int rightx, int y)
+    {
+        Vector3 entryPos = myMap.getEntranceBarrierPos();
+        if ( (entryPos[0] == leftx && entryPos[1] == y) || (entryPos[0] == rightx && entryPos[1] == y) ){
+          return true;
+        }
+        return false;
+    }
+
+    protected bool isBelt()
+    {
+        Vector3 curPos = transform.position;
+        int leftPos = (int)(curPos.x+leftOffset);
+        int rightPos = (int)(curPos.x+rightOffset);
+        return myMap.getBeltPosSet().Contains(myMap.TwoDToOneD(leftPos, (int)curPos.y)) || myMap.getBeltPosSet().Contains(myMap.TwoDToOneD(rightPos, (int)curPos.y));
+    }
 
 }
