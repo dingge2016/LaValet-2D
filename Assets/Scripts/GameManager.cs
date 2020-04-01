@@ -8,6 +8,10 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     protected DialogueManager myDia;
+    protected MapCreater myMap;
+    private GameObject dialogueManager;
+    private GameObject mapManager;
+
     public static float totalTips = 0;
     public int totalTime;
     public GameObject winUI;
@@ -22,8 +26,9 @@ public class GameManager : MonoBehaviour
     private bool[] propsStatus;
     // judge whether the scence is initialized to avoid unnecessary computation.
     private bool finishGame;
-    private bool finishDialogues;
     private bool destroyStore;
+
+    private int beltShow = 0;
 
 
     // for prop2 : double Tips for 5 second
@@ -33,12 +38,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
         duringDoubleTipsTime = false;
         PlayerPrefs.SetInt("coins", 5);
         totalTips = 0;
         destroyStore = false;
-        finishDialogues = false;
         finishGame = false;
         propsPrice = new int[] { 1, 1, 1 };
         propsName = new string[] { "Increasing game time", "Car Bomb", "Double Tips for 5 second" };
@@ -46,20 +49,30 @@ public class GameManager : MonoBehaviour
         GameObject.Find("Canvas/tipsGoal").GetComponent<Text>().text = "Tips Goal: " + requireTip.ToString();
         currentTime = totalTime;
         myDia = FindObjectOfType<DialogueManager>();
+        myMap = FindObjectOfType<MapCreater>();
 
         storeUI.SetActive(true);
         int curCoin = PlayerPrefs.GetInt("coins", 0);
         GameObject.Find("Canvas/storeUI/coinAmount").GetComponent<Text>().text = (curCoin).ToString();
 
-        //Disable Car & Dialogue
-        (GameObject.Find("DialogueManager").GetComponent("DialogueManager") as MonoBehaviour).enabled = false;
+        //Disable Car & Dialogue & Car Generating
+        dialogueManager = GameObject.Find("DialogueManager");
+        if (dialogueManager){
+          (dialogueManager.GetComponent("DialogueManager") as MonoBehaviour).enabled = false;
+        }
+        mapManager = GameObject.Find("MapCreater");
+        if (mapManager){
+          (mapManager.GetComponent("MapCreater") as MonoBehaviour).enabled = false;
+        }
         setCarObjectStatus(false);
     }
 
     public void ClickEnterGameButton()
     {
         //Enter Game From Store
-        dialogueUI.SetActive(true);
+        if (dialogueUI){
+          dialogueUI.SetActive(true);
+        }
         Destroy(storeUI);
         destroyStore = true;
     }
@@ -85,13 +98,37 @@ public class GameManager : MonoBehaviour
         {
             return;
         } else {
-          (GameObject.Find("DialogueManager").GetComponent("DialogueManager") as MonoBehaviour).enabled = true;
+          if (dialogueManager){
+            (dialogueManager.GetComponent("DialogueManager") as MonoBehaviour).enabled = true;
+          }
           setCarObjectStatus(true);
         }
 
         // Waiting for Instruction Dialogue Finish
-        if (!myDia.getFinishFlag()){
+        if (myDia && !myDia.getFinishFlag()){
           return;
+        }
+        (mapManager.GetComponent("MapCreater") as MonoBehaviour).enabled = true;
+
+        // Rotate Belt if need
+        if (myMap.isbeltOn()){
+          List<GameObject> belts = myMap.getBelts();
+          for(int i=0;i<belts.Count;i++)
+          {
+            // Image image1 = belts[i].transform.Find("image1").gameObject.GetComponent<Image>();
+            // Image image2 = belts[i].transform.Find("image1").gameObject.GetComponent<Image>();
+            SpriteRenderer spriteR = belts[i].GetComponent<SpriteRenderer>();
+            if ( !(beltShow % 20 == 0) ){
+              spriteR.color = new Color(spriteR.color.r, spriteR.color.g, spriteR.color.b, 1f);
+              // image1.color = new Color(image1.color.r, image1.color.g, image1.color.b, 1f);
+              // image2.color = new Color(image2.color.r, image2.color.g, image2.color.b, 0f);
+            } else {
+              spriteR.color = new Color(spriteR.color.r, spriteR.color.g, spriteR.color.b, 0f);
+              // image2.color = new Color(image2.color.r, image2.color.g, image2.color.b, 1f);
+              // image1.color = new Color(image1.color.r, image1.color.g, image1.color.b, 0f);
+            }
+          }
+          beltShow += 1;
         }
 
         //Time Display

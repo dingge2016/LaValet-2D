@@ -50,6 +50,10 @@ public class CarControl : MonoBehaviour
             minusTip = true;
         }
 
+        //continuly move
+        if ( myMap.isbeltOn() && isBelt() ){
+          determineMove(+1,0);
+        }
 
          //use raycast to select car
         if (Input.GetMouseButtonDown(0)){
@@ -153,66 +157,8 @@ public class CarControl : MonoBehaviour
 
         int dx = dxAndDy.Key;
         int dy = dxAndDy.Value;
-        if (dx == 0 && dy == 0)
-            return;
 
-        // the position of left side of the car
-        float leftx = transform.position.x + dx + leftOffset;
-        //Debug.Log("transform.position.x" + transform.position.x);
-        // the position of right side of the car
-        float rightx = transform.position.x + dx + rightOffset;
-        float nx = transform.position.x + dx + centerOffset;
-        int ny = (int)transform.position.y + dy;
-        //Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
-        // in Enter, Can't Go Back
-        Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
-        Vector3 startPos = new Vector3(entranceBarrierPos[0]+ leftOffset, entranceBarrierPos[1]);
-        if (new Vector3(transform.position.x, transform.position.y) == startPos && dx == -1){
-          return;
-        }
-
-        // detect whether there is a wall in the front part of the car or back part of the car.
-        if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) {
-          return;
-        }
-
-        if (dx == 1 && isCar((int)rightx, ny)) {
-            // Debug.Log("dx == 1 :" , rightx, ny);
-            //Debug.Log("there is a car1");
-            return;
-        } else if (dx == -1 && isCar((int)leftx, ny)) {
-            // Debug.Log("dx == -1", leftx, ny);
-            //Debug.Log("there is a car2");
-            return;
-
-        }
-        else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
-        { // when car move up or move down
-            return;
-        }
-
-        //Debug.Log("Ok to remove");
-
-        if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar)
-        {
-            return;
-        }
-
-        //transform.position = new Vector3(nx, ny);
-        moveCar(nx, ny, (int)rightx, (int)leftx);
-
-        if (isExit((int)leftx, ny))
-        {
-            updateTips();
-            myMap.removeCars((int)leftx,ny);
-            myMap.removeCars((int)rightx,ny);
-            Destroy(gameObject);
-        }
-        /*// Move our position a step closer to the target.
-        float step = speed * Time.deltaTime; // calculate distance to move
-        // Move player to next position.
-        transform.position = transform.position = Vector3.MoveTowards(transform.position, new Vector3(nx, ny), step);
-        Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
+        determineMove(dx,dy);
     }
 
     /*
@@ -225,6 +171,77 @@ public class CarControl : MonoBehaviour
         movetheSelectedCar(curPosition);
     }
     */
+    void determineMove(int dx, int dy){
+      if (dx == 0 && dy == 0)
+          return;
+
+      // the position of left side of the car
+      float leftx = transform.position.x + dx + leftOffset;
+      //Debug.Log("transform.position.x" + transform.position.x);
+      // the position of right side of the car
+      float rightx = transform.position.x + dx + rightOffset;
+
+      float nx = transform.position.x + dx + centerOffset;
+      int ny = (int)transform.position.y + dy;
+      //Debug.Log(leftx.ToString() + " " + nx.ToString() + " " + rightx.ToString());
+
+
+      // in Enter, Can't Go Back
+      if (isEntry((int)(transform.position.x+leftOffset), (int)(transform.position.x+rightOffset), (int)transform.position.y) && dx == -1){
+        return;
+      }
+
+      // detect whether there is a wall in the front part of the car or back part of the car.
+      if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) {
+        return;
+      }
+
+      if (dx == 1 && isCar((int)rightx, ny)) {
+          return;
+      } else if (dx == -1 && isCar((int)leftx, ny)) {
+          return;
+
+      } else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
+      { // when car move up or move down
+          return;
+      }
+
+      if (isBelt()){
+        moveCarOnBelt(nx, ny, (int)rightx, (int)leftx);
+      } else {
+        moveCar(nx, ny, (int)rightx, (int)leftx);
+      }
+
+      // in Exit
+      if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar)
+      {
+          return;
+      }
+
+      if (isExit((int)leftx, ny))
+      {
+          updateTips();
+          myMap.removeCars((int)leftx,ny);
+          myMap.removeCars((int)rightx,ny);
+          Destroy(gameObject);
+      }
+    }
+
+    void moveCarOnBelt(float nx, int ny, int rightx, int leftx){
+        oldLocation = transform.position;
+        if (! (oldLocation.y == ny) ){
+          //Vertical Move => Could be done]
+          moveCar(nx, ny, rightx, leftx);
+        } else {
+          //Horizontal Move => Couldn't be done
+          if ( myMap.isbeltOn() ){
+            moveCar(nx, ny, rightx, leftx);
+          } else {
+            return;
+          }
+
+        }
+    }
 
 
     void moveCar(float nx, int ny, int rightx, int leftx){
@@ -344,6 +361,7 @@ public class CarControl : MonoBehaviour
         }
 
     }
+
     protected bool isExit(int x, int y)
     {
         Vector3 exitPos = myMap.getExitPos();
@@ -354,5 +372,21 @@ public class CarControl : MonoBehaviour
         return false;
     }
 
+    protected bool isEntry(int leftx, int rightx, int y)
+    {
+        Vector3 entryPos = myMap.getEntranceBarrierPos();
+        if ( (entryPos[0] == leftx && entryPos[1] == y) || (entryPos[0] == rightx && entryPos[1] == y) ){
+          return true;
+        }
+        return false;
+    }
+
+    protected bool isBelt()
+    {
+        Vector3 curPos = transform.position;
+        int leftPos = (int)(curPos.x+leftOffset);
+        int rightPos = (int)(curPos.x+rightOffset);
+        return myMap.getBeltPosSet().Contains(myMap.TwoDToOneD(leftPos, (int)curPos.y)) || myMap.getBeltPosSet().Contains(myMap.TwoDToOneD(rightPos, (int)curPos.y));
+    }
 
 }

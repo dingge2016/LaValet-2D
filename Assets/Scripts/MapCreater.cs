@@ -17,6 +17,8 @@ public class MapCreater : MonoBehaviour
     public GameObject Ground;
     public GameObject Grass;
     public GameObject Parking;
+    public GameObject Belt;
+    public GameObject Button;
     public GameObject VerticalTrack;
     public GameObject IntersectionTrack;
     public GameObject HorizontalTrack;
@@ -24,10 +26,13 @@ public class MapCreater : MonoBehaviour
     private HashSet<int> wall_pos_set;
     private HashSet<int> car_pos_set = new HashSet<int>();
     private HashSet<int> train_pos_set = new HashSet<int>();
+    private HashSet<int> belt_pos_set = new HashSet<int>();
     public List<KeyValuePair<int, int>> gate_lot_pos = new List<KeyValuePair<int, int>>();
     public List<GameObject> cars;
+    public List<GameObject> belts;
     private Vector3 exitPos;
     private Vector3 entranceBarrierPos;
+    private Vector3 btnPos;
 
     // use to convert 2D position to 1D position.
     public const int SIZE = 1000;
@@ -116,6 +121,16 @@ public class MapCreater : MonoBehaviour
                 {
                     Instantiate(HorizontalTrack, cell_pos, Quaternion.identity);
                 }
+                else if (row[i] == 'B')
+                {
+                   belts.Add(Instantiate(Belt, cell_pos, Quaternion.identity));
+                   belt_pos_set.Add(TwoDToOneD(row_pos, col_pos));
+                }
+                else if (row[i] == 'T')
+                {
+                    Instantiate(Button, cell_pos, Quaternion.identity);
+                    btnPos = new Vector3(row_pos, col_pos);
+                }
                 col_pos++;
             }
             row_pos++;
@@ -145,11 +160,6 @@ public class MapCreater : MonoBehaviour
 
     //create new car if car at initial position has moved
     void Update(){
-      // Wait for dialogue finish
-      if(!myDia.getFinishFlag()){
-          return;
-      }
-
       // Wait for Creating Car
       if(cars.Count==0 || objNameNumber + 1 > cars.Count){
           return;
@@ -189,6 +199,10 @@ public class MapCreater : MonoBehaviour
         return wall_pos_set;
     }
 
+    public HashSet<int> getBeltPosSet() {
+        return belt_pos_set;
+    }
+
     public HashSet<int> getCarsPosSet() {
         return car_pos_set;
     }
@@ -222,6 +236,14 @@ public class MapCreater : MonoBehaviour
         return entranceBarrierPos;
     }
 
+    public bool isbeltOn(){
+      return car_pos_set.Contains(TwoDToOneD((int)btnPos[0], (int)btnPos[1]));
+    }
+
+    public List<GameObject> getBelts(){
+      return belts;
+    }
+
     //Utilitys: ========================
     public void printCarPos(){
       string tmp = "";
@@ -245,7 +267,6 @@ public class MapCreater : MonoBehaviour
     }
 
     public string oneDToTwoD(int X) {
-
         return "(" + ((int)X/SIZE - 100).ToString() + "," + (X%SIZE - 100).ToString()+ ")";
     }
 }
