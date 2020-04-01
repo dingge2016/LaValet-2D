@@ -21,7 +21,7 @@ public class CarControl : MonoBehaviour
     public float timeToRemoveTheCar;
     public float timeToGivePenalty;
     private Vector3 oldLocation;
-
+    private int beltMoveTime = 0;
     /* car timer */
     float currentTime = 0f;
     public Text countdownText;
@@ -63,7 +63,10 @@ public class CarControl : MonoBehaviour
     {
       //continuly move if in belt
       if ( myMap.isbeltOn() && isBelt() ){
-        determineMove(+1,0);
+        if (beltMoveTime % 15 == 0){
+          determineMove(+1,0);
+        }
+        beltMoveTime += 1;
       }// Otherwise use mouse to drag
       else if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
       {
