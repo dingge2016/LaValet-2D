@@ -26,13 +26,19 @@ public class CarControl : MonoBehaviour
     float currentTime = 0f;
     public Text countdownText;
     bool minusTip;
-     
+
+    /*  public bool touchStart = false;
+      public Vector3 pointA;
+      public Vector3 pointB;
+      public string name;
+
+      public Control control;
+      public Vector3 originalPos;
+      // Update is called once per frame*/
 
 
     void Start()
     {
-        myMap = FindObjectOfType<MapCreater>();
-        myGameManager = FindObjectOfType<GameManager>();
         allGates.Add("+0+1+3");
         allGates.Add("+0+1-3");
         gateOne = GameObject.Find("GateOne");
@@ -62,7 +68,7 @@ public class CarControl : MonoBehaviour
       else if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
       {
           Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-          Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+          Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
           //move the car to mouse's new position
           movetheSelectedCarOrTrain(curPosition);
       }
@@ -83,8 +89,10 @@ public class CarControl : MonoBehaviour
 
     void OnMouseDown()
     {
+
         //obtain world position of game object
-        //subtract mouse position from game object position 
+        //subtract mouse position from game object position
+        //offset is how much mouse's position differs from object's position
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
         myGameManager.setSelectedCar(gameObject);
 
@@ -273,7 +281,16 @@ public class CarControl : MonoBehaviour
         }
     }
 
-     
+    private void Awake()
+    {
+        myMap = FindObjectOfType<MapCreater>();
+        myGameManager = FindObjectOfType<GameManager>();
+        //   myGameManager = GameObject.Find("GameManager");
+        //control = FindObjectOfType<Control>();
+        //original pos of joystick button
+        //originalPos = new Vector3(-7.0f,0.5f,0f);
+        //Debug.Log("pos of circle when awake " + originalPos);
+    }
 
     protected bool isCar(int x, int y){
         return myMap.getCarsPosSet().Contains(myMap.TwoDToOneD(x,y));

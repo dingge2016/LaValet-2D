@@ -40,12 +40,16 @@ public class GameManager : MonoBehaviour
     // for selected car;
     private GameObject selectedCar;
     public GameObject driver;
-     
+
+    // jude the mouse
+    private bool IsMouseDown;
 
 
 
     void Start()
-    { 
+    {
+
+        IsMouseDown = false;
         selectedCar = null;
         duringDoubleTipsTime = false;
         PlayerPrefs.SetInt("coins", 5);
@@ -286,7 +290,8 @@ public class GameManager : MonoBehaviour
     {
         if (selectedCar == selected_car)
             return;
-         
+
+  Debug.Log("eess");
         // change the border of the unselected car into transparent
         if (selectedCar != null)
         {
@@ -300,8 +305,11 @@ public class GameManager : MonoBehaviour
             driver.GetComponent<Renderer>().enabled = false;
         }
 
-        else {  
-            driver.GetComponent<Renderer>().enabled = true; 
+        else {
+            Debug.Log("eeeeeeeeeeeee");
+            Debug.Log(driver.GetComponent<Renderer>().enabled );
+            driver.GetComponent<Renderer>().enabled = true;
+            Debug.Log(driver.GetComponent<Renderer>().enabled );
             // change the border of the selected car into black;
             selectedCar.GetComponent<Renderer>().enabled = true;
             selectedCar.GetComponent<Renderer>().material.color = Color.black;
