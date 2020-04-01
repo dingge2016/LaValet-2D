@@ -149,9 +149,7 @@ public class MapCreater : MonoBehaviour
 
     //wait one second to generated new car
     private IEnumerator WaitForASecond(){
-            yield return new WaitForSeconds(1f);
-        Debug.Log(!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
-&& !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])));
+            yield return new WaitForSeconds(1f); 
         if (!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
             && !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])))
         {
@@ -159,33 +157,17 @@ public class MapCreater : MonoBehaviour
         }
         else objNameNumber--;
     }
-
-/*    private IEnumerator WaitForAnotherSecond()
-    {
-        yield return new WaitForSeconds(1f);
-        Debug.Log(!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
-&& !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])));
-        if (!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
-            && !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])))
-        {
-            Debug.Log(!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
-            && !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])));
-            createCar();
-        }
-    }*/
+ 
 
     //create new car if car at initial position has moved
     void Update(){
         // Wait for Creating Car
         if (cars.Count == 0 || objNameNumber + 1 > cars.Count)
         {
-            Debug.Log(cars.Count.ToString() + " " + (objNameNumber + 1).ToString());
             return;
         }
 
         //check if later created cars have moved
-        Debug.Log(!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
-&& !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])));
         if (!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1])) 
           && !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])))
         {
