@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CarControl : MonoBehaviour
 { // Map.
     protected MapCreater myMap;
+    protected GameManager myGameManager;
     private Vector3 offset;
     private Vector3 newPosition;
     GameObject gate;
@@ -24,17 +25,21 @@ public class CarControl : MonoBehaviour
     public Text countdownText;
     bool minusTip;
 
-    public bool touchStart = false;
-    public Vector3 pointA;
-    public Vector3 pointB;
-    public string name;
+    /*  public bool touchStart = false;
+      public Vector3 pointA;
+      public Vector3 pointB;
+      public string name;
 
-    public Control control;
-    public Vector3 originalPos;
-    // Update is called once per frame
+      public Control control;
+      public Vector3 originalPos;
+      // Update is called once per frame*/
+       
 
     void Update()
     {
+/*        Debug.Log("------------------");
+        Debug.Log(gameObject);
+        Debug.Log(gameObject.GetComponent<CarTimer>().currentTime);*/
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
         if (currentTime <= timeToGivePenalty && !minusTip)
         {
@@ -43,7 +48,7 @@ public class CarControl : MonoBehaviour
         }
 
 
-         //use raycast to select car
+  /*       //use raycast to select car
         if (Input.GetMouseButtonDown(0)){
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 10;
@@ -78,29 +83,29 @@ public class CarControl : MonoBehaviour
                 else{
                     touchStart = false;
                 }
+            }*/
+
+    }
+
+    /*    //updated edit->projectsettings->fixed timestep to 0.1 (originally 0.02), changed sensitivity so car doesn't move too fast
+        private void FixedUpdate(){
+            if(touchStart){
+                //calculate how much car has moved
+                Vector3 offset = pointB-pointA;
+                movetheSelectedCar(offset);
+                //limit movement to 1.0f so that button doesn't go out of joystick
+                Vector3 direction = Vector3.ClampMagnitude(offset,1.0f);
+                control.circle.transform.position = new Vector3(originalPos.x + direction.x, originalPos.y + direction.y, 0);
             }
-
-    }
-
-    //updated edit->projectsettings->fixed timestep to 0.1 (originally 0.02), changed sensitivity so car doesn't move too fast
-    private void FixedUpdate(){
-        if(touchStart){
-            //calculate how much car has moved
-            Vector3 offset = pointB-pointA;
-            movetheSelectedCar(offset);
-            //limit movement to 1.0f so that button doesn't go out of joystick
-            Vector3 direction = Vector3.ClampMagnitude(offset,1.0f);
-            control.circle.transform.position = new Vector3(originalPos.x + direction.x, originalPos.y + direction.y, 0);
+            *//*
+            else{
+                control.circle.transform.position = originalPos;
+            }
+            *//*
         }
-        /*
-        else{
-            control.circle.transform.position = originalPos;
-        }
-        */
-    }
-    /* car timer */
+        *//* car timer */
 
-    /*
+
     void OnMouseDown()
     {
 
@@ -109,8 +114,10 @@ public class CarControl : MonoBehaviour
         //offset is how much mouse's position differs from object's position
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 
+        myGameManager.setSelectedCar(gameObject);
+
     }
-    */
+
 
 
     protected KeyValuePair<int, int> flattenDiff(float diffx, float diffy)
@@ -132,14 +139,14 @@ public class CarControl : MonoBehaviour
 
     public virtual void movetheSelectedCar(Vector3 curPosition)
     {
-        //float diffx = curPosition.x - transform.position.x;
-        //float diffy = curPosition.y - transform.position.y;
-
+        float diffx = curPosition.x - transform.position.x;
+        float diffy = curPosition.y - transform.position.y;
+/*
         //changed diffx and diffy
         float diffx = curPosition.x;
         //Debug.Log("diffx" + diffx);
         float diffy = curPosition.y;
-        //Debug.Log("diffy" + diffy);
+        //Debug.Log("diffy" + diffy);*/
 
         var dxAndDy = flattenDiff(diffx, diffy);
 
@@ -198,6 +205,7 @@ public class CarControl : MonoBehaviour
             updateTips();
             myMap.removeCars((int)leftx,ny);
             myMap.removeCars((int)rightx,ny);
+            myGameManager.setSelectedCar(null);
             Destroy(gameObject);
         }
         /*// Move our position a step closer to the target.
@@ -207,7 +215,7 @@ public class CarControl : MonoBehaviour
         Debug.Log(transform.position.x.ToString() +" " + transform.position.y.ToString() + " " + nx.ToString() +" " + ny.ToString());*/
     }
 
-    /*
+
     void OnMouseDrag()
     {
         //new position
@@ -216,7 +224,7 @@ public class CarControl : MonoBehaviour
         //move the car to mouse's new position
         movetheSelectedCar(curPosition);
     }
-    */
+
 
 
     void moveCar(float nx, int ny, int rightx, int leftx){
@@ -287,9 +295,11 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        control = FindObjectOfType<Control>();
+        myGameManager = FindObjectOfType<GameManager>();
+        //   myGameManager = GameObject.Find("GameManager");
+        //control = FindObjectOfType<Control>(); 
         //original pos of joystick button
-        originalPos = new Vector3(-7.0f,0.5f,0f);
+        //originalPos = new Vector3(-7.0f,0.5f,0f);
         //Debug.Log("pos of circle when awake " + originalPos);
     }
 
@@ -307,7 +317,7 @@ public class CarControl : MonoBehaviour
     {
         if (currentTime > timeToGivePenalty)
         {
-            if (GameObject.Find("GameManager").GetComponent<GameManager>().duringDoubleTipsTime)
+            if (myGameManager.isDuringDoubleTipsTime())
                 GameManager.totalTips += 20;
             else GameManager.totalTips += 10;
 
