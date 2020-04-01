@@ -2728,7 +2728,7 @@ MonoBehaviour:
   loseUI: {fileID: 1590163885}
   storeUI: {fileID: 467218380}
   dialogueUI: {fileID: 907333703}
-  requireTip: 35
+  requireTip: 55
   doubleTipsPropButtion: {fileID: 1331807917}
   driver: {fileID: 613689236}
 --- !u!4 &885356568

@@ -15,8 +15,7 @@ public class CarControl : MonoBehaviour
 
     private float leftOffset = -0.5f;
     private float rightOffset = 0.5f;
-    protected float centerOffset = 0;
-    //private float speed = 20.0f;
+    protected float centerOffset = 0; 
 
     public float timeToRemoveTheCar;
     public float timeToGivePenalty;
@@ -25,17 +24,7 @@ public class CarControl : MonoBehaviour
     /* car timer */
     float currentTime = 0f;
     public Text countdownText;
-    bool minusTip;
-
-    /*  public bool touchStart = false;
-      public Vector3 pointA;
-      public Vector3 pointB;
-      public string name;
-
-      public Control control;
-      public Vector3 originalPos;
-      // Update is called once per frame*/
-
+    bool minusTip; 
 
     void Start()
     {
@@ -68,7 +57,7 @@ public class CarControl : MonoBehaviour
       else if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
       {
           Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-          Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
+          Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
           //move the car to mouse's new position
           movetheSelectedCarOrTrain(curPosition);
       }
@@ -165,7 +154,7 @@ public class CarControl : MonoBehaviour
         moveCar(nx, ny, (int)rightx, (int)leftx);
       }
 
-      if (isExit((int)leftx, ny))
+      if (isExit((int)rightx, ny))
       {
           updateTips();
           myMap.removeCars((int)leftx,ny);
@@ -284,12 +273,7 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        myGameManager = FindObjectOfType<GameManager>();
-        //   myGameManager = GameObject.Find("GameManager");
-        //control = FindObjectOfType<Control>();
-        //original pos of joystick button
-        //originalPos = new Vector3(-7.0f,0.5f,0f);
-        //Debug.Log("pos of circle when awake " + originalPos);
+        myGameManager = FindObjectOfType<GameManager>(); 
     }
 
     protected bool isCar(int x, int y){
