@@ -31,13 +31,20 @@ public class GameManager : MonoBehaviour
     private int beltShow = 0;
 
 
+
     // for prop2 : double Tips for 5 second
     public GameObject doubleTipsPropButtion;
     private float doubleTipsEndTime;
-    public bool duringDoubleTipsTime;
+    private bool duringDoubleTipsTime;
+
+    // for selected car;
+    private GameObject selectedCar;
+    public GameObject driver;
+
 
     void Start()
     {
+        selectedCar = null;
         duringDoubleTipsTime = false;
         PlayerPrefs.SetInt("coins", 5);
         totalTips = 0;
@@ -87,6 +94,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+
+
+        setdriverPosition();
+
         // Waiting for Game Finish
         if (finishGame){
           setCarObjectStatus(false);
@@ -155,6 +166,8 @@ public class GameManager : MonoBehaviour
             duringDoubleTipsTime = false;
             doubleTipsPropButtion.SetActive(false);
         }
+
+
     }
 
     public void EndGame()
@@ -256,5 +269,55 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("coins", 0);
     }
 
+
+    // update selected and the border of selectedCar
+    public void setSelectedCar(GameObject selected_car)
+    {
+        if (selectedCar == selected_car)
+            return;
+
+
+        // change the border of the unselected car into transparent
+        if (selectedCar != null)
+        {
+            selectedCar.GetComponent<Renderer>().enabled = false;
+        }
+
+
+        selectedCar = selected_car;
+        if (selectedCar == null)
+        {
+            driver.GetComponent<Renderer>().enabled = false;
+        }
+
+        else {
+
+            driver.GetComponent<Renderer>().enabled = true;
+
+            // change the border of the selected car into white;
+            selectedCar.GetComponent<Renderer>().enabled = true;
+            Debug.Log(selectedCar.GetComponent<Renderer>().material.color);
+            selectedCar.GetComponent<Renderer>().material.color = Color.black;
+
+        }
+    }
+
+    void setdriverPosition()
+    {
+        if (selectedCar != null)
+        {
+            driver.transform.position = new Vector3(selectedCar.transform.position.x, selectedCar.transform.position.y, -7);
+        }
+
+    }
+    public GameObject getSelectedCar()
+    {
+        return selectedCar;
+    }
+
+    public bool isDuringDoubleTipsTime()
+    {
+        return duringDoubleTipsTime;
+    }
 
 }
