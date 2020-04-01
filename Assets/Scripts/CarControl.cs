@@ -200,43 +200,60 @@ public class CarControl : MonoBehaviour
         myMap.addCars((int)leftx,ny);
         myMap.addCars((int)rightx,ny);
         transform.position = new Vector3(nx, ny, -2);
-        carInLot((int)leftx, (int)rightx, ny);
+        carInLot((int)leftx, (int)rightx, ny, newLeftX, newRightX, (int)oldLocation.y);
     }
 
     // determine if the car park in the special gate lot
-    public void carInLot(int carLeftX, int carRightX, int carY)
+    public void carInLot(int carLeftX, int carRightX, int carY, int oldCarLeftX, int oldCarRightX, int oldCartY)
     {
-        // check == 1, half car in gate lot; check == 2, full car in gate lot
-        int check = 0;
+        // check if new car position is in gate lot
+        // checkNew == 1, half car in gate lot; checkNew == 2, full car in gate lot
+        int checkNew = 0;
+        int checkOld = 0;
         string tagText = "";
         string halfCar = "";
         foreach (var lot in myMap.gate_lot_pos)
         {
             if (lot.Key == carLeftX && lot.Value == carY)
             {
-                check++;
+                checkNew++;
                 halfCar = "leftcar";
             }
             if (lot.Key == carRightX && lot.Value == carY)
             {
-                check++;
+                checkNew++;
                 halfCar = "rightcar";
             }
-            if (check == 2)
+            if (checkNew == 2)
             {
                 tagText = posToTag(carLeftX) + posToTag(carRightX) + posToTag(carY);
-                closeGate(tagText);
+                openGate(tagText);
             }
         }
-        if (check == 1 && string.Equals(halfCar, "leftcar"))
+        if (checkNew == 1 && string.Equals(halfCar, "leftcar"))
         {
             tagText = posToTag(carLeftX - 1) + posToTag(carRightX - 1) + posToTag(carY);
-            openGate(tagText);
+            closeGate(tagText);
         }
-        else if (check == 1 && string.Equals(halfCar, "rightcar"))
+        else if (checkNew == 1 && string.Equals(halfCar, "rightcar"))
         {
             tagText = posToTag(carLeftX + 1) + posToTag(carRightX + 1) + posToTag(carY);
-            openGate(tagText);
+            closeGate(tagText);
+        }
+
+        // check if old car position is in gate lot
+        // checkOld == 2 the car was in a gate lot
+        foreach (var lot in myMap.gate_lot_pos)
+        {
+            if ((lot.Key == oldCarLeftX && lot.Value == oldCartY) || (lot.Key == oldCarRightX && lot.Value == oldCartY))
+            {
+                checkOld++;
+            }
+            if (checkOld == 2)
+            {
+                gateOne.SetActive(true);
+                gateTwo.SetActive(true);
+            }
         }
     }
 
@@ -250,8 +267,8 @@ public class CarControl : MonoBehaviour
         return "" + pos;
     }
 
-    // close a gate
-    public void closeGate(string tagText)
+    // open a gate
+    public void openGate(string tagText)
     {
         for (int i = 0; i < allGates.Count; i++)
         {
@@ -263,8 +280,8 @@ public class CarControl : MonoBehaviour
         }
     }
 
-    // open a gate
-    public void openGate(string tagText)
+    // close a gate
+    public void closeGate(string tagText)
     {
         for (int i = 0; i < allGates.Count; i++)
         {
