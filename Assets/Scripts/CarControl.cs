@@ -9,8 +9,8 @@ public class CarControl : MonoBehaviour
     private Vector3 offset;
     private Vector3 newPosition;
     public List<string> allGates = new List<string>();
-    public GameObject gateOne;
-    public GameObject gateTwo;
+    private GameObject gateOne;
+    private GameObject gateTwo;
 
     private float leftOffset = -0.5f;
     private float rightOffset = 0.5f;
@@ -37,8 +37,8 @@ public class CarControl : MonoBehaviour
 
     void Start()
     {
-        allGates.Add("+0+1+3");
-        allGates.Add("+0+1-3");
+        gateOne = GameObject.Find("GateOne");
+        gateTwo = GameObject.Find("GateTwo");
     }
 
     void Update()
