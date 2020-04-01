@@ -68,7 +68,7 @@ public class CarControl : MonoBehaviour
         }
         beltMoveTime += 1;
       }// Otherwise use mouse to drag
-      else if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
+      if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
       {
           Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
           Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
