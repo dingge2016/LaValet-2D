@@ -26,15 +26,7 @@ public class CarControl : MonoBehaviour
     float currentTime = 0f;
     public Text countdownText;
     bool minusTip;
-
-    /*  public bool touchStart = false;
-      public Vector3 pointA;
-      public Vector3 pointB;
-      public string name;
-
-      public Control control;
-      public Vector3 originalPos;
-      // Update is called once per frame*/
+     
 
 
     void Start()
@@ -168,7 +160,7 @@ public class CarControl : MonoBehaviour
         moveCar(nx, ny, (int)rightx, (int)leftx);
       }
 
-      if (isExit((int)leftx, ny))
+      if (isExit((int)rightx, ny))
       {
           updateTips();
           myMap.removeCars((int)leftx,ny);
@@ -287,12 +279,7 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        myGameManager = FindObjectOfType<GameManager>();
-        //   myGameManager = GameObject.Find("GameManager");
-        //control = FindObjectOfType<Control>();
-        //original pos of joystick button
-        //originalPos = new Vector3(-7.0f,0.5f,0f);
-        //Debug.Log("pos of circle when awake " + originalPos);
+        myGameManager = FindObjectOfType<GameManager>(); 
     }
 
     protected bool isCar(int x, int y){

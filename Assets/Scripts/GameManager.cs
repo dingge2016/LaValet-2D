@@ -51,8 +51,7 @@ public class GameManager : MonoBehaviour
 
         IsMouseDown = false;
         selectedCar = null;
-        duringDoubleTipsTime = false;
-        PlayerPrefs.SetInt("coins", 5);
+        duringDoubleTipsTime = false; 
         totalTips = 0;
         destroyStore = false;
         finishGame = false;
