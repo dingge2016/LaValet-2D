@@ -40,11 +40,20 @@ public class trainController : CarControl {
 
     }
 
+    protected override void movetheSelectedCarOrTrain(Vector3 curPosition)
+    {
+        movetheSelectedTrain(curPosition);
+    }
+
+
     void Update()
     {
-
+        detectedMouseandMovetheSeletctedCar();
 
     }
+
+
+
     //used update and fixedupdate from carcontrol, used for joystick
     /*    void Update()
         {
@@ -96,7 +105,7 @@ public class trainController : CarControl {
             }
         }*/
 
-    public override void movetheSelectedCar(Vector3 curPosition)
+    private void movetheSelectedTrain(Vector3 curPosition)
     {
 
 
@@ -105,19 +114,18 @@ public class trainController : CarControl {
         if (horizonalDirection) // the train can be moved horizonally
         {
             //changed diff_x and diff_y to work with joystick control
-            diff_x = curPosition.x;
-           //diff_x = curPosition.x - gameObject.transform.position.x;
+            //diff_x = curPosition.x;
+            diff_x = curPosition.x - gameObject.transform.position.x;
         }
         else  // the train can be moved vertically
         {
-            diff_y = curPosition.y;
-           //diff_y = curPosition.y - gameObject.transform.position.y;
+            //diff_y = curPosition.y;
+            diff_y = curPosition.y - gameObject.transform.position.y;
         }
 
-        var dxAndDy = flattenDiff(diff_x, diff_y);
+        int dx = flattenDiff(diff_x);
+        int dy = flattenDiff(diff_y); 
 
-        int dx = dxAndDy.Key;
-        int dy = dxAndDy.Value;
         if (dx == 0 && dy == 0)
             return;
 
@@ -167,7 +175,7 @@ public class trainController : CarControl {
             }
         }
 
-
+        return;
 
 
     }

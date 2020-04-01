@@ -45,6 +45,35 @@ public class CarControl : MonoBehaviour
         gateTwo = GameObject.Find("GateTwo");
     }
 
+
+    protected int flattenDiff(float diff)
+    {
+        int flattenedDiff = 0; 
+
+        if (diff >= 0.7)
+            flattenedDiff = 1;
+        else if (diff <= -0.7)
+            flattenedDiff = -1;
+
+        return flattenedDiff;
+    }
+
+
+    public void detectedMouseandMovetheSeletctedCar()
+    {
+         
+
+        if (Input.GetMouseButton(0) && myGameManager.getSelectedCar() != null && myGameManager.getSelectedCar() == gameObject)
+        {
+            Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
+            //move the car to mouse's new position
+            movetheSelectedCarOrTrain(curPosition);
+
+
+        }
+    }
+
     void Update()
     {
 /*        Debug.Log("------------------");
@@ -57,43 +86,48 @@ public class CarControl : MonoBehaviour
             minusTip = true;
         }
 
+        detectedMouseandMovetheSeletctedCar();
 
-  /*       //use raycast to select car
-        if (Input.GetMouseButtonDown(0)){
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = 10;
+        
 
-            Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            RaycastHit2D hit = Physics2D.Raycast(screenPos,Vector2.zero);
 
-            //click on the car that needs to moved
-            //when raycast hits cars
-            if(hit)
-            {
-                //save the name of the clicked car
-                name = hit.collider.name;
-            }
-        }
+        /*       //use raycast to select car
+              if (Input.GetMouseButtonDown(0)){
+                  Vector3 mousePos = Input.mousePosition;
+                  mousePos.z = 10;
 
-            //if name of the clicked car is same as the gameobject that this script is attached to, move the car
-            if(name==this.gameObject.name){
-                //returns true during the frame the mouse is pressed down
-                if(Input.GetMouseButtonDown(0)){
-                    //obtain original position
-                    pointA = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                    control.circle.transform.position = originalPos;
-                }
-                //mouse is held down
-                if(Input.GetMouseButton(0)){
-                    touchStart = true;
-                    //obtain final position
-                    pointB = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                }
-                else{
-                    touchStart = false;
-                }
-            }*/
+                  Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+                  RaycastHit2D hit = Physics2D.Raycast(screenPos,Vector2.zero);
+
+                  //click on the car that needs to moved
+                  //when raycast hits cars
+                  if(hit)
+                  {
+                      //save the name of the clicked car
+                      name = hit.collider.name;
+                  }
+              }
+
+                  //if name of the clicked car is same as the gameobject that this script is attached to, move the car
+                  if(name==this.gameObject.name){
+                      //returns true during the frame the mouse is pressed down
+                      if(Input.GetMouseButtonDown(0)){
+                          //obtain original position
+                          pointA = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+                          control.circle.transform.position = originalPos;
+                      }
+                      //mouse is held down
+                      if(Input.GetMouseButton(0)){
+                          touchStart = true;
+                          //obtain final position
+                          pointB = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+                      }
+                      else{
+                          touchStart = false;
+                      }
+                  }*/
 
     }
 
@@ -128,42 +162,49 @@ public class CarControl : MonoBehaviour
 
     }
 
-
-
-    protected KeyValuePair<int, int> flattenDiff(float diffx, float diffy)
-    {
-        int dx = 0;
-        int dy = 0;
-
-        if (diffx >= 1)
-            dx = 1;
-        else if (diffx <= -1)
-            dx = -1;
-
-        else if (diffy >= 1)
-            dy = 1;
-        else if (diffy <= -1)
-            dy = -1;
-        return new KeyValuePair<int, int>(dx, dy);
-    }
-
-    public virtual void movetheSelectedCar(Vector3 curPosition)
+    protected virtual void movetheSelectedCarOrTrain(Vector3 curPosition)
     {
         float diffx = curPosition.x - transform.position.x;
         float diffy = curPosition.y - transform.position.y;
-/*
-        //changed diffx and diffy
-        float diffx = curPosition.x;
-        //Debug.Log("diffx" + diffx);
-        float diffy = curPosition.y;
-        //Debug.Log("diffy" + diffy);*/
+        /*
+                //changed diffx and diffy
+                float diffx = curPosition.x;
+                //Debug.Log("diffx" + diffx);
+                float diffy = curPosition.y;
+                //Debug.Log("diffy" + diffy);*/
 
-        var dxAndDy = flattenDiff(diffx, diffy);
+        /*var dxAndDy = flattenDiff(diffx, diffy);
 
         int dx = dxAndDy.Key;
-        int dy = dxAndDy.Value;
+        int dy = dxAndDy.Value;*/
+        int dx = flattenDiff(diffx);
+        int dy = flattenDiff(diffy);
+
         if (dx == 0 && dy == 0)
             return;
+
+        if (Mathf.Abs(diffx) >= Mathf.Abs(diffy))
+        {
+            if (movetheSelectedCar(curPosition, dx, 0))
+            {
+                movetheSelectedCar(curPosition, 0, dy);
+            }
+        }
+        else
+        {
+            if (movetheSelectedCar(curPosition, 0, dy))
+            {
+                movetheSelectedCar(curPosition, dx, 0);
+            }
+        }
+
+    }
+
+    private bool movetheSelectedCar(Vector3 curPosition, int dx, int dy)
+    {
+
+        if (dx == 0 && dy == 0)
+            return false;
 
         // the position of left side of the car
         float leftx = transform.position.x + dx + leftOffset;
@@ -177,34 +218,34 @@ public class CarControl : MonoBehaviour
         Vector3 entranceBarrierPos = myMap.getEntranceBarrierPos();
         Vector3 startPos = new Vector3(entranceBarrierPos[0]+ leftOffset, entranceBarrierPos[1]);
         if (new Vector3(transform.position.x, transform.position.y) == startPos && dx == -1){
-          return;
+          return false;
         }
 
         // detect whether there is a wall in the front part of the car or back part of the car.
         if (isWall((int)leftx, ny) || isWall((int)rightx, ny)) {
-          return;
+          return false;
         }
 
         if (dx == 1 && isCar((int)rightx, ny)) {
             // Debug.Log("dx == 1 :" , rightx, ny);
             //Debug.Log("there is a car1");
-            return;
+            return false; 
         } else if (dx == -1 && isCar((int)leftx, ny)) {
             // Debug.Log("dx == -1", leftx, ny);
             //Debug.Log("there is a car2");
-            return;
+            return false;
 
         }
         else if (dx == 0 && (isCar((int)leftx, ny) || isCar((int)rightx, ny)))
         { // when car move up or move down
-            return;
+            return false;
         }
 
         //Debug.Log("Ok to remove");
 
         if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar)
         {
-            return;
+            return false;
         }
 
         //transform.position = new Vector3(nx, ny);
@@ -217,7 +258,10 @@ public class CarControl : MonoBehaviour
             myMap.removeCars((int)rightx,ny);
             myGameManager.setSelectedCar(null);
             Destroy(gameObject);
+            
         }
+
+        return true;
         /*// Move our position a step closer to the target.
         float step = speed * Time.deltaTime; // calculate distance to move
         // Move player to next position.
@@ -228,11 +272,7 @@ public class CarControl : MonoBehaviour
 
     void OnMouseDrag()
     {
-        //new position
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        //move the car to mouse's new position
-        movetheSelectedCar(curPosition);
+
     }
 
 

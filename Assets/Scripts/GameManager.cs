@@ -36,9 +36,15 @@ public class GameManager : MonoBehaviour
     private GameObject selectedCar;
     public GameObject driver;
 
+    // jude the mouse
+    private bool IsMouseDown;
+
+     
 
     void Start()
     {
+
+        IsMouseDown = false;
         selectedCar = null;
         duringDoubleTipsTime = false;
         PlayerPrefs.SetInt("coins", 5);
@@ -78,6 +84,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+   
     void Update()
     {
 
@@ -98,6 +106,13 @@ public class GameManager : MonoBehaviour
           (GameObject.Find("DialogueManager").GetComponent("DialogueManager") as MonoBehaviour).enabled = true;
           setCarObjectStatus(true);
         }
+
+
+
+
+         
+
+
 
         // Waiting for Instruction Dialogue Finish
         if (!myDia.getFinishFlag()){
@@ -257,8 +272,7 @@ public class GameManager : MonoBehaviour
             driver.GetComponent<Renderer>().enabled = true;
 
             // change the border of the selected car into white;
-            selectedCar.GetComponent<Renderer>().enabled = true;
-            Debug.Log(selectedCar.GetComponent<Renderer>().material.color);
+            selectedCar.GetComponent<Renderer>().enabled = true; 
             selectedCar.GetComponent<Renderer>().material.color = Color.black;
 
         } 
