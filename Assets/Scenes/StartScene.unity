@@ -265,7 +265,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: LA Valet
+  m_Text: L.A. Valet
 --- !u!222 &232539860
 CanvasRenderer:
   m_ObjectHideFlags: 0
