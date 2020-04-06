@@ -27,7 +27,7 @@ public class CarControl : MonoBehaviour
     public Text countdownText;
     bool minusTip;
      
-
+    public bool bombClicked;
 
     void Start()
     {
@@ -68,6 +68,25 @@ public class CarControl : MonoBehaviour
           movetheSelectedCarOrTrain(curPosition);
       }
     }
+    
+    //after clicking on the bomb sprite, the car selected gets destroyed
+    public void detectBombAndCar(){
+        //if bomb can be used and has been selected
+        if(myGameManager.bombActive()==true && bombClicked == true){
+        Vector3 oldCarLocation = myGameManager.getSelectedCar().transform.position;
+        //destroy the gameobject
+        Destroy(myGameManager.getSelectedCar());
+        //remove car position from hashset
+        int newLeftXLoc = (int)(oldCarLocation.x+leftOffset);
+        int newRightXLoc = (int)(oldCarLocation.x+rightOffset);
+        myMap.removeCars(newLeftXLoc,(int)oldCarLocation.y);
+        myMap.removeCars(newRightXLoc,(int)oldCarLocation.y);
+        //remove driver
+        myGameManager.driver.GetComponent<Renderer>().enabled = false;
+        //turn off bomb
+        myGameManager.bomb.SetActive(false);
+        }
+    }
 
     void Update()
     {
@@ -78,18 +97,41 @@ public class CarControl : MonoBehaviour
             minusTip = true;
         }
 
+        //check if bomb has been selected 
+        if (Input.GetMouseButtonDown(0)){
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10;
+ 
+            Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
+ 
+            RaycastHit2D hit = Physics2D.Raycast(screenPos,Vector2.zero);
+            
+            if(hit)
+            {
+                //if item selected is bomb
+                if(hit.collider.name == "bomb_circle"){
+                    //set bomb to active 
+                    bombClicked = true;
+
+                }
+            }
+        }
+
         detectedMouseandMovetheSeletctedCar();
+        detectBombAndCar();
+        
+
 
     }
 
     void OnMouseDown()
     {
 
-        //obtain world position of game object
-        //subtract mouse position from game object position
-        //offset is how much mouse's position differs from object's position
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+        //if(gameObject.tag == "car"){
         myGameManager.setSelectedCar(gameObject);
+        //}
+        
 
     }
 

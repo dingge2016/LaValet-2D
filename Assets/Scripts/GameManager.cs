@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -38,14 +39,14 @@ public class GameManager : MonoBehaviour
     private bool duringDoubleTipsTime;
 
     // for selected car;
-    private GameObject selectedCar;
+    public GameObject selectedCar;
     public GameObject driver;
-     
 
-
+    public GameObject bomb;
 
     void Start()
     { 
+
         selectedCar = null;
         duringDoubleTipsTime = false; 
         totalTips = 0;
@@ -73,6 +74,9 @@ public class GameManager : MonoBehaviour
           (mapManager.GetComponent("MapCreater") as MonoBehaviour).enabled = false;
         }
         setCarObjectStatus(false);
+        
+        //hide bomb sprite until it gets bought from the store
+        bomb.SetActive(false);
     }
 
     public void ClickEnterGameButton()
@@ -234,6 +238,10 @@ public class GameManager : MonoBehaviour
         {
             currentTime += 15;
         }
+        //make bomb sprite visible 
+        if (propId == 1){
+            bomb.SetActive(true);
+        }
         if (propId == 2)
         {
             doubleTipsPropButtion.SetActive(true);
@@ -252,9 +260,18 @@ public class GameManager : MonoBehaviour
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = new Color(100f / 255f, 0f / 255f, 0f / 255f);
             propsStatus[2] = false;
         }
-
-
     }
+    
+    
+    public bool bombActive(){
+        if(bomb.activeSelf== true){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public void Restart()
     {
         totalTips = 0;
