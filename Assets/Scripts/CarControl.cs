@@ -375,9 +375,17 @@ public class CarControl : MonoBehaviour
 
     protected bool isEntry(int leftx, int rightx, int y)
     {
+        // First Entry
         Vector3 entryPos = myMap.getEntranceBarrierPos();
-        if ( (entryPos[0] == leftx && entryPos[1] == y) || (entryPos[0] == rightx && entryPos[1] == y) ){
-          return true;
+        if ((entryPos[0] == leftx && entryPos[1] == y) || (entryPos[0] == rightx && entryPos[1] == y))
+        {
+            return true;
+        }
+        // Second Entry
+        List<KeyValuePair<int, int>> entryPos2 = myMap.multi_ent_pos_set;
+        if ((entryPos2[0].Key == leftx && entryPos2[0].Value == y) || (entryPos2[0].Key == rightx && entryPos2[0].Value == y))
+        {
+            return true;
         }
         return false;
     }
