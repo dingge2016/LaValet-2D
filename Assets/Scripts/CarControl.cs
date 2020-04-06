@@ -284,7 +284,7 @@ public class CarControl : MonoBehaviour
         }
 
         // check if old car position is in gate lot
-        // checkOld == 2 the car was in a gate lot
+        // checkOld == 2 the car is in a gate lot
         foreach (var lot in myMap.gate_lot_pos)
         {
             if ((lot.Key == oldCarLeftX && lot.Value == oldCartY) || (lot.Key == oldCarRightX && lot.Value == oldCartY))
