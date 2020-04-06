@@ -28,6 +28,7 @@ public class MapCreater : MonoBehaviour
     private HashSet<int> train_pos_set = new HashSet<int>();
     private HashSet<int> belt_pos_set = new HashSet<int>();
     public List<KeyValuePair<int, int>> multi_ent_pos_set = new List<KeyValuePair<int, int>>();
+    public List<KeyValuePair<int, int>> multi_exit_pos_set = new List<KeyValuePair<int, int>>();
     public List<KeyValuePair<int, int>> gate_lot_pos = new List<KeyValuePair<int, int>>();
     public List<GameObject> cars;
     public List<GameObject> cars2;
@@ -99,6 +100,7 @@ public class MapCreater : MonoBehaviour
                 {
                     GameObject exit = Instantiate(Exit, cell_pos, Quaternion.identity);
                     exitPos = new Vector3(row_pos, col_pos);
+                    multi_exit_pos_set.Add(new KeyValuePair<int, int>(row_pos, col_pos));
                 }
                 else if (row[i] == '#')
                 {
@@ -149,7 +151,7 @@ public class MapCreater : MonoBehaviour
             createCar2();
         }
 
-        //foreach (var item in multi_ent_pos_set)
+        //foreach (var item in multi_exit_pos_set)
         //{
         //    Debug.Log(item);
         //    Debug.Log(item.Key);

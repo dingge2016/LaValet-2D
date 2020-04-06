@@ -204,12 +204,36 @@ public class CarControl : MonoBehaviour
 
       if (isExit((int)rightx, ny))
       {
-          updateTips();
-          myMap.removeCars((int)leftx,ny);
-          myMap.removeCars((int)rightx,ny);
-          myGameManager.setSelectedCar(null);
-          Destroy(gameObject);
-
+            if (myMap.multi_exit_pos_set.Count == 1)
+            {
+                updateTips();
+            }
+            else if (myMap.multi_exit_pos_set.Count == 2)
+            {
+                string label = gameObject.name.Substring(0, 1);
+                Vector3 exitPos = myMap.getExitPos();
+                int entryOneX = (int)exitPos[0];
+                int entryOneY = (int)exitPos[1];
+                List<KeyValuePair<int, int>> exitPos2 = myMap.multi_exit_pos_set;
+                int entryTwoX = (int)exitPos2[0].Key;
+                int entryTwoY = (int)exitPos2[0].Value;
+                if (string.Equals(label, "A") && ((int)rightx == entryTwoX || (int)leftx == entryTwoX) && ny == entryTwoY)
+                {
+                    updateTips();
+                }
+                else if (string.Equals(label, "B") && ((int)rightx == entryOneX || (int)leftx == entryOneX) && ny == entryOneY)
+                {
+                    updateTips();
+                }
+                else
+                {
+                    GameManager.totalTips -= 10;
+                }
+            }
+            myMap.removeCars((int)leftx,ny);
+            myMap.removeCars((int)rightx,ny);
+            myGameManager.setSelectedCar(null);
+            Destroy(gameObject);
       }
 
       return true;
@@ -365,10 +389,17 @@ public class CarControl : MonoBehaviour
 
     protected bool isExit(int x, int y)
     {
+        // First Exit
         Vector3 exitPos = myMap.getExitPos();
         if (exitPos[0] == x && exitPos[1] == y ){
 
            return true;
+        }
+        // Second Exit
+        List<KeyValuePair<int, int>> exitPos2 = myMap.multi_exit_pos_set;
+        if (exitPos2[0].Key == x && exitPos2[0].Value == y)
+        {
+            return true;
         }
         return false;
     }
