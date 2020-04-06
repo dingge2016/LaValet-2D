@@ -27,8 +27,10 @@ public class MapCreater : MonoBehaviour
     private HashSet<int> car_pos_set = new HashSet<int>();
     private HashSet<int> train_pos_set = new HashSet<int>();
     private HashSet<int> belt_pos_set = new HashSet<int>();
+    public List<KeyValuePair<int, int>> multi_ent_pos_set = new List<KeyValuePair<int, int>>();
     public List<KeyValuePair<int, int>> gate_lot_pos = new List<KeyValuePair<int, int>>();
     public List<GameObject> cars;
+    public List<GameObject> cars2;
     public List<GameObject> belts;
     private Vector3 exitPos;
     private Vector3 entranceBarrierPos;
@@ -42,11 +44,14 @@ public class MapCreater : MonoBehaviour
     public int left_top_y = 4;
 
     // Var for generating car
-    private int nextNameNumber=0;
-    private int objNameNumber=0;
+    private int nextNameNumber = 0;
+    private int nextNameNumber2 = 0;
+    private int objNameNumber = 0;
+    private int objNameNumber2 = 0;
     private float leftOffSet = -0.5f;
     private float rightOffSet = 0.5f;
     private Vector3 startPos;
+    private Vector3 startPos2;
 
     private void Awake()
     {
@@ -87,7 +92,8 @@ public class MapCreater : MonoBehaviour
                 {
                     GameObject entry = Instantiate(Entry, cell_pos, Quaternion.identity);
                     entranceBarrierPos = new Vector3(row_pos, col_pos);
-                    //          Debug.Log(entranceBarrierPos);
+                    //Debug.Log(entranceBarrierPos);
+                    multi_ent_pos_set.Add(new KeyValuePair<int, int>(row_pos, col_pos));
                 }
                 else if (row[i] == 'O') //Exit
                 {
@@ -138,8 +144,12 @@ public class MapCreater : MonoBehaviour
         myDia = FindObjectOfType<DialogueManager>();
         createCar();
 
-        ////check gate lots position
-        //foreach (var item in gate_lot_pos)
+        if (multi_ent_pos_set.Count == 2)
+        {
+            createCar2();
+        }
+
+        //foreach (var item in multi_ent_pos_set)
         //{
         //    Debug.Log(item);
         //    Debug.Log(item.Key);
@@ -147,7 +157,7 @@ public class MapCreater : MonoBehaviour
         //}
     }
 
-    //wait one second to generated new car
+    //wait one second to generated new car for first entrance
     private IEnumerator WaitForASecond(){
             yield return new WaitForSeconds(1f); 
         if (!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
@@ -157,10 +167,32 @@ public class MapCreater : MonoBehaviour
         }
         else objNameNumber--;
     }
- 
 
-    //create new car if car at initial position has moved
+    // wait one second to generated new car for second entrance
+    private IEnumerator WaitForASecond2()
+    {
+        yield return new WaitForSeconds(1f);
+        if (!car_pos_set.Contains(TwoDToOneD((int)(startPos2[0] + leftOffSet), (int)startPos2[1]))
+            && !car_pos_set.Contains(TwoDToOneD((int)(startPos2[0] + rightOffSet), (int)startPos2[1])))
+        {
+            createCar2();
+        }
+        else objNameNumber2--;
+    }
+
+
     void Update(){
+        createMoreCar();
+        if (multi_ent_pos_set.Count == 2)
+        {
+            createMoreCar2();
+        }
+    }
+
+
+    // create new car at entrance 1 if car at initial position has moved
+    void createMoreCar()
+    {
         // Wait for Creating Car
         if (cars.Count == 0 || objNameNumber + 1 > cars.Count)
         {
@@ -168,15 +200,33 @@ public class MapCreater : MonoBehaviour
         }
 
         //check if later created cars have moved
-        if (!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1])) 
+        if (!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
           && !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])))
         {
-          StartCoroutine(WaitForASecond());
+            StartCoroutine(WaitForASecond());
             objNameNumber++;
         }
     }
 
-    //create new car objects
+    // create new car at entrance 2 if car at initial position has moved
+    void createMoreCar2()
+    {
+        // Wait for Creating Car
+        if (cars2.Count == 0 || objNameNumber2 + 1 > cars2.Count)
+        {
+            return;
+        }
+
+        //check if later created cars have moved
+        if (!car_pos_set.Contains(TwoDToOneD((int)(startPos2[0] + leftOffSet), (int)startPos2[1]))
+          && !car_pos_set.Contains(TwoDToOneD((int)(startPos2[0] + rightOffSet), (int)startPos2[1])))
+        {
+            StartCoroutine(WaitForASecond2());
+            objNameNumber2++;
+        }
+    }
+
+    // create new car objects for first entrance
     private GameObject createCar(){
         GameObject newCar = Instantiate(car) as GameObject;
         //store initial left side and right side locatioins of cars into hash set
@@ -194,6 +244,29 @@ public class MapCreater : MonoBehaviour
           FindObjectOfType<CarTimer>().currentTime = 15.0f;
         }
         nextNameNumber++;
+        return newCar;
+    }
+
+    // create new car objects for second entrance
+    private GameObject createCar2()
+    {
+        GameObject newCar = Instantiate(car) as GameObject;
+        // store initial left side and right side locatioins of car
+        startPos2 = new Vector3(multi_ent_pos_set[0].Key + leftOffSet, multi_ent_pos_set[0].Value, -2);
+        newCar.transform.position = startPos2;
+        float startLeft = newCar.transform.position.x + leftOffSet;
+        float startRight = newCar.transform.position.x + rightOffSet;
+        float startY = newCar.transform.position.y;
+        car_pos_set.Add(TwoDToOneD((int)startLeft, (int)startY));
+        car_pos_set.Add(TwoDToOneD((int)startRight, (int)startY));
+        newCar.SetActive(true);
+        cars2.Add(newCar);
+        newCar.name = "BCarObject" + nextNameNumber2;
+        if (nextNameNumber2 == 0)
+        {
+            FindObjectOfType<CarTimer>().currentTime = 15.0f;
+        }
+        nextNameNumber2++;
         return newCar;
     }
 
