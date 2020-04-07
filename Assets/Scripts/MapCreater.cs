@@ -22,12 +22,13 @@ public class MapCreater : MonoBehaviour
     public GameObject VerticalTrack;
     public GameObject IntersectionTrack;
     public GameObject HorizontalTrack;
+    public GameObject gateOne;
+    public GameObject gateTwo;
 
     private HashSet<int> wall_pos_set;
     private HashSet<int> car_pos_set = new HashSet<int>();
     private HashSet<int> train_pos_set = new HashSet<int>();
     private HashSet<int> belt_pos_set = new HashSet<int>();
-    //public HashSet<int> gate_pos_set = new HashSet<int>();
     public List<KeyValuePair<int, int>> multi_ent_pos_set = new List<KeyValuePair<int, int>>();
     public List<KeyValuePair<int, int>> multi_exit_pos_set = new List<KeyValuePair<int, int>>();
     public List<KeyValuePair<int, int>> gate_lot_pos = new List<KeyValuePair<int, int>>();
@@ -55,10 +56,7 @@ public class MapCreater : MonoBehaviour
     private float rightOffSet = 0.5f;
     private Vector3 startPos;
     private Vector3 startPos2;
-    //public int l2LotOneLeft;
-    //public int l2LotOneRight;
-    //public int l2LotTwoLeft;
-    //public int l2LotTwoRight;
+
 
     private void Awake()
     {
@@ -69,6 +67,10 @@ public class MapCreater : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gateOne = GameObject.Find("GateOne");
+        gateTwo = GameObject.Find("GateTwo");
+        gateInLevel();
+
         int row_pos = left_top_x;
         foreach (var row in map)
         {
@@ -150,19 +152,6 @@ public class MapCreater : MonoBehaviour
             }
             row_pos++;
         }
-
-
-        //// Add gate positions to set
-        //gate_pos_set.Add(TwoDToOneD(2, 1));   // gate one left
-        //gate_pos_set.Add(TwoDToOneD(3, 1));   // gate one right
-        //gate_pos_set.Add(TwoDToOneD(2, -1));  // gate two left
-        //gate_pos_set.Add(TwoDToOneD(3, -1));  // gate two right
-
-        //// Represent lot positiona by int using TwoDToOneD()
-        //l2LotOneLeft = TwoDToOneD(gate_lot_pos[1].Key, gate_lot_pos[1].Value);
-        //l2LotOneRight = TwoDToOneD(gate_lot_pos[3].Key, gate_lot_pos[3].Value);
-        //l2LotTwoLeft = TwoDToOneD(gate_lot_pos[0].Key, gate_lot_pos[0].Value);
-        //l2LotTwoRight = TwoDToOneD(gate_lot_pos[2].Key, gate_lot_pos[2].Value);
 
 
         // Add gate positions to gate_pos list
@@ -300,6 +289,16 @@ public class MapCreater : MonoBehaviour
         }
         nextNameNumber2++;
         return newCar;
+    }
+
+    // Check if there is any gate in the level
+    public bool gateInLevel()
+    {
+        if (gateOne == null && gateTwo == null)
+        {
+            return false;
+        }
+        return true;
     }
 
     public HashSet<int> getWallPosSet() {
