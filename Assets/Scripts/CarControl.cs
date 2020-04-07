@@ -195,21 +195,25 @@ public class CarControl : MonoBehaviour
       }
 
 
-        // detect whether there is a gate in the front part of the car or back part of the car.
-        if (isGate((int)leftx, ny) || isGate((int)rightx, ny))
+        // check if the level has gate
+        if (myMap.gateInLevel())
         {
-            for (int i = 0; i < 4; i++)
+            // detect whether there is a gate in the front part of the car or back part of the car.
+            if (isGate((int)leftx, ny) || isGate((int)rightx, ny))
             {
-                if ((myMap.gate_pos[i].Key == (int)leftx || myMap.gate_pos[i].Key == (int)rightx) && (myMap.gate_pos[i].Value == ny))
+                for (int i = 0; i < 4; i++)
                 {
-                    if (i < 2 && myMap.gateOne.activeInHierarchy)
+                    if ((myMap.gate_pos[i].Key == (int)leftx || myMap.gate_pos[i].Key == (int)rightx) && (myMap.gate_pos[i].Value == ny))
                     {
-                        return false;
-                    }
-                    if (i >= 2 && myMap.gateTwo.activeInHierarchy)
-                    {
+                        if (i < 2 && myMap.gateOne.activeInHierarchy)
+                        {
+                            return false;
+                        }
+                        if (i >= 2 && myMap.gateTwo.activeInHierarchy)
+                        {
 
-                        return false;
+                            return false;
+                        }
                     }
                 }
             }

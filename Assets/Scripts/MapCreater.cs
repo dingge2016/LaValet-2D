@@ -69,6 +69,7 @@ public class MapCreater : MonoBehaviour
     {
         gateOne = GameObject.Find("GateOne");
         gateTwo = GameObject.Find("GateTwo");
+        gateInLevel();
 
         int row_pos = left_top_x;
         foreach (var row in map)
@@ -288,6 +289,16 @@ public class MapCreater : MonoBehaviour
         }
         nextNameNumber2++;
         return newCar;
+    }
+
+    // Check if there is any gate in the level
+    public bool gateInLevel()
+    {
+        if (gateOne == null && gateTwo == null)
+        {
+            return false;
+        }
+        return true;
     }
 
     public HashSet<int> getWallPosSet() {
