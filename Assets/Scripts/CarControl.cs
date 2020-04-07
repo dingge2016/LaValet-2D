@@ -27,7 +27,7 @@ public class CarControl : MonoBehaviour
     float currentTime = 0f;
     public Text countdownText;
     bool minusTip;
-     
+
     public bool bombClicked;
 
     void Start()
@@ -69,7 +69,7 @@ public class CarControl : MonoBehaviour
           movetheSelectedCarOrTrain(curPosition);
       }
     }
-    
+
     //after clicking on the bomb sprite, the car selected gets destroyed
     public void detectBombAndCar(){
         //if bomb can be used and has been selected
@@ -98,20 +98,20 @@ public class CarControl : MonoBehaviour
             minusTip = true;
         }
 
-        //check if bomb has been selected 
+        //check if bomb has been selected
         if (Input.GetMouseButtonDown(0)){
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 10;
- 
+
             Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
- 
+
             RaycastHit2D hit = Physics2D.Raycast(screenPos,Vector2.zero);
-            
+
             if(hit)
             {
                 //if item selected is bomb
                 if(hit.collider.name == "bomb_circle"){
-                    //set bomb to active 
+                    //set bomb to active
                     bombClicked = true;
 
                 }
@@ -120,7 +120,7 @@ public class CarControl : MonoBehaviour
 
         detectedMouseandMovetheSeletctedCar();
         detectBombAndCar();
-        
+
 
 
     }
@@ -132,7 +132,7 @@ public class CarControl : MonoBehaviour
         //if(gameObject.tag == "car"){
         myGameManager.setSelectedCar(gameObject);
         //}
-        
+
 
     }
 
@@ -205,13 +205,15 @@ public class CarControl : MonoBehaviour
             {
                 if ((myMap.gate_pos[i].Key == (int)leftx || myMap.gate_pos[i].Key == (int)rightx) && (myMap.gate_pos[i].Value == ny))
                 {
+                    Debug.Log(gateTwo.activeInHierarchy);
                     if (i < 2 && gateOne.activeInHierarchy)
                     {
+                        Debug.Log("1111");
                         return false;
                     }
                     if (i >= 2 && gateTwo.activeInHierarchy)
                     {
-
+                        Debug.Log("2222");
                         return false;
                     }
                 }
@@ -428,7 +430,7 @@ public class CarControl : MonoBehaviour
     private void Awake()
     {
         myMap = FindObjectOfType<MapCreater>();
-        myGameManager = FindObjectOfType<GameManager>(); 
+        myGameManager = FindObjectOfType<GameManager>();
     }
 
     protected bool isCar(int x, int y){
