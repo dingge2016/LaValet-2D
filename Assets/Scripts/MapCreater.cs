@@ -27,9 +27,11 @@ public class MapCreater : MonoBehaviour
     private HashSet<int> car_pos_set = new HashSet<int>();
     private HashSet<int> train_pos_set = new HashSet<int>();
     private HashSet<int> belt_pos_set = new HashSet<int>();
+    //public HashSet<int> gate_pos_set = new HashSet<int>();
     public List<KeyValuePair<int, int>> multi_ent_pos_set = new List<KeyValuePair<int, int>>();
     public List<KeyValuePair<int, int>> multi_exit_pos_set = new List<KeyValuePair<int, int>>();
     public List<KeyValuePair<int, int>> gate_lot_pos = new List<KeyValuePair<int, int>>();
+    public List<KeyValuePair<int, int>> gate_pos;
     public List<GameObject> cars;
     public List<GameObject> cars2;
     public List<GameObject> belts;
@@ -53,10 +55,15 @@ public class MapCreater : MonoBehaviour
     private float rightOffSet = 0.5f;
     private Vector3 startPos;
     private Vector3 startPos2;
+    //public int l2LotOneLeft;
+    //public int l2LotOneRight;
+    //public int l2LotTwoLeft;
+    //public int l2LotTwoRight;
 
     private void Awake()
     {
         wall_pos_set = new HashSet<int>();
+        gate_pos = new List<KeyValuePair<int, int>>();
     }
 
     // Start is called before the first frame update
@@ -143,9 +150,32 @@ public class MapCreater : MonoBehaviour
             }
             row_pos++;
         }
+
+
+        //// Add gate positions to set
+        //gate_pos_set.Add(TwoDToOneD(2, 1));   // gate one left
+        //gate_pos_set.Add(TwoDToOneD(3, 1));   // gate one right
+        //gate_pos_set.Add(TwoDToOneD(2, -1));  // gate two left
+        //gate_pos_set.Add(TwoDToOneD(3, -1));  // gate two right
+
+        //// Represent lot positiona by int using TwoDToOneD()
+        //l2LotOneLeft = TwoDToOneD(gate_lot_pos[1].Key, gate_lot_pos[1].Value);
+        //l2LotOneRight = TwoDToOneD(gate_lot_pos[3].Key, gate_lot_pos[3].Value);
+        //l2LotTwoLeft = TwoDToOneD(gate_lot_pos[0].Key, gate_lot_pos[0].Value);
+        //l2LotTwoRight = TwoDToOneD(gate_lot_pos[2].Key, gate_lot_pos[2].Value);
+
+
+        // Add gate positions to gate_pos list
+        gate_pos.Add(new KeyValuePair<int, int>(2, 1));   // gate one left
+        gate_pos.Add(new KeyValuePair<int, int>(3, 1));   // gate one right
+        gate_pos.Add(new KeyValuePair<int, int>(2, -1));   // gate two left
+        gate_pos.Add(new KeyValuePair<int, int>(3, -1));   // gate two right
+
+
         myDia = FindObjectOfType<DialogueManager>();
         createCar();
 
+        // if more than one entrance, generate car in second entrance using createCar2()
         if (multi_ent_pos_set.Count == 2)
         {
             createCar2();

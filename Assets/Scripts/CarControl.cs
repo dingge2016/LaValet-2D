@@ -197,7 +197,82 @@ public class CarControl : MonoBehaviour
       { // when car move up or move down
           return false;
       }
-      if (isBelt()){
+
+
+        if (isGate((int)leftx, ny) || isGate((int)rightx, ny))
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if ((myMap.gate_pos[i].Key == (int)leftx || myMap.gate_pos[i].Key == (int)rightx) && (myMap.gate_pos[i].Value == ny))
+                {
+                    if (i < 2 && gateOne.activeInHierarchy)
+                    {
+                        return false;
+                    }
+                    if (i >= 2 && gateTwo.activeInHierarchy)
+                    {
+
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+
+
+        ////// Determine if gate is opened and allowed car to go through
+        ////if (!occupied_lot_set.Contains(myMap.l2LotOneLeft) || !occupied_lot_set.Contains(myMap.l2LotOneRight))
+        ////{
+        ////  if ((((int)rightx == myMap.gate_pos[0].Key || (int)leftx == myMap.gate_pos[0].Key) && ny == myMap.gate_pos[0].Value) || (((int)rightx == myMap.gate_pos[1].Key || (int)leftx == myMap.gate_pos[1].Key) && ny == myMap.gate_pos[1].Value))
+        ////  {
+        ////    return false;
+        ////  }
+        ////}
+        ////else if (!occupied_lot_set.Contains(myMap.l2LotTwoLeft) || !occupied_lot_set.Contains(myMap.l2LotTwoRight))
+        ////{
+        ////  if ((((int)rightx == myMap.gate_pos[2].Key || (int)leftx == myMap.gate_pos[2].Key) && ny == myMap.gate_pos[2].Value) || (((int)rightx == myMap.gate_pos[3].Key || (int)leftx == myMap.gate_pos[3].Key) && ny == myMap.gate_pos[3].Value))
+        ////  {
+        ////    return false;
+        ////  }
+        ////}
+
+
+
+
+        // Determine if car goes out from the correct exit
+        // Car can't go out from the wrong exit
+        if (isExit((int)rightx, ny))
+    {
+        if (myMap.multi_exit_pos_set.Count == 1)
+        {
+            updateTips();
+        }
+        else if (myMap.multi_exit_pos_set.Count == 2)
+        {
+            string label = gameObject.name.Substring(0, 1);
+            Vector3 exitPos = myMap.getExitPos();
+            int exitOneX = (int)exitPos[0];
+            int exitOneY = (int)exitPos[1];
+            List<KeyValuePair<int, int>> exitPos2 = myMap.multi_exit_pos_set;
+            int exitTwoX = (int)exitPos2[0].Key;
+            int exitTwoY = (int)exitPos2[0].Value;
+            if (string.Equals(label, "A") && (int)rightx == exitTwoX && ny == exitTwoY)
+            {
+                updateTips();
+            }
+            else if (string.Equals(label, "B") && (int)rightx == exitOneX && ny == exitOneY)
+            {
+                updateTips();
+            }
+                else
+                {
+                    return false;
+                }
+            }
+    }
+
+        if (isBelt()){
         moveCarOnBelt(nx, ny, (int)rightx, (int)leftx);
       } else {
         moveCar(nx, ny, (int)rightx, (int)leftx);
@@ -205,32 +280,6 @@ public class CarControl : MonoBehaviour
 
       if (isExit((int)rightx, ny))
       {
-            if (myMap.multi_exit_pos_set.Count == 1)
-            {
-                updateTips();
-            }
-            else if (myMap.multi_exit_pos_set.Count == 2)
-            {
-                string label = gameObject.name.Substring(0, 1);
-                Vector3 exitPos = myMap.getExitPos();
-                int entryOneX = (int)exitPos[0];
-                int entryOneY = (int)exitPos[1];
-                List<KeyValuePair<int, int>> exitPos2 = myMap.multi_exit_pos_set;
-                int entryTwoX = (int)exitPos2[0].Key;
-                int entryTwoY = (int)exitPos2[0].Value;
-                if (string.Equals(label, "A") && ((int)rightx == entryTwoX || (int)leftx == entryTwoX) && ny == entryTwoY)
-                {
-                    updateTips();
-                }
-                else if (string.Equals(label, "B") && ((int)rightx == entryOneX || (int)leftx == entryOneX) && ny == entryOneY)
-                {
-                    updateTips();
-                }
-                else
-                {
-                    GameManager.totalTips -= 10;
-                }
-            }
             myMap.removeCars((int)leftx,ny);
             myMap.removeCars((int)rightx,ny);
             myGameManager.setSelectedCar(null);
@@ -285,11 +334,13 @@ public class CarControl : MonoBehaviour
             {
                 checkNew++;
                 halfCar = "leftcar";
+                occupied_lot_set.Add(myMap.TwoDToOneD(carLeftX, carY));
             }
             if (lot.Key == carRightX && lot.Value == carY)
             {
                 checkNew++;
                 halfCar = "rightcar";
+                occupied_lot_set.Add(myMap.TwoDToOneD(carRightX, carY));
             }
             if (checkNew == 2)
             {
@@ -301,11 +352,13 @@ public class CarControl : MonoBehaviour
         {
             tagText = posToTag(carLeftX - 1) + posToTag(carRightX - 1) + posToTag(carY);
             closeGate(tagText);
+            occupied_lot_set.Remove(myMap.TwoDToOneD(carRightX, carY));
         }
         else if (checkNew == 1 && string.Equals(halfCar, "rightcar"))
         {
             tagText = posToTag(carLeftX + 1) + posToTag(carRightX + 1) + posToTag(carY);
             closeGate(tagText);
+            occupied_lot_set.Remove(myMap.TwoDToOneD(carLeftX, carY));
         }
 
         // check if old car position is in gate lot
@@ -326,11 +379,11 @@ public class CarControl : MonoBehaviour
             if (checkOld == 2)
             {
                 if (string.Equals(allGates[0], oldPosText)) {
-                    gateOne.SetActive(true);
+                    gateTwo.SetActive(true);
                 }
                 else if (string.Equals(allGates[1], oldPosText))
                 {
-                    gateTwo.SetActive(true);
+                    gateOne.SetActive(true);
                 }
             }
         }
@@ -353,8 +406,8 @@ public class CarControl : MonoBehaviour
         {
             if (string.Equals(tagText, allGates[i]))
             {
-                if (i == 0) gateOne.SetActive(false);
-                if (i == 1) gateTwo.SetActive(false);
+                if (i == 0) gateTwo.SetActive(false);
+                if (i == 1) gateOne.SetActive(false);
             }
         }
     }
@@ -366,8 +419,8 @@ public class CarControl : MonoBehaviour
         {
             if (string.Equals(tagText, allGates[i]))
             {
-                if (i == 0) gateOne.SetActive(true);
-                if (i == 1) gateTwo.SetActive(true);
+                if (i == 0) gateTwo.SetActive(true);
+                if (i == 1) gateOne.SetActive(true);
             }
         }
     }
@@ -387,6 +440,20 @@ public class CarControl : MonoBehaviour
     {
         return myMap.getWallPosSet().Contains(myMap.TwoDToOneD(x, y));
     }
+
+
+    protected bool isGate(int x, int y)
+    {
+        foreach (var pos in myMap.gate_pos)
+        {
+            if (pos.Key == x && pos.Value == y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     void updateTips()
     {
