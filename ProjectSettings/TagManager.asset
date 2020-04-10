@@ -8,6 +8,7 @@ TagManager:
   - +0+1-3
   - +0+1+3
   - bomb
+  - tip1
   layers:
   - Default
   - TransparentFX

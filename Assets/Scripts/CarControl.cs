@@ -7,6 +7,7 @@ public class CarControl : MonoBehaviour
 { // Map.
     protected MapCreater myMap;
     protected GameManager myGameManager;
+    protected tipPosition myTipPosition;
     private Vector3 offset;
     private Vector3 newPosition;
     public List<string> allGates = new List<string>();
@@ -28,10 +29,17 @@ public class CarControl : MonoBehaviour
 
     public bool bombClicked;
 
+    private bool isCoroutineStarted = false;
+
+    public GameObject tip1;
+
     void Start()
     {
         allGates.Add("+0+1+3");
         allGates.Add("+0+1-3");
+        tip1 = GameObject.FindWithTag("tip1"); 
+        tip1.SetActive(false);
+        
     }
 
 
@@ -85,14 +93,42 @@ public class CarControl : MonoBehaviour
         }
     }
 
+    //once car turns black, decrease the amount of tips by 1 every second
+    private IEnumerator DeductTipEverySecond()
+     {
+        while(isCoroutineStarted){
+            GameManager.totalTips -=1;
+            yield return new WaitForSeconds(1f);
+        }
+             
+     }
+     
+     public void showTip1(){
+        tip1.transform.position = new Vector3(myTipPosition.tipPos.x,myTipPosition.tipPos.y+80f,0);
+        tip1.SetActive(true);
+        //shows UI for two seconds
+        Invoke("HideTip1",2f);
+    }
+    
+    public void HideTip1(){
+        tip1.SetActive(false);
+    }
+    
+
     void Update()
     {
+
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
         if (currentTime <= timeToGivePenalty && !minusTip)
         {
-            GameManager.totalTips -= 5;
+            //GameManager.totalTips -= 5;
             minusTip = true;
+            //tip gets deducted by 1 every second
+            isCoroutineStarted = true;
+            StartCoroutine(DeductTipEverySecond());
+            showTip1();
         }
+        
 
         //check if bomb has been selected
         if (Input.GetMouseButtonDown(0)){
@@ -160,6 +196,7 @@ public class CarControl : MonoBehaviour
 
     }
 
+
     private bool determineMove(int dx, int dy){
       if (dx == 0 && dy == 0)
           return false;
@@ -172,6 +209,8 @@ public class CarControl : MonoBehaviour
       int ny = (int)transform.position.y + dy;
       if (isExit((int)leftx + 1, ny) && currentTime > timeToRemoveTheCar)
       {
+
+          myGameManager.showBlueCarText();
           return false;
       }
       // in Enter, Can't Go Back
@@ -259,6 +298,9 @@ public class CarControl : MonoBehaviour
 
       if (isExit((int)rightx, ny))
       {
+            if(!minusTip){
+                myGameManager.showTip10();
+            }
             myMap.removeCars((int)leftx,ny);
             myMap.removeCars((int)rightx,ny);
             myGameManager.setSelectedCar(null);
@@ -408,6 +450,8 @@ public class CarControl : MonoBehaviour
     {
         myMap = FindObjectOfType<MapCreater>();
         myGameManager = FindObjectOfType<GameManager>();
+        myTipPosition = FindObjectOfType<tipPosition>();
+
     }
 
     protected bool isCar(int x, int y){

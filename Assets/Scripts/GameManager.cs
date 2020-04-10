@@ -44,8 +44,14 @@ public class GameManager : MonoBehaviour
 
     public GameObject bomb;
 
+    public GameObject blueCarBox;
+    public GameObject tip10;
+
     void Start()
     { 
+        //initially make texts invisible 
+        blueCarBox.SetActive(false);
+        tip10.SetActive(false);
 
         selectedCar = null;
         duringDoubleTipsTime = false; 
@@ -270,6 +276,24 @@ public class GameManager : MonoBehaviour
         else{
             return false;
         }
+    }
+
+    public void showBlueCarText(){
+        blueCarBox.SetActive(true);
+        Invoke("HideBlue",2f);
+    }
+
+    public void HideBlue(){
+        blueCarBox.SetActive(false);
+    }
+
+    public void showTip10(){
+        tip10.SetActive(true);
+        Invoke("HideTip10",2f);
+    }
+
+    public void HideTip10(){
+        tip10.SetActive(false);
     }
 
     public void Restart()
