@@ -24,6 +24,10 @@ public class MapCreater : MonoBehaviour
     public GameObject HorizontalTrack;
     public GameObject gateOne;
     public GameObject gateTwo;
+    public GameObject l4GateOne;
+    public GameObject l4GateTwo;
+    public GameObject l4GateThree;
+    public GameObject l4GateFour;
 
     private HashSet<int> wall_pos_set;
     private HashSet<int> car_pos_set = new HashSet<int>();
@@ -67,9 +71,14 @@ public class MapCreater : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gateOne = GameObject.Find("GateOne");
-        gateTwo = GameObject.Find("GateTwo");
-        gateInLevel();
+        gateOne = GameObject.Find("GateOne");   // Find Gate One in Level Three
+        gateTwo = GameObject.Find("GateTwo");   // Find Gate Two in Level Three
+        l4GateOne = GameObject.Find("L4GateOne");
+        l4GateTwo = GameObject.Find("L4GateTwo");
+        l4GateThree = GameObject.Find("L4GateThree");
+        l4GateFour = GameObject.Find("L4GateFour");
+        //Debug.Log("L3: " + isLevelThree());
+        //Debug.Log("L4: " + isLevelFour());
 
         int row_pos = left_top_x;
         foreach (var row in map)
@@ -155,10 +164,23 @@ public class MapCreater : MonoBehaviour
 
 
         // Add gate positions to gate_pos list
-        gate_pos.Add(new KeyValuePair<int, int>(2, 1));   // gate one left
-        gate_pos.Add(new KeyValuePair<int, int>(3, 1));   // gate one right
-        gate_pos.Add(new KeyValuePair<int, int>(2, -1));   // gate two left
-        gate_pos.Add(new KeyValuePair<int, int>(3, -1));   // gate two right
+        if (isLevelThree())
+        {
+            gate_pos.Add(new KeyValuePair<int, int>(2, -1));   // level 3 gate one left
+            gate_pos.Add(new KeyValuePair<int, int>(3, -1));   // level 3 gate one right
+            gate_pos.Add(new KeyValuePair<int, int>(2, 1));   // level 3 gate two left
+            gate_pos.Add(new KeyValuePair<int, int>(3, 1));   // level 3 gate two right
+        }
+        else if (isLevelFour())
+        {
+            gate_pos.Add(new KeyValuePair<int, int>(2, 2));   // level 4 gate one
+            gate_pos.Add(new KeyValuePair<int, int>(-2, 0));   // level 4 gate two left
+            gate_pos.Add(new KeyValuePair<int, int>(-1, 0));   // level 4 gate two right
+            gate_pos.Add(new KeyValuePair<int, int>(5, 0));   // level 4 gate three left
+            gate_pos.Add(new KeyValuePair<int, int>(6, 0));   // level 4 gate three right
+            gate_pos.Add(new KeyValuePair<int, int>(2, -2));   // level 4 gate four
+        }
+
 
 
         myDia = FindObjectOfType<DialogueManager>();
@@ -170,7 +192,7 @@ public class MapCreater : MonoBehaviour
             createCar2();
         }
 
-        //foreach (var item in multi_exit_pos_set)
+        //foreach (var item in gate_lot_pos)
         //{
         //    Debug.Log(item);
         //    Debug.Log(item.Key);
@@ -291,10 +313,22 @@ public class MapCreater : MonoBehaviour
         return newCar;
     }
 
-    // Check if there is any gate in the level
-    public bool gateInLevel()
+    // Check if this is level three
+    public bool isLevelThree()
     {
+        // if we are not able to find GateOne and GateTwo, it means this is not level three
         if (gateOne == null && gateTwo == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    // Check if this is level four
+    public bool isLevelFour()
+    {
+        // if we are not able to find L4GateOne, L4GateTwo, L4GateThree, and L4GateFour, it means this is not level four
+        if (l4GateOne == null && l4GateTwo == null && l4GateThree == null && l4GateFour == null)
         {
             return false;
         }

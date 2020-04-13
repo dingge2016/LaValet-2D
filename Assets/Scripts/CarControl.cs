@@ -11,7 +11,6 @@ public class CarControl : MonoBehaviour
     private Vector3 offset;
     private Vector3 newPosition;
     public List<string> allGates = new List<string>();
-    private HashSet<int> occupied_lot_set = new HashSet<int>();
 
     private float leftOffset = -0.5f;
     private float rightOffset = 0.5f;
@@ -35,8 +34,18 @@ public class CarControl : MonoBehaviour
 
     void Start()
     {
-        allGates.Add("+0+1+3");
-        allGates.Add("+0+1-3");
+        if (myMap.isLevelThree())
+        {
+            allGates.Add("+0+1+3");   // allGates use special lot position to represent gate location e.g. x is from 0 to 1, and y is 3
+            allGates.Add("+0+1-3");
+        }
+        else if (myMap.isLevelFour())
+        {
+            allGates.Add("+0+1+1");   // Gate One (Level Four)
+            allGates.Add("+7+8+3");   // Gate Two (Level Four)
+            allGates.Add("+0+1-3");   // Gate Three (Level Four)
+            allGates.Add("+7+8-1");   // Gate Four (Level Four)
+        }
         tip1 = GameObject.FindWithTag("tip1"); 
         tip1.SetActive(false);
         
@@ -234,24 +243,49 @@ public class CarControl : MonoBehaviour
       }
 
 
-        // check if the level has gate
-        if (myMap.gateInLevel())
+        // Check if the next position has a gate
+        if (myMap.isLevelThree() || myMap.isLevelFour())
         {
             // detect whether there is a gate in the front part of the car or back part of the car.
             if (isGate((int)leftx, ny) || isGate((int)rightx, ny))
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < myMap.gate_pos.Count; i++)
                 {
                     if ((myMap.gate_pos[i].Key == (int)leftx || myMap.gate_pos[i].Key == (int)rightx) && (myMap.gate_pos[i].Value == ny))
                     {
-                        if (i < 2 && myMap.gateOne.activeInHierarchy)
+                        if (myMap.isLevelThree())
                         {
-                            return false;
-                        }
-                        if (i >= 2 && myMap.gateTwo.activeInHierarchy)
-                        {
+                            if (i < 2 && myMap.gateOne.activeInHierarchy)
+                            {
+                                return false;
+                            }
+                            else if (i >= 2 && myMap.gateTwo.activeInHierarchy)
+                            {
 
-                            return false;
+                                return false;
+                            }
+                        }
+                        if (myMap.isLevelFour())
+                        {
+                            if (i == 0 && myMap.l4GateOne.activeInHierarchy)
+                            {
+                                return false;
+                            }
+                            else if ((i == 1 || i == 2) && myMap.l4GateTwo.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                            else if ((i == 3 || i == 4) && myMap.l4GateThree.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                            else if (i == 5 && myMap.l4GateFour.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
                         }
                     }
                 }
@@ -337,7 +371,10 @@ public class CarControl : MonoBehaviour
         myMap.addCars((int)leftx,ny);
         myMap.addCars((int)rightx,ny);
         transform.position = new Vector3(nx, ny, -2);
-        carInLot((int)leftx, (int)rightx, ny, newLeftX, newRightX, (int)oldLocation.y);
+        if (myMap.isLevelThree() || myMap.isLevelFour())
+        {
+            carInLot((int)leftx, (int)rightx, ny, newLeftX, newRightX, (int)oldLocation.y);
+        }
     }
 
     // determine if the car park in the special gate lot
@@ -355,13 +392,11 @@ public class CarControl : MonoBehaviour
             {
                 checkNew++;
                 halfCar = "leftcar";
-                occupied_lot_set.Add(myMap.TwoDToOneD(carLeftX, carY));
             }
             if (lot.Key == carRightX && lot.Value == carY)
             {
                 checkNew++;
                 halfCar = "rightcar";
-                occupied_lot_set.Add(myMap.TwoDToOneD(carRightX, carY));
             }
             if (checkNew == 2)
             {
@@ -373,13 +408,11 @@ public class CarControl : MonoBehaviour
         {
             tagText = posToTag(carLeftX - 1) + posToTag(carRightX - 1) + posToTag(carY);
             closeGate(tagText);
-            occupied_lot_set.Remove(myMap.TwoDToOneD(carRightX, carY));
         }
         else if (checkNew == 1 && string.Equals(halfCar, "rightcar"))
         {
             tagText = posToTag(carLeftX + 1) + posToTag(carRightX + 1) + posToTag(carY);
             closeGate(tagText);
-            occupied_lot_set.Remove(myMap.TwoDToOneD(carLeftX, carY));
         }
 
         // check if old car position is in gate lot
@@ -399,13 +432,7 @@ public class CarControl : MonoBehaviour
             }
             if (checkOld == 2)
             {
-                if (string.Equals(allGates[0], oldPosText)) {
-                    myMap.gateTwo.SetActive(true);
-                }
-                else if (string.Equals(allGates[1], oldPosText))
-                {
-                    myMap.gateOne.SetActive(true);
-                }
+                closeGate(oldPosText);
             }
         }
     }
@@ -427,8 +454,18 @@ public class CarControl : MonoBehaviour
         {
             if (string.Equals(tagText, allGates[i]))
             {
-                if (i == 0) myMap.gateTwo.SetActive(false);
-                if (i == 1) myMap.gateOne.SetActive(false);
+                if (myMap.isLevelThree())
+                {
+                    if (i == 0) myMap.gateOne.SetActive(false);
+                    if (i == 1) myMap.gateTwo.SetActive(false);
+                }
+                else if (myMap.isLevelFour())
+                {
+                    if (i == 0) myMap.l4GateOne.SetActive(false);
+                    if (i == 1) myMap.l4GateTwo.SetActive(false);
+                    if (i == 2) myMap.l4GateThree.SetActive(false);
+                    if (i == 3) myMap.l4GateFour.SetActive(false);
+                }
             }
         }
     }
@@ -440,8 +477,18 @@ public class CarControl : MonoBehaviour
         {
             if (string.Equals(tagText, allGates[i]))
             {
-                if (i == 0) myMap.gateTwo.SetActive(true);
-                if (i == 1) myMap.gateOne.SetActive(true);
+                if (myMap.isLevelThree())
+                {
+                    if (i == 0) myMap.gateOne.SetActive(true);
+                    if (i == 1) myMap.gateTwo.SetActive(true);
+                }
+                else if (myMap.isLevelFour())
+                {
+                    if (i == 0) myMap.l4GateOne.SetActive(true);
+                    if (i == 1) myMap.l4GateTwo.SetActive(true);
+                    if (i == 2) myMap.l4GateThree.SetActive(true);
+                    if (i == 3) myMap.l4GateFour.SetActive(true);
+                }
             }
         }
     }
@@ -462,28 +509,6 @@ public class CarControl : MonoBehaviour
     protected bool isWall(int x, int y)
     {
         return myMap.getWallPosSet().Contains(myMap.TwoDToOneD(x, y));
-    }
-
-
-
-    // check if gate one is closed
-    protected bool isGateOneClosed()
-    {
-        if (!occupied_lot_set.Contains(myMap.TwoDToOneD(myMap.gate_lot_pos[0].Key, myMap.gate_lot_pos[0].Value)) || !occupied_lot_set.Contains(myMap.TwoDToOneD(myMap.gate_lot_pos[2].Key, myMap.gate_lot_pos[2].Value)))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    // check if gate two is closed
-    protected bool isGateTwoClosed()
-    {
-        if (!occupied_lot_set.Contains(myMap.TwoDToOneD(myMap.gate_lot_pos[1].Key, myMap.gate_lot_pos[1].Value)) || !occupied_lot_set.Contains(myMap.TwoDToOneD(myMap.gate_lot_pos[3].Key, myMap.gate_lot_pos[3].Value)))
-        {
-            return true;
-        }
-        return false;
     }
 
 

@@ -2166,12 +2166,15 @@ MonoBehaviour:
     type: 3}
   gateOne: {fileID: 0}
   gateTwo: {fileID: 0}
+  l4GateOne: {fileID: 0}
+  l4GateTwo: {fileID: 0}
+  l4GateThree: {fileID: 0}
+  l4GateFour: {fileID: 0}
   cars: []
   cars2: []
   belts: []
   left_top_x: -3
   left_top_y: -4
-  blueCarDia: {fileID: 0}
 --- !u!4 &669330842
 Transform:
   m_ObjectHideFlags: 0
@@ -2733,7 +2736,7 @@ GameObject:
   - component: {fileID: 838396004}
   - component: {fileID: 838396006}
   m_Layer: 0
-  m_Name: GateTwo
+  m_Name: GateOne
   m_TagString: +0+1-3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2820,6 +2823,7 @@ MonoBehaviour:
   timeToGivePenalty: 0
   countdownText: {fileID: 0}
   bombClicked: 0
+  tip1: {fileID: 0}
 --- !u!1 &885356566
 GameObject:
   m_ObjectHideFlags: 0
@@ -6109,7 +6113,7 @@ GameObject:
   - component: {fileID: 2100284438}
   - component: {fileID: 2100284440}
   m_Layer: 0
-  m_Name: GateOne
+  m_Name: GateTwo
   m_TagString: +0+1+3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6196,6 +6200,7 @@ MonoBehaviour:
   timeToGivePenalty: 0
   countdownText: {fileID: 0}
   bombClicked: 0
+  tip1: {fileID: 0}
 --- !u!1001 &160668260275672800
 PrefabInstance:
   m_ObjectHideFlags: 0
