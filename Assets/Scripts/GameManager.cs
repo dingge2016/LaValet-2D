@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject loseUI;
     public GameObject storeUI;
     public GameObject dialogueUI;
+    public GameObject instruction;
     public int requireTip = 5;
     private float currentTime = 0f;
     // props related variable
@@ -48,13 +49,13 @@ public class GameManager : MonoBehaviour
     public GameObject tip10;
 
     void Start()
-    { 
-        //initially make texts invisible 
+    {
+        //initially make texts invisible
         blueCarBox.SetActive(false);
         tip10.SetActive(false);
 
         selectedCar = null;
-        duringDoubleTipsTime = false; 
+        duringDoubleTipsTime = false;
         totalTips = 0;
         destroyStore = false;
         finishGame = false;
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
           (mapManager.GetComponent("MapCreater") as MonoBehaviour).enabled = false;
         }
         setCarObjectStatus(false);
-        
+
         //hide bomb sprite until it gets bought from the store
         bomb.SetActive(false);
     }
@@ -90,6 +91,9 @@ public class GameManager : MonoBehaviour
         //Enter Game From Store
         if (dialogueUI){
           dialogueUI.SetActive(true);
+        }
+        if (instruction){
+          instruction.SetActive(true);
         }
         Destroy(storeUI);
         destroyStore = true;
@@ -244,7 +248,7 @@ public class GameManager : MonoBehaviour
         {
             currentTime += 15;
         }
-        //make bomb sprite visible 
+        //make bomb sprite visible
         if (propId == 1){
             bomb.SetActive(true);
         }
@@ -267,8 +271,8 @@ public class GameManager : MonoBehaviour
             propsStatus[2] = false;
         }
     }
-    
-    
+
+
     public bool bombActive(){
         if(bomb.activeSelf== true){
             return true;
