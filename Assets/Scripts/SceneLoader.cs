@@ -31,11 +31,13 @@ public class SceneLoader : MonoBehaviour
     public void LoadGameScreen()
     {
         string levelName = EventSystem.current.currentSelectedGameObject.name;
-  
+
         string levelOne = "Level 1 Button";
         string levelTwo = "Level 2 Button";
         string levelThree = "Level 3 Button";
         string levelFour = "Level 4 Button";
+        string levelFive = "Level 5 Button";
+        string levelSix = "Level 6 Button";
 
 
         if (string.Equals(levelName, levelOne))
@@ -54,7 +56,14 @@ public class SceneLoader : MonoBehaviour
         {
             levelNumber = 4;
         }
-
+        else if (string.Equals(levelName, levelFive))
+        {
+            levelNumber = 5;
+        }
+        else if (string.Equals(levelName, levelSix))
+        {
+            levelNumber = 6;
+        }
 
         if (levelNumber == 1)
         {
@@ -71,6 +80,11 @@ public class SceneLoader : MonoBehaviour
         {
             SceneManager.LoadScene(5);
         }
+        else if (levelNumber == 5)
+        {
+            SceneManager.LoadScene(6);
+        }
+
     }
 
     public void PlayAgain()

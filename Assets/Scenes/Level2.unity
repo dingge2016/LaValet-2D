@@ -2936,7 +2936,7 @@ MonoBehaviour:
   winUI: {fileID: 584372334}
   loseUI: {fileID: 1590163885}
   storeUI: {fileID: 467218380}
-  dialogueUI: {fileID: 907333703}
+  dialogueUI: {fileID: 0}
   instruction: {fileID: 0}
   requireTip: 35
   doubleTipsPropButtion: {fileID: 1331807917}

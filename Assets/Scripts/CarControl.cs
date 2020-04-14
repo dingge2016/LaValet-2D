@@ -46,9 +46,9 @@ public class CarControl : MonoBehaviour
             allGates.Add("+0+1-3");   // Gate Three (Level Four)
             allGates.Add("+7+8-1");   // Gate Four (Level Four)
         }
-        tip1 = GameObject.FindWithTag("tip1"); 
+        tip1 = GameObject.FindWithTag("tip1");
         tip1.SetActive(false);
-        
+
     }
 
 
@@ -109,26 +109,32 @@ public class CarControl : MonoBehaviour
             GameManager.totalTips -=1;
             yield return new WaitForSeconds(2f);
         }
-             
+
      }
-     
+
      public void showTip1(){
-        tip1.transform.position = new Vector3(myTipPosition.tipPos.x,myTipPosition.tipPos.y+80f,0);
-        tip1.SetActive(true);
+       if (tip1){
+         tip1.transform.position = new Vector3(myTipPosition.tipPos.x,myTipPosition.tipPos.y+80f,0);
+         tip1.SetActive(true);
+       }
         //shows UI for two seconds
         Invoke("HideTip1",2f);
     }
-    
+
     public void HideTip1(){
+      if (tip1){
         tip1.SetActive(false);
+      }
     }
-    
+
 
     void Update()
     {
         if (myGameManager.isFinishedGame())
         {
-            tip1.SetActive(false);
+            if (tip1){
+              tip1.SetActive(false);
+            }
             return;
 
         }
@@ -142,7 +148,7 @@ public class CarControl : MonoBehaviour
             StartCoroutine(DeductTipEverySecond());
             showTip1();
         }
-        
+
 
         //check if bomb has been selected
         if (Input.GetMouseButtonDown(0)){
