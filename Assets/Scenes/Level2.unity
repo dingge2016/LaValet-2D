@@ -2853,11 +2853,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5ccdb4ff3114dd3b629a88ab315e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 31
+  totalTime: 61
   winUI: {fileID: 584372334}
   loseUI: {fileID: 1590163885}
   storeUI: {fileID: 467218380}
   dialogueUI: {fileID: 907333703}
+  instruction: {fileID: 0}
   requireTip: 35
   doubleTipsPropButtion: {fileID: 1331807917}
   selectedCar: {fileID: 0}
