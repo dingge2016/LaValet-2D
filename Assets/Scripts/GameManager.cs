@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+     
 
 
     void Update()
@@ -367,4 +368,8 @@ public class GameManager : MonoBehaviour
         return duringDoubleTipsTime;
     }
 
+    public bool isFinishedGame()
+    {
+        return finishGame;
+    }
 }

@@ -52,13 +52,11 @@ public class CarTimer : MonoBehaviour
             if (timerForFlash % (10 * (seconds+1)) == 0) { // make sure the divisor is not zero
 
                 rend.material.color = Color.red;
-                rend.enabled = true;
-                Debug.Log("true");
+                rend.enabled = true; 
             }
-            else if (timerForFlash % (10 * (seconds + 1)) == 5 * (seconds + 1))
+            else if (timerForFlash % (10 * (seconds + 1)) == 7 * (seconds + 1))
             {
-                rend.enabled = false;
-                Debug.Log("false");
+                rend.enabled = false; 
             }
            // Debug.Log(timerForFlash);
             timerForFlash++;
