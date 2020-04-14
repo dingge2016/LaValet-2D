@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-     
+
 
 
     void Update()
@@ -197,6 +197,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        instruction.SetActive(false);
         if (totalTips >= requireTip)
         {
             winUI.SetActive(true);
