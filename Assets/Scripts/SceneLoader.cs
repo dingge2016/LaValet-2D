@@ -38,7 +38,8 @@ public class SceneLoader : MonoBehaviour
         string levelFour = "Level 4 Button";
         string levelFive = "Level 5 Button";
         string levelSix = "Level 6 Button";
-
+        string levelSeven = "Level 7 Button";
+        string levelEight = "Level 8 Button";
 
         if (string.Equals(levelName, levelOne))
         {
@@ -64,6 +65,14 @@ public class SceneLoader : MonoBehaviour
         {
             levelNumber = 6;
         }
+        else if (string.Equals(levelName, levelSeven))
+        {
+            levelNumber = 7;
+        }
+        else if (string.Equals(levelName, levelEight))
+        {
+            levelNumber = 8;
+        }
 
         if (levelNumber == 1)
         {
@@ -83,6 +92,18 @@ public class SceneLoader : MonoBehaviour
         else if (levelNumber == 5)
         {
             SceneManager.LoadScene(6);
+        }
+        else if (levelNumber == 6)
+        {
+            SceneManager.LoadScene(7);
+        }
+        else if (levelNumber == 7)
+        {
+            SceneManager.LoadScene(8);
+        }
+        else if (levelNumber == 8)
+        {
+            SceneManager.LoadScene(9);
         }
 
     }
