@@ -127,7 +127,11 @@ public class CarControl : MonoBehaviour
     void Update()
     {
         if (myGameManager.isFinishedGame())
+        {
+            tip1.SetActive(false);
             return;
+
+        }
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
         if (currentTime <= timeToGivePenalty && !minusTip)
         {
