@@ -2478,6 +2478,10 @@ MonoBehaviour:
     type: 3}
   gateOne: {fileID: 0}
   gateTwo: {fileID: 0}
+  l4GateOne: {fileID: 0}
+  l4GateTwo: {fileID: 0}
+  l4GateThree: {fileID: 0}
+  l4GateFour: {fileID: 0}
   cars: []
   cars2: []
   belts: []
@@ -6551,7 +6555,7 @@ PrefabInstance:
     - target: {fileID: 160668260111281823, guid: e289491dbdff2449881ba6c76bb90c0a,
         type: 3}
       propertyPath: orthographic size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e289491dbdff2449881ba6c76bb90c0a, type: 3}

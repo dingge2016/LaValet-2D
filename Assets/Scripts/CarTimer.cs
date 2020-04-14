@@ -13,9 +13,10 @@ public class CarTimer : MonoBehaviour
     private Renderer rend;
     private float removeCarTime;
     public float minTime, maxTime;
-
+    private long timerForFlash;
     void Start()
     {
+        timerForFlash = 0;
         if (currentTime == 0f){
           startTime = Random.Range(minTime, maxTime);
           currentTime = startTime;
@@ -45,9 +46,20 @@ public class CarTimer : MonoBehaviour
         {
             rend.material.color = Color.blue;
         }
-        else if (currentTime <= 6)
+        else if (currentTime <= 6 && currentTime > 0)
         {
-            rend.material.color = Color.red;
+             
+            if (timerForFlash % (10 * (seconds+1)) == 0) { // make sure the divisor is not zero
+
+                rend.material.color = Color.red;
+                rend.enabled = true; 
+            }
+            else if (timerForFlash % (10 * (seconds + 1)) == 7 * (seconds + 1))
+            {
+                rend.enabled = false; 
+            }
+           // Debug.Log(timerForFlash);
+            timerForFlash++;
         }
         else
         {

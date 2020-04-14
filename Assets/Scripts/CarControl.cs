@@ -107,7 +107,7 @@ public class CarControl : MonoBehaviour
      {
         while(isCoroutineStarted){
             GameManager.totalTips -=1;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
              
      }
@@ -126,7 +126,8 @@ public class CarControl : MonoBehaviour
 
     void Update()
     {
-
+        if (myGameManager.isFinishedGame())
+            return;
         currentTime = gameObject.GetComponent<CarTimer>().currentTime;
         if (currentTime <= timeToGivePenalty && !minusTip)
         {
