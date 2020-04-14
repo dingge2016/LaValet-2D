@@ -49,14 +49,13 @@ public class CarTimer : MonoBehaviour
         else if (currentTime <= 6 && currentTime > 0)
         {
              
-            if (timerForFlash % (10 * (seconds+1)) == 0) { // make sure the divisor is not zero
+            if (timerForFlash % (5 * (seconds+1)) == 0) { // make sure the divisor is not zero
 
-                rend.material.color = Color.red;
-                rend.enabled = true; 
+                rend.material.color = Color.red; 
             }
-            else if (timerForFlash % (10 * (seconds + 1)) == 7 * (seconds + 1))
+            else if (timerForFlash % (5 * (seconds + 1)) == 3 * (seconds + 1))
             {
-                rend.enabled = false; 
+                rend.material.color = Color.black; 
             }
            // Debug.Log(timerForFlash);
             timerForFlash++;
