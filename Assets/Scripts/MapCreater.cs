@@ -40,9 +40,10 @@ public class MapCreater : MonoBehaviour
     public List<GameObject> cars;
     public List<GameObject> cars2;
     public List<GameObject> belts;
+    private Vector3 btnPos;
+    private bool hasBtn = false;
     private Vector3 exitPos;
     private Vector3 entranceBarrierPos;
-    private Vector3 btnPos;
 
     // use to convert 2D position to 1D position.
     public const int SIZE = 1000;
@@ -156,6 +157,7 @@ public class MapCreater : MonoBehaviour
                 {
                     Instantiate(Button, cell_pos, Quaternion.identity);
                     btnPos = new Vector3(row_pos, col_pos);
+                    hasBtn = true;
                 }
                 col_pos++;
             }
@@ -202,7 +204,7 @@ public class MapCreater : MonoBehaviour
 
     //wait one second to generated new car for first entrance
     private IEnumerator WaitForASecond(){
-            yield return new WaitForSeconds(1f); 
+            yield return new WaitForSeconds(1f);
         if (!car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + leftOffSet), (int)startPos[1]))
             && !car_pos_set.Contains(TwoDToOneD((int)(startPos[0] + rightOffSet), (int)startPos[1])))
         {
@@ -377,7 +379,14 @@ public class MapCreater : MonoBehaviour
     }
 
     public bool isbeltOn(){
-      return car_pos_set.Contains(TwoDToOneD((int)btnPos[0], (int)btnPos[1]));
+
+      if (hasBtn){
+        Debug.Log("fdshjfdkls" + btnPos);
+        return car_pos_set.Contains(TwoDToOneD((int)btnPos[0], (int)btnPos[1]));
+      } else {
+        return true;
+      }
+
     }
 
     public List<GameObject> getBelts(){

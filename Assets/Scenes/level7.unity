@@ -1638,7 +1638,7 @@ MonoBehaviour:
   - UB......BU
   - UB......BU
   - UB.U..U.BU
-  - UB.U..U.BU
+  - UB.UT.U.BU
   - UOUUUUUUOU
   Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
   Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
