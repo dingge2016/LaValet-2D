@@ -2371,7 +2371,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1700, y: 650}
+  m_AnchoredPosition: {x: 1800, y: 400}
   m_SizeDelta: {x: 300, y: 225.79688}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &634161992
@@ -2918,11 +2918,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5ccdb4ff3114dd3b629a88ab315e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 31
+  totalTime: 61
   winUI: {fileID: 584372334}
   loseUI: {fileID: 1590163885}
   storeUI: {fileID: 467218380}
   dialogueUI: {fileID: 907333703}
+  instruction: {fileID: 0}
   requireTip: 50
   doubleTipsPropButtion: {fileID: 1331807917}
   selectedCar: {fileID: 0}
@@ -6047,7 +6048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1700, y: 450}
+  m_AnchoredPosition: {x: 1680, y: 160}
   m_SizeDelta: {x: 600, y: 225.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1789416509
