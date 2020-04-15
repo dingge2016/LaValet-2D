@@ -28,6 +28,16 @@ public class MapCreater : MonoBehaviour
     public GameObject l4GateTwo;
     public GameObject l4GateThree;
     public GameObject l4GateFour;
+    public GameObject l5GateOne;
+    public GameObject l5GateTwo;
+    public GameObject l6GateOne;
+    public GameObject l6GateTwo;
+    public GameObject l6GateThree;
+    public GameObject l6GateFour;
+    public GameObject l7GateOne;
+    public GameObject l7GateTwo;
+    public GameObject l7GateThree;
+    public GameObject l7GateFour;
 
     private HashSet<int> wall_pos_set;
     private HashSet<int> car_pos_set = new HashSet<int>();
@@ -74,12 +84,26 @@ public class MapCreater : MonoBehaviour
     {
         gateOne = GameObject.Find("GateOne");   // Find Gate One in Level Three
         gateTwo = GameObject.Find("GateTwo");   // Find Gate Two in Level Three
-        l4GateOne = GameObject.Find("L4GateOne");
+        l4GateOne = GameObject.Find("L4GateOne");   // Find Gate One in Level Four
         l4GateTwo = GameObject.Find("L4GateTwo");
         l4GateThree = GameObject.Find("L4GateThree");
         l4GateFour = GameObject.Find("L4GateFour");
+        l5GateOne = GameObject.Find("L5GateOne");   // Find Gate One in Level Five
+        l5GateTwo = GameObject.Find("L5GateTwo");
+        l6GateOne = GameObject.Find("L6GateOne");   // Find Gate One in Level Six
+        l6GateTwo = GameObject.Find("L6GateTwo");
+        l6GateThree = GameObject.Find("L6GateThree");
+        l6GateFour = GameObject.Find("L6GateFour");
+        l7GateOne = GameObject.Find("L7GateOne");   // Find Gate One in Level Seven
+        l7GateTwo = GameObject.Find("L7GateTwo");
+        l7GateThree = GameObject.Find("L7GateThree");
+        l7GateFour = GameObject.Find("L7GateFour");
+
         //Debug.Log("L3: " + isLevelThree());
         //Debug.Log("L4: " + isLevelFour());
+        //Debug.Log("L5: " + isLevelFive());
+        //Debug.Log("L6: " + isLevelSix());
+        //Debug.Log("L7: " + isLevelSeven());
 
         int row_pos = left_top_x;
         foreach (var row in map)
@@ -170,20 +194,51 @@ public class MapCreater : MonoBehaviour
         {
             gate_pos.Add(new KeyValuePair<int, int>(2, -1));   // level 3 gate one left
             gate_pos.Add(new KeyValuePair<int, int>(3, -1));   // level 3 gate one right
-            gate_pos.Add(new KeyValuePair<int, int>(2, 1));   // level 3 gate two left
-            gate_pos.Add(new KeyValuePair<int, int>(3, 1));   // level 3 gate two right
+            gate_pos.Add(new KeyValuePair<int, int>(2, 1));    // level 3 gate two left
+            gate_pos.Add(new KeyValuePair<int, int>(3, 1));    // level 3 gate two right
         }
         else if (isLevelFour())
         {
-            gate_pos.Add(new KeyValuePair<int, int>(2, 2));   // level 4 gate one
+            gate_pos.Add(new KeyValuePair<int, int>(2, 2));    // level 4 gate one
             gate_pos.Add(new KeyValuePair<int, int>(-2, 0));   // level 4 gate two left
             gate_pos.Add(new KeyValuePair<int, int>(-1, 0));   // level 4 gate two right
-            gate_pos.Add(new KeyValuePair<int, int>(5, 0));   // level 4 gate three left
-            gate_pos.Add(new KeyValuePair<int, int>(6, 0));   // level 4 gate three right
+            gate_pos.Add(new KeyValuePair<int, int>(5, 0));    // level 4 gate three left
+            gate_pos.Add(new KeyValuePair<int, int>(6, 0));    // level 4 gate three right
             gate_pos.Add(new KeyValuePair<int, int>(2, -2));   // level 4 gate four
         }
-
-
+        else if (isLevelFive())
+        {
+            gate_pos.Add(new KeyValuePair<int, int>(1, 0));    // level 5 gate one
+            gate_pos.Add(new KeyValuePair<int, int>(7, -3));   // level 5 gate two
+        }
+        else if (isLevelSix())
+        {
+            gate_pos.Add(new KeyValuePair<int, int>(1, 2));    // level 6 gate one left
+            gate_pos.Add(new KeyValuePair<int, int>(2, 2));    // level 6 gate one right
+            gate_pos.Add(new KeyValuePair<int, int>(3, 1));   // level 6 gate two
+            gate_pos.Add(new KeyValuePair<int, int>(-2, -2));    // level 6 gate three (1) most left
+            gate_pos.Add(new KeyValuePair<int, int>(-1, -2));    // level 6 gate three (2)
+            gate_pos.Add(new KeyValuePair<int, int>(0, -2));    // level 6 gate three (3)
+            gate_pos.Add(new KeyValuePair<int, int>(1, -2));    // level 6 gate three (4)
+            gate_pos.Add(new KeyValuePair<int, int>(2, -2));    // level 6 gate three (5)
+            gate_pos.Add(new KeyValuePair<int, int>(3, -2));    // level 6 gate three (6)
+            gate_pos.Add(new KeyValuePair<int, int>(4, -2));    // level 6 gate three (7) most right
+            gate_pos.Add(new KeyValuePair<int, int>(0, 1));    // level 6 gate four (1) top
+            gate_pos.Add(new KeyValuePair<int, int>(0, 0));    // level 6 gate four (2)
+            gate_pos.Add(new KeyValuePair<int, int>(0, -1));    // level 6 gate four (3)
+            gate_pos.Add(new KeyValuePair<int, int>(0, -2));    // level 6 gate four (4) bottom
+        }
+        else if (isLevelSeven())
+        {
+            gate_pos.Add(new KeyValuePair<int, int>(6, 2));   // level 7 gate one left
+            gate_pos.Add(new KeyValuePair<int, int>(7, 2));   // level 7 gate one right
+            gate_pos.Add(new KeyValuePair<int, int>(0, 2));   // level 7 gate two left
+            gate_pos.Add(new KeyValuePair<int, int>(1, 2));   // level 7 gate two right
+            gate_pos.Add(new KeyValuePair<int, int>(0, -1));   // level 7 gate three left
+            gate_pos.Add(new KeyValuePair<int, int>(1, -1));   // level 7 gate three right
+            gate_pos.Add(new KeyValuePair<int, int>(6, -1));   // level 7 gate four left
+            gate_pos.Add(new KeyValuePair<int, int>(7, -1));   // level 7 gate four right
+        }
 
         myDia = FindObjectOfType<DialogueManager>();
         createCar();
@@ -337,6 +392,39 @@ public class MapCreater : MonoBehaviour
         return true;
     }
 
+    // Check if this is level five
+    public bool isLevelFive()
+    {
+        // if we are not able to find L4GateOne, L4GateTwo, L4GateThree, and L4GateFour, it means this is not level four
+        if (l5GateOne == null && l5GateTwo == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    // Check if this is level six
+    public bool isLevelSix()
+    {
+        // if we are not able to find L4GateOne, L4GateTwo, L4GateThree, and L4GateFour, it means this is not level four
+        if (l6GateOne == null && l6GateTwo == null && l6GateThree == null && l6GateFour == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    // Check if this is level seven
+    public bool isLevelSeven()
+    {
+        // if we are not able to find L4GateOne, L4GateTwo, L4GateThree, and L4GateFour, it means this is not level four
+        if (l7GateOne == null && l7GateTwo == null && l7GateThree == null && l7GateFour == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public HashSet<int> getWallPosSet() {
         return wall_pos_set;
     }
@@ -381,7 +469,7 @@ public class MapCreater : MonoBehaviour
     public bool isbeltOn(){
 
       if (hasBtn){
-        Debug.Log("fdshjfdkls" + btnPos);
+        //Debug.Log("fdshjfdkls" + btnPos);
         return car_pos_set.Contains(TwoDToOneD((int)btnPos[0], (int)btnPos[1]));
       } else {
         return true;

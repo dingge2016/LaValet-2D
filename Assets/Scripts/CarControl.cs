@@ -46,6 +46,25 @@ public class CarControl : MonoBehaviour
             allGates.Add("+0+1-3");   // Gate Three (Level Four)
             allGates.Add("+7+8-1");   // Gate Four (Level Four)
         }
+        else if (myMap.isLevelFive())
+        {
+            allGates.Add("+5+6+0");   // Gate One (Level Five)
+            allGates.Add("+5+6-2");   // Gate Two (Level Five)
+        }
+        else if (myMap.isLevelSix())
+        {
+            allGates.Add("+4+5+3");   // Gate One (Level Six)
+            allGates.Add("-2-1+1");   // Gate Two (Level Six)
+            allGates.Add("+5+6+1");   // Gate Three (Level Six)
+            allGates.Add("+5+6-1");   // Gate Four (Level Six)
+        }
+        else if (myMap.isLevelSeven())
+        {
+            allGates.Add("-2-1+4");   // Gate One (Level Seven)
+            allGates.Add("+3+4+1");   // Gate Two (Level Seven)
+            allGates.Add("+3+4+0");   // Gate Three (Level Seven)
+            allGates.Add("-2-1-3");   // Gate Four (Level Seven)
+        }
         tip1 = GameObject.FindWithTag("tip1");
         tip1.SetActive(false);
 
@@ -254,8 +273,8 @@ public class CarControl : MonoBehaviour
       }
 
 
-        // Check if the next position has a gate
-        if (myMap.isLevelThree() || myMap.isLevelFour())
+        // Only check the levels that have gates (Level 3 ~ Level 7)
+        if (myMap.isLevelThree() || myMap.isLevelFour() || myMap.isLevelFive() || myMap.isLevelSix() || myMap.isLevelSeven())
         {
             // detect whether there is a gate in the front part of the car or back part of the car.
             if (isGate((int)leftx, ny) || isGate((int)rightx, ny))
@@ -276,7 +295,7 @@ public class CarControl : MonoBehaviour
                                 return false;
                             }
                         }
-                        if (myMap.isLevelFour())
+                        else if (myMap.isLevelFour())
                         {
                             if (i == 0 && myMap.l4GateOne.activeInHierarchy)
                             {
@@ -293,6 +312,62 @@ public class CarControl : MonoBehaviour
                                 return false;
                             }
                             else if (i == 5 && myMap.l4GateFour.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                        }
+                        else if (myMap.isLevelFive())
+                        {
+                            if (i == 0 && myMap.l5GateOne.activeInHierarchy)
+                            {
+                                return false;
+                            }
+                            else if (i == 1 && myMap.l5GateTwo.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                        }
+                        else if (myMap.isLevelSix())
+                        {
+                            if ((i == 0 || i == 1) && myMap.l6GateOne.activeInHierarchy)
+                            {
+                                return false;
+                            }
+                            else if (i == 2 && myMap.l6GateTwo.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                            else if (i >= 3 && i <= 9 && myMap.l6GateThree.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                            else if (i >= 10 && i <= 13 && myMap.l6GateFour.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                        }
+                        else if (myMap.isLevelSeven())
+                        {
+                            if ((i == 0 || i == 1) && myMap.l7GateOne.activeInHierarchy)
+                            {
+                                return false;
+                            }
+                            else if ((i == 2 || i == 3) && myMap.l7GateTwo.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                            else if ((i == 4 || i == 5) && myMap.l7GateThree.activeInHierarchy)
+                            {
+
+                                return false;
+                            }
+                            else if ((i == 6 || i == 7) && myMap.l7GateFour.activeInHierarchy)
                             {
 
                                 return false;
@@ -382,7 +457,7 @@ public class CarControl : MonoBehaviour
         myMap.addCars((int)leftx,ny);
         myMap.addCars((int)rightx,ny);
         transform.position = new Vector3(nx, ny, -2);
-        if (myMap.isLevelThree() || myMap.isLevelFour())
+        if (myMap.isLevelThree() || myMap.isLevelFour() || myMap.isLevelFive() || myMap.isLevelSix() || myMap.isLevelSeven())
         {
             carInLot((int)leftx, (int)rightx, ny, newLeftX, newRightX, (int)oldLocation.y);
         }
@@ -427,7 +502,7 @@ public class CarControl : MonoBehaviour
         }
 
         // check if old car position is in gate lot
-        // checkOld == 2 the car was in a gate lot
+        // checkOld == 2 the car was in a gate lot, but now the car is not in the gate lot
         string oldPosText = "";
         foreach (var lot in myMap.gate_lot_pos)
         {
@@ -477,6 +552,25 @@ public class CarControl : MonoBehaviour
                     if (i == 2) myMap.l4GateThree.SetActive(false);
                     if (i == 3) myMap.l4GateFour.SetActive(false);
                 }
+                else if (myMap.isLevelFive())
+                {
+                    if (i == 0) myMap.l5GateOne.SetActive(false);
+                    if (i == 1) myMap.l5GateTwo.SetActive(false);
+                }
+                else if (myMap.isLevelSix())
+                {
+                    if (i == 0) myMap.l6GateOne.SetActive(false);
+                    if (i == 1) myMap.l6GateTwo.SetActive(false);
+                    if (i == 2) myMap.l6GateThree.SetActive(false);
+                    if (i == 3) myMap.l6GateFour.SetActive(false);
+                }
+                else if (myMap.isLevelSeven())
+                {
+                    if (i == 0) myMap.l7GateOne.SetActive(false);
+                    if (i == 1) myMap.l7GateTwo.SetActive(false);
+                    if (i == 2) myMap.l7GateThree.SetActive(false);
+                    if (i == 3) myMap.l7GateFour.SetActive(false);
+                }
             }
         }
     }
@@ -499,6 +593,25 @@ public class CarControl : MonoBehaviour
                     if (i == 1) myMap.l4GateTwo.SetActive(true);
                     if (i == 2) myMap.l4GateThree.SetActive(true);
                     if (i == 3) myMap.l4GateFour.SetActive(true);
+                }
+                else if (myMap.isLevelFive())
+                {
+                    if (i == 0) myMap.l5GateOne.SetActive(true);
+                    if (i == 1) myMap.l5GateTwo.SetActive(true);
+                }
+                else if (myMap.isLevelSix())
+                {
+                    if (i == 0) myMap.l6GateOne.SetActive(true);
+                    if (i == 1) myMap.l6GateTwo.SetActive(true);
+                    if (i == 2) myMap.l6GateThree.SetActive(true);
+                    if (i == 3) myMap.l6GateFour.SetActive(true);
+                }
+                else if (myMap.isLevelSeven())
+                {
+                    if (i == 0) myMap.l7GateOne.SetActive(true);
+                    if (i == 1) myMap.l7GateTwo.SetActive(true);
+                    if (i == 2) myMap.l7GateThree.SetActive(true);
+                    if (i == 3) myMap.l7GateFour.SetActive(true);
                 }
             }
         }
