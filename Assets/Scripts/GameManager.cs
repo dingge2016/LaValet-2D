@@ -48,8 +48,11 @@ public class GameManager : MonoBehaviour
     public GameObject blueCarBox;
     public GameObject tip10;
 
+    public bool entered;
+
     void Start()
     {
+        entered = false;
         //initially make texts invisible
         blueCarBox.SetActive(false);
         tip10.SetActive(false);
@@ -95,8 +98,13 @@ public class GameManager : MonoBehaviour
         if (instruction){
           instruction.SetActive(true);
         }
+        entered = true;
         Destroy(storeUI);
         destroyStore = true;
+    }
+
+    public void ClickBackButton(){
+        SceneManager.LoadScene(1);
     }
 
     void setCarObjectStatus(bool status)
@@ -179,6 +187,8 @@ public class GameManager : MonoBehaviour
         if (currentTime == 0 && !finishGame)
         {
             finishGame = true;
+            tip10.SetActive(false);
+            blueCarBox.SetActive(false);
             EndGame();
             enabled = false;
         }

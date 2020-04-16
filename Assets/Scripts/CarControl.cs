@@ -32,8 +32,13 @@ public class CarControl : MonoBehaviour
 
     public GameObject tip1;
 
+    public GameObject gate1;
+    public GameObject gate2;
     void Start()
     {
+        gate2.SetActive(false);
+        gate1.SetActive(false);
+        
         if (myMap.isLevelThree())
         {
             allGates.Add("+0+1+3");   // allGates use special lot position to represent gate location e.g. x is from 0 to 1, and y is 3
@@ -154,6 +159,12 @@ public class CarControl : MonoBehaviour
             if (tip1){
               tip1.SetActive(false);
             }
+            if(gate1){
+                gate1.SetActive(false);
+            }
+            if(gate2){
+                gate2.SetActive(false);
+            }
             return;
 
         }
@@ -165,7 +176,10 @@ public class CarControl : MonoBehaviour
             //tip gets deducted by 1 every second
             isCoroutineStarted = true;
             StartCoroutine(DeductTipEverySecond());
-            showTip1();
+            if(myGameManager.entered==true){
+               showTip1(); 
+            }
+            
         }
 
 
@@ -191,8 +205,18 @@ public class CarControl : MonoBehaviour
 
         detectedMouseandMovetheSeletctedCar();
         detectBombAndCar();
+        
+        
+        if((GameObject.Find("levelTwo")!=null)&&this.gameObject.name.Contains("ACarObject")&&myGameManager.entered==true){
+            gate1.transform.position = new Vector3(myTipPosition.tipPos.x+60f,myTipPosition.tipPos.y-10f,0);
+            gate1.SetActive(true);
+        }
+        
 
-
+        if((GameObject.Find("levelTwo")!=null)&&this.gameObject.name.Contains("BCarObject")&&myGameManager.entered==true){
+            gate2.transform.position = new Vector3(myTipPosition.tipPos.x+60f,myTipPosition.tipPos.y-10f,0);
+            gate2.SetActive(true);
+        }
 
     }
 
