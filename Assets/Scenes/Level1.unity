@@ -2489,14 +2489,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map:
-  - .LLLIU
+  - LLLLIU
   - DVSVVU
   - D.H..U
   - D.H..U
   - D.H..U
   - D.H..U
   - D.H..U
-  - .RORR.
+  - RRORRR
   Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
   Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
     type: 3}
