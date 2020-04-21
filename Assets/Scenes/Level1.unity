@@ -2983,6 +2983,7 @@ MonoBehaviour:
   bomb: {fileID: 1392373420}
   blueCarBox: {fileID: 1789416507}
   tip10: {fileID: 634161990}
+  entered: 0
 --- !u!4 &885356568
 Transform:
   m_ObjectHideFlags: 0
@@ -6166,12 +6167,12 @@ PrefabInstance:
     - target: {fileID: 160668260111281760, guid: e289491dbdff2449881ba6c76bb90c0a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 160668260111281760, guid: e289491dbdff2449881ba6c76bb90c0a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 160668260111281760, guid: e289491dbdff2449881ba6c76bb90c0a,
         type: 3}
@@ -6226,7 +6227,7 @@ PrefabInstance:
     - target: {fileID: 160668260111281823, guid: e289491dbdff2449881ba6c76bb90c0a,
         type: 3}
       propertyPath: orthographic size
-      value: 4
+      value: 3.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e289491dbdff2449881ba6c76bb90c0a, type: 3}
