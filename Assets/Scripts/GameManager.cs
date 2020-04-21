@@ -50,12 +50,16 @@ public class GameManager : MonoBehaviour
 
     public bool entered;
 
+    public GameObject back;
+
     void Start()
     {
         entered = false;
         //initially make texts invisible
         blueCarBox.SetActive(false);
         tip10.SetActive(false);
+
+        back.SetActive(false);
 
         selectedCar = null;
         duringDoubleTipsTime = false;
@@ -101,6 +105,7 @@ public class GameManager : MonoBehaviour
         entered = true;
         Destroy(storeUI);
         destroyStore = true;
+        back.SetActive(true);
     }
 
     public void ClickBackButton(){
