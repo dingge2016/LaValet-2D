@@ -402,37 +402,45 @@ public class CarControl : MonoBehaviour
             }
         }
 
-        // Determine if car goes out from the correct exit
-        // Car can't go out from the wrong exit
+        // Determine earned tips when leave at exit
         if (isExit((int)rightx, ny))
-    {
-        if (myMap.multi_exit_pos_set.Count == 1)
         {
-            updateTips();
-        }
-        else if (myMap.multi_exit_pos_set.Count == 2)
-        {
-            string label = gameObject.name.Substring(0, 1);
-            Vector3 exitPos = myMap.getExitPos();
-            int exitOneX = (int)exitPos[0];
-            int exitOneY = (int)exitPos[1];
-            List<KeyValuePair<int, int>> exitPos2 = myMap.multi_exit_pos_set;
-            int exitTwoX = (int)exitPos2[0].Key;
-            int exitTwoY = (int)exitPos2[0].Value;
-            if (string.Equals(label, "A") && (int)rightx == exitTwoX && ny == exitTwoY)
+            if (myMap.multi_exit_pos_set.Count == 1)
             {
                 updateTips();
             }
-            else if (string.Equals(label, "B") && (int)rightx == exitOneX && ny == exitOneY)
+            else if (myMap.multi_exit_pos_set.Count == 2)
             {
-                updateTips();
-            }
+            // Determine if car goes out from the correct exit
+            // Car can't go out from the wrong exit
+                if (myMap.isLevelThree())
+                {
+                    string label = gameObject.name.Substring(0, 1);
+                    Vector3 exitPos = myMap.getExitPos();
+                    int exitOneX = (int)exitPos[0];
+                    int exitOneY = (int)exitPos[1];
+                    List<KeyValuePair<int, int>> exitPos2 = myMap.multi_exit_pos_set;
+                    int exitTwoX = (int)exitPos2[0].Key;
+                    int exitTwoY = (int)exitPos2[0].Value;
+                    if (string.Equals(label, "A") && (int)rightx == exitTwoX && ny == exitTwoY)
+                    {
+                        updateTips();
+                    }
+                    else if (string.Equals(label, "B") && (int)rightx == exitOneX && ny == exitOneY)
+                    {
+                        updateTips();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
                 else
                 {
-                    return false;
+                    updateTips();
                 }
             }
-    }
+        }
 
         if (isBelt()){
         moveCarOnBelt(nx, ny, (int)rightx, (int)leftx);
