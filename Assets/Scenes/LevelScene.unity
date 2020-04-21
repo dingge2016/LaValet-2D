@@ -207,7 +207,7 @@ PrefabInstance:
     - target: {fileID: 116747684696274875, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}
       propertyPath: m_Name
-      value: 'Level 8 Button '
+      value: Level 8 Button
       objectReference: {fileID: 0}
     - target: {fileID: 2316714499987938872, guid: bb7b62e6d54f96f4ba2bbb8511b1b56d,
         type: 3}

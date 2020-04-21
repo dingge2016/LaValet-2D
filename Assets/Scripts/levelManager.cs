@@ -17,9 +17,9 @@ public class levelManager : MonoBehaviour
       // Display Current Coins
       GameObject.Find("Canvas/levelUI/coinAmount").GetComponent<Text>().text = (PlayerPrefs.GetInt("coins", 0)).ToString();
       // Get Current Level
-      int curLevel = PlayerPrefs.GetInt("curLevel", 1);
-      // 1-current level enable button
-      for (int i = 1; i <= curLevel; i = i + 1){
+      int curLevel = PlayerPrefs.GetInt("curLevel", 1); 
+        // 1-current level enable button
+        for (int i = 1; i <= curLevel; i = i + 1){
         string btnName = "Level " + i.ToString() + " Button";
         GameObject.Find("Canvas/levelUI/"+btnName).GetComponent<Button>().interactable = true;
       }
