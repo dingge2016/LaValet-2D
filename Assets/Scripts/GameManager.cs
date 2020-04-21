@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
             // Reach new level
             int reachLevel = PlayerPrefs.GetInt("curLevel", 1);
             int curLevel = SceneManager.GetActiveScene().buildIndex - 1;
-            PlayerPrefs.SetInt("curLevel", Mathf.Min(curLevel, reachLevel) + 1);
+            PlayerPrefs.SetInt("curLevel", Mathf.Max(curLevel + 1, reachLevel));
         }
         else
         {

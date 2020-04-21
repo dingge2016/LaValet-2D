@@ -3997,13 +3997,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5ccdb4ff3114dd3b629a88ab315e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 31
+  totalTime: 61
   winUI: {fileID: 1500877015}
   loseUI: {fileID: 618493460}
   storeUI: {fileID: 1014229010}
   dialogueUI: {fileID: 0}
   instruction: {fileID: 0}
-  requireTip: 80
+  requireTip: 40
   doubleTipsPropButtion: {fileID: 923400933}
   selectedCar: {fileID: 0}
   driver: {fileID: 2102991072}

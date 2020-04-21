@@ -1337,13 +1337,14 @@ MonoBehaviour:
   storeUI: {fileID: 1146671848}
   dialogueUI: {fileID: 0}
   instruction: {fileID: 0}
-  requireTip: 80
+  requireTip: 50
   doubleTipsPropButtion: {fileID: 1812526984}
   selectedCar: {fileID: 0}
   driver: {fileID: 185349022}
   bomb: {fileID: 1975929376}
   blueCarBox: {fileID: 1728892541}
   tip10: {fileID: 327759304}
+  entered: 0
 --- !u!4 &399258676
 Transform:
   m_ObjectHideFlags: 0
