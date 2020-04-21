@@ -24,8 +24,8 @@ public class levelManager : MonoBehaviour
         GameObject.Find("Canvas/levelUI/"+btnName).GetComponent<Button>().interactable = true;
       }
       // current level-6 disable button
-      for (int i = curLevel + 1; i <= 6; i = i + 1){
-        string btnName = "Level " + i.ToString() + " Button";
+      for (int i = curLevel + 1; i <= 8; i = i + 1){
+        string btnName = "Level " + i.ToString() + " Button"; 
         GameObject.Find("Canvas/levelUI/"+btnName).GetComponent<Button>().GetComponent<Image>().color = Color.gray;
         GameObject.Find("Canvas/levelUI/"+btnName).GetComponent<Button>().interactable = false;
       }
