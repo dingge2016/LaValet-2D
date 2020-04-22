@@ -786,7 +786,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -5320524800534095100, guid: 0e397ca94bb414d758f99872d4eead42,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -804,8 +804,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 247202463}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.498, y: 1.97, z: -8.462696}
-  m_LocalScale: {x: 12.118952, y: 1, z: 1}
+  m_LocalPosition: {x: 1.512, y: 1.97, z: -8.462696}
+  m_LocalScale: {x: 13.006448, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
@@ -1909,7 +1909,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -5320524800534095100, guid: 0e397ca94bb414d758f99872d4eead42,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9098039, g: 0.41568628, b: 0.09019608, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1927,8 +1927,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749975009}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.004, y: -2.05, z: -8.462696}
-  m_LocalScale: {x: 43.452957, y: 1, z: 1}
+  m_LocalPosition: {x: 1.021, y: -2.05, z: -8.462696}
+  m_LocalScale: {x: 45.501755, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
@@ -2466,7 +2466,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 6770351581622319381, guid: 0e397ca94bb414d758f99872d4eead42,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4509804, g: 0.8039216, b: 0.29411766, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2485,7 +2485,7 @@ Transform:
   m_GameObject: {fileID: 883318835}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3, y: 1.006, z: -8.462696}
-  m_LocalScale: {x: 1, y: 5.90941, z: 1}
+  m_LocalScale: {x: 1, y: 6.7972994, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 14
@@ -3540,7 +3540,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 6770351581622319381, guid: 0e397ca94bb414d758f99872d4eead42,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.11764706, g: 0.654902, b: 0.88235295, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3558,8 +3558,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1162512611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.23, z: -8.462696}
-  m_LocalScale: {x: 1, y: 21.280003, z: 1}
+  m_LocalPosition: {x: 0, y: -0.1933, z: -8.462696}
+  m_LocalScale: {x: 1, y: 22.176178, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 16
@@ -5348,15 +5348,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map:
   - UUUUUUUIU
-  - UB...PU.U
-  - UB...PU.U
+  - UB...EU.U
+  - UB...EU.U
   - UB....U.U
   - UB......U
   - UB......U
   - UB..U.U.U
   - UB..U.UPU
-  - UBUPUPUPU
-  - UBUPUPU.U
+  - UBUGUFUPU
+  - UBUGUFU.U
   - UOUUUUUOU
   Upwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178, type: 3}
   Downwall: {fileID: 6839714347355976534, guid: 35e5cc0f7408b42aca389425fefeb178,
@@ -5370,7 +5370,14 @@ MonoBehaviour:
   Exit: {fileID: 7677649244360660840, guid: a28d85575cdd242b7a15ff109cce866e, type: 3}
   Ground: {fileID: 5451811137068167756, guid: 4f818d6c261df438a9c1bd8cab6099ee, type: 3}
   Grass: {fileID: 8430092765699995052, guid: 7557995c3b5cc419d841c5ac96e105e8, type: 3}
-  Parking: {fileID: 4733257238282353764, guid: 1b26d3c3add244f74922f3c992892f2d, type: 3}
+  Parking1: {fileID: 4733257238282353764, guid: 1b26d3c3add244f74922f3c992892f2d,
+    type: 3}
+  Parking2: {fileID: 4733257238282353764, guid: aca8a759fd1eabe4aaac97f2e65b1b77,
+    type: 3}
+  Parking3: {fileID: 4733257238282353764, guid: 83c01e209eddd2348b05b18e75c5e9d8,
+    type: 3}
+  Parking4: {fileID: 4733257238282353764, guid: 699909f6248b3c44eac1bda5372aa5b9,
+    type: 3}
   Belt: {fileID: 7658753867420459867, guid: b7fdfc4e1a6094b10a2526ec8f5b9548, type: 3}
   Button: {fileID: 3549098562201855779, guid: 14a1cd22a7bd9474d888a5730f9aa6f5, type: 3}
   VerticalTrack: {fileID: 5514033961520853660, guid: ff558da59a07144678c725c74384589d,

@@ -16,7 +16,10 @@ public class MapCreater : MonoBehaviour
     public GameObject Exit;
     public GameObject Ground;
     public GameObject Grass;
-    public GameObject Parking;
+    public GameObject Parking1;
+    public GameObject Parking2;
+    public GameObject Parking3;
+    public GameObject Parking4;
     public GameObject Belt;
     public GameObject Button;
     public GameObject VerticalTrack;
@@ -154,9 +157,27 @@ public class MapCreater : MonoBehaviour
                     Instantiate(Ground, cell_pos, Quaternion.identity);
                 }
 
-                else if (row[i] == 'P') //Special Lot
+                else if (row[i] == 'P') //Special Lot 1
                 {
-                    Instantiate(Parking, cell_pos, Quaternion.identity);
+                    Instantiate(Parking1, cell_pos, Quaternion.identity);
+                    gate_lot_pos.Add(new KeyValuePair<int, int>(row_pos, col_pos));
+                }
+
+                else if (row[i] == 'E') //Special Lot 2
+                {
+                    Instantiate(Parking2, cell_pos, Quaternion.identity);
+                    gate_lot_pos.Add(new KeyValuePair<int, int>(row_pos, col_pos));
+                }
+
+                else if (row[i] == 'F') //Special Lot 3
+                {
+                    Instantiate(Parking3, cell_pos, Quaternion.identity);
+                    gate_lot_pos.Add(new KeyValuePair<int, int>(row_pos, col_pos));
+                }
+
+                else if (row[i] == 'G') //Special Lot 4
+                {
+                    Instantiate(Parking4, cell_pos, Quaternion.identity);
                     gate_lot_pos.Add(new KeyValuePair<int, int>(row_pos, col_pos));
                 }
 
