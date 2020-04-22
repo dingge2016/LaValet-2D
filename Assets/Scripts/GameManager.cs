@@ -228,11 +228,13 @@ public class GameManager : MonoBehaviour
             int reachLevel = PlayerPrefs.GetInt("curLevel", 1);
             int curLevel = SceneManager.GetActiveScene().buildIndex - 1;
             PlayerPrefs.SetInt("curLevel", Mathf.Max(curLevel + 1, reachLevel));
+            back.SetActive(false);
         }
         else
         {
             loseUI.SetActive(true);
             GameObject.Find("Canvas/loseUI/tipsAmount").GetComponent<Text>().text = (requireTip  - totalTips).ToString();
+            back.SetActive(false);
         }
     }
 
