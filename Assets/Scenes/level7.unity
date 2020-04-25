@@ -4107,7 +4107,7 @@ MonoBehaviour:
   storeUI: {fileID: 1014229010}
   dialogueUI: {fileID: 0}
   instruction: {fileID: 0}
-  requireTip: 40
+  requireTip: 50
   doubleTipsPropButtion: {fileID: 923400933}
   selectedCar: {fileID: 0}
   driver: {fileID: 2102991072}

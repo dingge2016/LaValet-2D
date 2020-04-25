@@ -1417,7 +1417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5ccdb4ff3114dd3b629a88ab315e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 31
+  totalTime: 46
   winUI: {fileID: 700049500}
   loseUI: {fileID: 683460340}
   storeUI: {fileID: 1146671848}
