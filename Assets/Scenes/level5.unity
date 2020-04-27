@@ -1513,7 +1513,7 @@ MonoBehaviour:
   storeUI: {fileID: 2140393800}
   dialogueUI: {fileID: 0}
   instruction: {fileID: 0}
-  requireTip: 50
+  requireTip: 25
   doubleTipsPropButtion: {fileID: 116485592}
   selectedCar: {fileID: 0}
   driver: {fileID: 377756988}
